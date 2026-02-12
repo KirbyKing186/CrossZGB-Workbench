@@ -1,0 +1,35 @@
+XL4
+H A areas 4 global symbols
+M DefAnimHandler
+S .__.ABS. Def00000000
+S _rROMB0 Ref00000000
+S __current_bank Ref00000000
+A _CODE size 39 flags 0 addr 0
+S _GetSpriteAnimation Def00000000
+A _HRAM size 0 flags 0 addr 0
+A _DATA size 1 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00 00
+R 00 00 02 00
+T 00 00 00 00
+R 00 00 02 00
+T 00 00 00 00
+R 00 00 00 00
+T 00 00 00 00 C5 F0 00 00 00 00 EA 00 00 21 06 00
+R 00 00 00 00 0B 06 02 00 00 0B 02 00
+T 09 00 00 00 19 4D 44 0A E0 00 00 00 00 0A EA
+R 00 00 00 00 0B 09 02 00
+T 11 00 00 00 00 00 21 07 00 19 2A 4F 46 21 09 00
+R 00 00 00 00 02 04 01 00
+T 1D 00 00 00 09 2A 4F 46 F8 00 2A 5E 87 CB 13 6F
+R 00 00 00 00
+T 29 00 00 00 63 09 2A 4F 46 FA 00 00 E0
+R 00 00 00 00 00 0A 02 00
+T 32 00 00 00 00 00 00 00 EA 00 00 33 33 C9
+R 00 00 00 00 0B 04 02 00 02 09 01 00

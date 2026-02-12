@@ -1,0 +1,71 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+  8 _Destroy_SpritePlayer                                           00000F6A GR
+    _DynaTileAt                                                     ******** GX
+    _PlatformerUpdate                                               ******** GX
+  8 _PlayerAnimate                                                  00000CE4 GR
+  8 _PlayerDynaCollect                                              00000AC5 GR
+  8 _PlayerDynaCollide                                              000004A5 GR
+  8 _PlayerVelocity                                                 00000000 GR
+    _ScrollScreenRedraw                                             ******** GX
+    _SetSpriteAnim                                                  ******** GX
+    _SpriteCameraUpdate                                             ******** GX
+  8 _Start_SpritePlayer                                             00000E9B GR
+    _THIS                                                           ******** GX
+    _UpdateDynaTile                                                 ******** GX
+  8 _Update_SpritePlayer                                            00000F13 GR
+  3 ___CRASH_HANDLER_INIT                                           00000000 R
+    ___HandleCrash                                                  ******** GX
+    ___bank_SpritePlayer                                        =   000000FF G
+    ___sdcc_bcall_ehl                                               ******** GX
+  9 __xinit____CRASH_HANDLER_INIT                                   00000000 R
+  8 _anim_bash                                                      0000049E R
+  8 _anim_bash_knockback                                            000004A3 R
+  8 _anim_doze                                                      00000485 R
+  8 _anim_idle                                                      0000047D R
+  8 _anim_jump                                                      0000049C R
+  8 _anim_sleep                                                     0000048A R
+  8 _anim_walk                                                      00000497 R
+  2 _deceling                                                       00000006 GR
+  2 _falling                                                        00000004 GR
+  2 _idle_status                                                    0000000B GR
+    _joypads                                                        ******** GX
+  2 _jump_add                                                       00000000 GR
+  2 _jump_extra_count                                               00000001 GR
+  2 _jumping                                                        00000003 GR
+  2 _knockback                                                      00000007 GR
+  2 _knockback_minimum                                              00000008 GR
+    _old_joypads                                                    ******** GX
+  2 _running                                                        00000002 GR
+  2 _shoulderbashing                                                00000009 GR
+  2 _shoulderbashing_cooldown                                       0000000A GR
+    _tile_col_test_range_y                                          ******** GX
+    _tile_hit_y                                                     ******** GX
+  2 _turning                                                        00000005 GR
+    b_PlatformerUpdate                                              ******** GX
+    b_SpriteCameraUpdate                                            ******** GX
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size        0   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        C   flags    0
+   3 _INITIALIZED                               size        2   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _CODE_255                                  size      F6B   flags    0
+   9 _INITIALIZER                               size        2   flags    0
+   A _CABS                                      size        0   flags    8
+

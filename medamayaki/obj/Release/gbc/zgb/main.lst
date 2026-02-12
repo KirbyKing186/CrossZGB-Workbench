@@ -1,0 +1,452 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _main
+                                     11 	.globl b_InitSprites
+                                     12 	.globl _InitSprites
+                                     13 	.globl b_InitStates
+                                     14 	.globl _InitStates
+                                     15 	.globl _InitWindow
+                                     16 	.globl _VBL_isr
+                                     17 	.globl b_CheckSRAMIntegrity
+                                     18 	.globl _CheckSRAMIntegrity
+                                     19 	.globl b_SetDefaultColorPalettes
+                                     20 	.globl _SetDefaultColorPalettes
+                                     21 	.globl b_FadeOut
+                                     22 	.globl _FadeOut
+                                     23 	.globl b_FadeIn
+                                     24 	.globl _FadeIn
+                                     25 	.globl _SpriteManagerUpdate
+                                     26 	.globl _SpriteManagerReset
+                                     27 	.globl _MUSIC_isr
+                                     28 	.globl _SetWindowPos
+                                     29 	.globl _InitOAMs
+                                     30 	.globl _sgb_check
+                                     31 	.globl _cpu_fast
+                                     32 	.globl _display_off
+                                     33 	.globl _vsync
+                                     34 	.globl _set_interrupts
+                                     35 	.globl _joypad_ex
+                                     36 	.globl _joypad_init
+                                     37 	.globl _add_low_priority_TIM
+                                     38 	.globl _add_VBL
+                                     39 	.globl _vbl_count
+                                     40 	.globl _fade_mode
+                                     41 	.globl _state_running
+                                     42 	.globl __is_SGB
+                                     43 	.globl _current_state
+                                     44 	.globl _delta_time
+                                     45 	.globl _SetState
+                                     46 ;--------------------------------------------------------
+                                     47 ; special function registers
+                                     48 ;--------------------------------------------------------
+                                     49 	.area _HRAM
+                                     50 ;--------------------------------------------------------
+                                     51 ; ram data
+                                     52 ;--------------------------------------------------------
+                                     53 	.area _DATA
+    00000000                         54 _delta_time::
+    00000000                         55 	.ds 1
+    00000001                         56 _current_state::
+    00000001                         57 	.ds 1
+                                     58 ;--------------------------------------------------------
+                                     59 ; ram data
+                                     60 ;--------------------------------------------------------
+                                     61 	.area _INITIALIZED
+    00000000                         62 __is_SGB::
+    00000000                         63 	.ds 1
+    00000001                         64 _state_running::
+    00000001                         65 	.ds 1
+    00000002                         66 _fade_mode::
+    00000002                         67 	.ds 1
+    00000003                         68 _vbl_count::
+    00000003                         69 	.ds 1
+                                     70 ;--------------------------------------------------------
+                                     71 ; absolute external ram data
+                                     72 ;--------------------------------------------------------
+                                     73 	.area _DABS (ABS)
+                                     74 ;--------------------------------------------------------
+                                     75 ; global & static initialisations
+                                     76 ;--------------------------------------------------------
+                                     77 	.area _HOME
+                                     78 	.area _GSINIT
+                                     79 	.area _GSFINAL
+                                     80 	.area _GSINIT
+                                     81 ;--------------------------------------------------------
+                                     82 ; Home
+                                     83 ;--------------------------------------------------------
+                                     84 	.area _HOME
+                                     85 	.area _HOME
+                                     86 ;--------------------------------------------------------
+                                     87 ; code
+                                     88 ;--------------------------------------------------------
+                                     89 	.area _CODE
+                                     90 ;C:/CrossZGB/ZGB/common/src/main.c:21: static void __force_use_font(void) NAKED { __asm__(".globl _font_recode_table"); }
+                                     91 ;	---------------------------------
+                                     92 ; Function __force_use_font
+                                     93 ; ---------------------------------
+    00000000                         94 ___force_use_font:
+                                     95 	.globl	_font_recode_table
+                                     96 ;C:/CrossZGB/ZGB/common/src/main.c:33: void SetState(UINT8 state) {
+                                     97 ;	---------------------------------
+                                     98 ; Function SetState
+                                     99 ; ---------------------------------
+    00000000                        100 _SetState::
+    00000000 EAr00r00         [16]  101 	ld	(#_next_state),a
+                                    102 ;C:/CrossZGB/ZGB/common/src/main.c:34: state_running = FALSE;
+    00000003 AF               [ 4]  103 	xor	a, a
+    00000004 EAr01r00         [16]  104 	ld	(#_state_running),a
+                                    105 ;C:/CrossZGB/ZGB/common/src/main.c:35: next_state = state;
+                                    106 ;C:/CrossZGB/ZGB/common/src/main.c:36: }
+    00000007 C9               [16]  107 	ret
+                                    108 ;C:/CrossZGB/ZGB/common/src/main.c:46: void main(void) {
+                                    109 ;	---------------------------------
+                                    110 ; Function main
+                                    111 ; ---------------------------------
+    00000008                        112 _main::
+    00000008 3B               [ 8]  113 	dec	sp
+    00000009 3B               [ 8]  114 	dec	sp
+                                    115 ;C:/CrossZGB/ZGB/common/src/main.c:49: for (UINT8 i = 4; i != 0; i--) vsync();
+    0000000A 0E 04            [ 8]  116 	ld	c, #0x04
+    0000000C                        117 00128$:
+    0000000C 79               [ 4]  118 	ld	a, c
+    0000000D B7               [ 4]  119 	or	a, a
+    0000000E 28 06            [12]  120 	jr	Z, 00101$
+    00000010 CDr00r00         [24]  121 	call	_vsync
+    00000013 0D               [ 4]  122 	dec	c
+    00000014 18 F6            [12]  123 	jr	00128$
+    00000016                        124 00101$:
+                                    125 ;C:/CrossZGB/ZGB/common/src/main.c:51: _is_SGB = sgb_check();
+    00000016 CDr00r00         [24]  126 	call	_sgb_check
+    00000019 21r00r00         [12]  127 	ld	hl, #__is_SGB
+    0000001C 73               [ 8]  128 	ld	(hl), e
+                                    129 ;C:/CrossZGB/ZGB/common/src/main.c:53: cpu_fast();
+    0000001D CDr00r00         [24]  130 	call	_cpu_fast
+                                    131 ;C:/CrossZGB/ZGB/common/src/main.c:58: CheckSRAMIntegrity((UINT8*)&savegame, sizeof(Savegame));
+    00000020 11 0C 00         [12]  132 	ld	de, #0x000c
+    00000023 D5               [16]  133 	push	de
+    00000024 11r00r00         [12]  134 	ld	de, #_savegame
+    00000027 D5               [16]  135 	push	de
+    00000028 1Er00            [ 8]  136 	ld	e, #b_CheckSRAMIntegrity
+    0000002A 21r00r00         [12]  137 	ld	hl, #_CheckSRAMIntegrity
+    0000002D CDr00r00         [24]  138 	call	___sdcc_bcall_ehl
+    00000030 E8 04            [16]  139 	add	sp, #4
+                                    140 ;C:/CrossZGB/ZGB/common/include/Keys.h:12: joypad_init(4, &joypads);
+    00000032 11r00r00         [12]  141 	ld	de, #_joypads
+    00000035 D5               [16]  142 	push	de
+    00000036 3E 04            [ 8]  143 	ld	a, #0x04
+    00000038 F5               [16]  144 	push	af
+    00000039 33               [ 8]  145 	inc	sp
+    0000003A CDr00r00         [24]  146 	call	_joypad_init
+    0000003D E8 03            [16]  147 	add	sp, #3
+                                    148 ;C:/CrossZGB/ZGB/common/src/main.c:63: InitOAMs();
+    0000003F CDr00r00         [24]  149 	call	_InitOAMs
+                                    150 ;C:/CrossZGB/ZGB/common/include/Sound.h:35: NR52_REG = SFX_CH_ENABLE, NR51_REG = 0xFF, NR50_REG = 0x77;  // enable sound
+    00000042 3E 80            [ 8]  151 	ld	a, #0x80
+    00000044 E0r00            [12]  152 	ldh	(_NR52_REG + 0), a
+    00000046 3E FF            [ 8]  153 	ld	a, #0xff
+    00000048 E0r00            [12]  154 	ldh	(_NR51_REG + 0), a
+    0000004A 3E 77            [ 8]  155 	ld	a, #0x77
+    0000004C E0r00            [12]  156 	ldh	(_NR50_REG + 0), a
+                                    157 ;C:/CrossZGB/ZGB/common/include/Sound.h:75: NR12_REG = NR22_REG = NR32_REG = NR42_REG = 0;
+    0000004E AF               [ 4]  158 	xor	a, a
+    0000004F E0r00            [12]  159 	ldh	(_NR42_REG + 0), a
+    00000051 AF               [ 4]  160 	xor	a, a
+    00000052 E0r00            [12]  161 	ldh	(_NR32_REG + 0), a
+    00000054 AF               [ 4]  162 	xor	a, a
+    00000055 E0r00            [12]  163 	ldh	(_NR22_REG + 0), a
+    00000057 AF               [ 4]  164 	xor	a, a
+    00000058 E0r00            [12]  165 	ldh	(_NR12_REG + 0), a
+                                    166 ;C:/CrossZGB/ZGB/common/include/Sound.h:76: NR14_REG = NR24_REG = NR44_REG = SFX_CH_RETRIGGER;
+    0000005A 3E C0            [ 8]  167 	ld	a, #0xc0
+    0000005C E0r00            [12]  168 	ldh	(_NR44_REG + 0), a
+    0000005E 3E C0            [ 8]  169 	ld	a, #0xc0
+    00000060 E0r00            [12]  170 	ldh	(_NR24_REG + 0), a
+    00000062 3E C0            [ 8]  171 	ld	a, #0xc0
+    00000064 E0r00            [12]  172 	ldh	(_NR14_REG + 0), a
+                                    173 ;C:/CrossZGB/ZGB/common/include/Sound.h:77: NR51_REG = 0xFF;
+    00000066 3E FF            [ 8]  174 	ld	a, #0xff
+    00000068 E0r00            [12]  175 	ldh	(_NR51_REG + 0), a
+                                    176 ;C:/CrossZGB/ZGB/common/include/Music.h:87: }
+    0000006A F3               [ 4]  177 	di
+                                    178 ;C:/CrossZGB/ZGB/common/include/Music.h:77: TMA_REG = (_cpu == CGB_TYPE) ? 0x78u : 0xBCu;
+    0000006B FAr00r00         [16]  179 	ld	a, (#__cpu)
+    0000006E D6 11            [ 8]  180 	sub	a, #0x11
+    00000070 3E 78            [ 8]  181 	ld	a, #0x78
+    00000072 28 02            [12]  182 	jr	Z, 00133$
+    00000074 3E BC            [ 8]  183 	ld	a, #0xbc
+    00000076                        184 00133$:
+    00000076 E0r00            [12]  185 	ldh	(_TMA_REG + 0), a
+                                    186 ;C:/CrossZGB/ZGB/common/include/Music.h:81: TAC_REG = 0x04u;
+    00000078 3E 04            [ 8]  187 	ld	a, #0x04
+    0000007A E0r00            [12]  188 	ldh	(_TAC_REG + 0), a
+                                    189 ;C:/CrossZGB/ZGB/common/include/Music.h:82: add_low_priority_TIM(MUSIC_isr);
+    0000007C 11r00r00         [12]  190 	ld	de, #_MUSIC_isr
+    0000007F CDr00r00         [24]  191 	call	_add_low_priority_TIM
+    00000082 FB               [ 4]  192 	ei
+                                    193 ;C:/CrossZGB/ZGB/common/include/Music.h:89: set_interrupts(IE_REG | TIM_IFLAG);
+    00000083 F0r00            [12]  194 	ldh	a, (_IE_REG + 0)
+    00000085 CB D7            [ 8]  195 	set	2, a
+    00000087 CDr00r00         [24]  196 	call	_set_interrupts
+                                    197 ;C:/CrossZGB/ZGB/common/src/main.c:67: InitStates();
+    0000008A 1Er00            [ 8]  198 	ld	e, #b_InitStates
+    0000008C 21r00r00         [12]  199 	ld	hl, #_InitStates
+    0000008F CDr00r00         [24]  200 	call	___sdcc_bcall_ehl
+                                    201 ;C:/CrossZGB/ZGB/common/src/main.c:68: InitSprites();
+    00000092 1Er00            [ 8]  202 	ld	e, #b_InitSprites
+    00000094 21r00r00         [12]  203 	ld	hl, #_InitSprites
+    00000097 CDr00r00         [24]  204 	call	___sdcc_bcall_ehl
+                                    205 ;C:/CrossZGB/ZGB/common/src/main.c:73: }
+    0000009A F3               [ 4]  206 	di
+                                    207 ;C:/CrossZGB/ZGB/common/src/main.c:72: add_VBL(VBL_isr);
+    0000009B 11r00r00         [12]  208 	ld	de, #_VBL_isr
+    0000009E CDr00r00         [24]  209 	call	_add_VBL
+    000000A1 FB               [ 4]  210 	ei
+                                    211 ;C:/CrossZGB/ZGB/common/src/main.c:75: InitWindow();
+    000000A2 CDr00r00         [24]  212 	call	_InitWindow
+                                    213 ;C:/CrossZGB/ZGB/common/src/main.c:80: SPRITES_8x16;
+    000000A5 F0r00            [12]  214 	ldh	a, (_LCDC_REG + 0)
+    000000A7 F6 04            [ 8]  215 	or	a, #0x04
+    000000A9 E0r00            [12]  216 	ldh	(_LCDC_REG + 0), a
+                                    217 ;C:/CrossZGB/ZGB/common/src/main.c:82: SHOW_SPRITES; SHOW_BKG;
+    000000AB F0r00            [12]  218 	ldh	a, (_LCDC_REG + 0)
+    000000AD F6 02            [ 8]  219 	or	a, #0x02
+    000000AF E0r00            [12]  220 	ldh	(_LCDC_REG + 0), a
+    000000B1 F0r00            [12]  221 	ldh	a, (_LCDC_REG + 0)
+    000000B3 F6 01            [ 8]  222 	or	a, #0x01
+    000000B5 E0r00            [12]  223 	ldh	(_LCDC_REG + 0), a
+                                    224 ;C:/CrossZGB/ZGB/common/src/main.c:84: WY_REG = (UINT8)(DEVICE_WINDOW_PX_OFFSET_Y + DEVICE_SCREEN_PX_HEIGHT);
+    000000B7 3E 90            [ 8]  225 	ld	a, #0x90
+    000000B9 E0r00            [12]  226 	ldh	(_WY_REG + 0), a
+                                    227 ;C:/CrossZGB/ZGB/common/src/main.c:90: SetDefaultColorPalettes();
+    000000BB 1Er00            [ 8]  228 	ld	e, #b_SetDefaultColorPalettes
+    000000BD 21r00r00         [12]  229 	ld	hl, #_SetDefaultColorPalettes
+    000000C0 CDr00r00         [24]  230 	call	___sdcc_bcall_ehl
+                                    231 ;C:/CrossZGB/ZGB/common/src/main.c:93: DISPLAY_OFF;
+    000000C3 CDr00r00         [24]  232 	call	_display_off
+                                    233 ;C:/CrossZGB/ZGB/common/src/main.c:94: while(TRUE) {
+    000000C6                        234 00120$:
+                                    235 ;C:/CrossZGB/ZGB/common/src/main.c:96: if (fade_mode != FADE_MANUAL) {
+    000000C6 FAr02r00         [16]  236 	ld	a, (#_fade_mode)
+    000000C9 D6 02            [ 8]  237 	sub	a, #0x02
+    000000CB 28 0C            [12]  238 	jr	Z, 00103$
+                                    239 ;C:/CrossZGB/ZGB/common/src/main.c:97: BGP_REG = OBP0_REG = DMG_PALETTE(DMG_WHITE, DMG_LITE_GRAY, DMG_DARK_GRAY, DMG_BLACK);
+    000000CD 3E E4            [ 8]  240 	ld	a, #0xe4
+    000000CF E0r00            [12]  241 	ldh	(_OBP0_REG + 0), a
+    000000D1 3E E4            [ 8]  242 	ld	a, #0xe4
+    000000D3 E0r00            [12]  243 	ldh	(_BGP_REG + 0), a
+                                    244 ;C:/CrossZGB/ZGB/common/src/main.c:98: OBP1_REG = DMG_PALETTE(DMG_WHITE, DMG_WHITE, DMG_DARK_GRAY, DMG_BLACK);
+    000000D5 3E E0            [ 8]  245 	ld	a, #0xe0
+    000000D7 E0r00            [12]  246 	ldh	(_OBP1_REG + 0), a
+    000000D9                        247 00103$:
+                                    248 ;C:/CrossZGB/ZGB/common/src/main.c:104: SpriteManagerReset();                           // reset sprite manager and remove all sprites
+    000000D9 CDr00r00         [24]  249 	call	_SpriteManagerReset
+                                    250 ;C:/CrossZGB/ZGB/common/src/main.c:105: scroll_target = NULL;                           // reset scroll target
+    000000DC AF               [ 4]  251 	xor	a, a
+    000000DD 21r00r00         [12]  252 	ld	hl, #_scroll_target
+    000000E0 22               [ 8]  253 	ld	(hl+), a
+    000000E1 77               [ 8]  254 	ld	(hl), a
+                                    255 ;C:/CrossZGB/ZGB/common/src/main.c:107: state_running = TRUE;
+    000000E2 21r01r00         [12]  256 	ld	hl, #_state_running
+    000000E5 36 01            [12]  257 	ld	(hl), #0x01
+                                    258 ;C:/CrossZGB/ZGB/common/src/main.c:108: current_state = next_state;                     // switch to the next scene
+    000000E7 FAr00r00         [16]  259 	ld	a, (#_next_state)
+    000000EA EAr01r00         [16]  260 	ld	(#_current_state),a
+                                    261 ;C:/CrossZGB/ZGB/common/src/main.c:110: last_tile_loaded = 0;                           // reset tile allocator
+                                    262 ;C:/CrossZGB/ZGB/common/src/main.c:112: last_bg_pal_loaded = 0;                         // reset palette allocator for CGB/SMS/GG
+    000000ED AF               [ 4]  263 	xor	a, a
+    000000EE EAr00r00         [16]  264 	ld	(#_last_tile_loaded), a
+    000000F1 EAr00r00         [16]  265 	ld	(#_last_bg_pal_loaded),a
+                                    266 ;C:/CrossZGB/ZGB/common/src/main.c:114: scroll_x_vblank = scroll_offset_x = 0;          // reset the scroll position;
+    000000F4 AF               [ 4]  267 	xor	a, a
+    000000F5 EAr00r00         [16]  268 	ld	(#_scroll_offset_x), a
+    000000F8 21r00r00         [12]  269 	ld	hl, #_scroll_x_vblank
+    000000FB 22               [ 8]  270 	ld	(hl+), a
+    000000FC 77               [ 8]  271 	ld	(hl), a
+                                    272 ;C:/CrossZGB/ZGB/common/src/main.c:115: scroll_y_vblank = scroll_offset_y = 0;
+    000000FD AF               [ 4]  273 	xor	a, a
+    000000FE EAr00r00         [16]  274 	ld	(#_scroll_offset_y), a
+    00000101 21r00r00         [12]  275 	ld	hl, #_scroll_y_vblank
+    00000104 22               [ 8]  276 	ld	(hl+), a
+    00000105 77               [ 8]  277 	ld	(hl), a
+                                    278 ;C:/CrossZGB/ZGB/common/src/main.c:117: HIDE_HUD;                                       // force hiding HUD
+    00000106 AF               [ 4]  279 	xor	a, a
+    00000107 F5               [16]  280 	push	af
+    00000108 33               [ 8]  281 	inc	sp
+    00000109 1E 00            [ 8]  282 	ld	e, #0x00
+    0000010B 3E 07            [ 8]  283 	ld	a, #0x07
+    0000010D CDr00r00         [24]  284 	call	_SetWindowPos
+                                    285 ;C:/CrossZGB/ZGB/common/src/main.c:119: SWITCH_ROM(stateBanks[current_state]);          // switch to the current state bank and stay
+    00000110 3Er00            [ 8]  286 	ld	a, #<(_stateBanks)
+    00000112 21r01r00         [12]  287 	ld	hl, #_current_state
+    00000115 86               [ 8]  288 	add	a, (hl)
+    00000116 4F               [ 4]  289 	ld	c, a
+    00000117 3Es00            [ 8]  290 	ld	a, #>(_stateBanks)
+    00000119 CE 00            [ 8]  291 	adc	a, #0x00
+    0000011B 47               [ 4]  292 	ld	b, a
+    0000011C 0A               [ 8]  293 	ld	a, (bc)
+    0000011D E0r00            [12]  294 	ldh	(__current_bank + 0), a
+    0000011F EAr00r00         [16]  295 	ld	(#_rROMB0),a
+                                    296 ;C:/CrossZGB/ZGB/common/src/main.c:121: startFuncs[current_state]();                    // initialize current state
+    00000122 01r00r00         [12]  297 	ld	bc, #_startFuncs+0
+    00000125 FAr01r00         [16]  298 	ld	a, (_current_state)
+    00000128 26 00            [ 8]  299 	ld	h, #0x00
+    0000012A 6F               [ 4]  300 	ld	l, a
+    0000012B 29               [ 8]  301 	add	hl, hl
+    0000012C 09               [ 8]  302 	add	hl, bc
+    0000012D 4E               [ 8]  303 	ld	c, (hl)
+    0000012E 23               [ 8]  304 	inc	hl
+    0000012F 46               [ 8]  305 	ld	b, (hl)
+    00000130 69               [ 4]  306 	ld	l, c
+    00000131 60               [ 4]  307 	ld	h, b
+    00000132 CDr00r00         [24]  308 	call	___sdcc_call_hl
+                                    309 ;C:/CrossZGB/ZGB/common/src/main.c:123: scroll_x_vblank = scroll_x, scroll_y_vblank = scroll_y;
+    00000135 FAr00r00         [16]  310 	ld	a, (#_scroll_x)
+    00000138 EAr00r00         [16]  311 	ld	(#_scroll_x_vblank),a
+    0000013B FAr01r00         [16]  312 	ld	a, (#_scroll_x + 1)
+    0000013E EAr01r00         [16]  313 	ld	(#_scroll_x_vblank + 1),a
+    00000141 FAr00r00         [16]  314 	ld	a, (#_scroll_y)
+    00000144 EAr00r00         [16]  315 	ld	(#_scroll_y_vblank),a
+    00000147 FAr01r00         [16]  316 	ld	a, (#_scroll_y + 1)
+    0000014A EAr01r00         [16]  317 	ld	(#_scroll_y_vblank + 1),a
+                                    318 ;C:/CrossZGB/ZGB/common/src/main.c:125: if (VECTOR_LEN(sprite_manager_updatables)) {
+    0000014D FAr00r00         [16]  319 	ld	a, (#_sprite_manager_updatables + 0)
+    00000150 B7               [ 4]  320 	or	a, a
+    00000151 28 06            [12]  321 	jr	Z, 00105$
+                                    322 ;C:/CrossZGB/ZGB/common/src/main.c:126: SpriteManagerUpdate();                  // render sprites on screen if START() of the state spawns any
+    00000153 CDr00r00         [24]  323 	call	_SpriteManagerUpdate
+                                    324 ;C:/CrossZGB/ZGB/common/src/main.c:127: vsync();                                // wait until sprites are actually rendered to OAM
+    00000156 CDr00r00         [24]  325 	call	_vsync
+    00000159                        326 00105$:
+                                    327 ;C:/CrossZGB/ZGB/common/src/main.c:130: if (state_running) {                            // initialization function may change state in START()
+    00000159 FAr01r00         [16]  328 	ld	a, (#_state_running)
+    0000015C B7               [ 4]  329 	or	a, a
+    0000015D CArE8r01         [16]  330 	jp	Z, 00118$
+                                    331 ;C:/CrossZGB/ZGB/common/src/main.c:132: switch (fade_mode) {                    // show screen content
+    00000160 FAr02r00         [16]  332 	ld	a, (#_fade_mode)
+    00000163 3D               [ 4]  333 	dec	a
+    00000164 20 0A            [12]  334 	jr	NZ, 00107$
+                                    335 ;C:/CrossZGB/ZGB/common/src/main.c:133: case FADE_ON : FadeOut(); break;
+    00000166 1Er00            [ 8]  336 	ld	e, #b_FadeOut
+    00000168 21r00r00         [12]  337 	ld	hl, #_FadeOut
+    0000016B CDr00r00         [24]  338 	call	___sdcc_bcall_ehl
+    0000016E 18 06            [12]  339 	jr	00108$
+                                    340 ;C:/CrossZGB/ZGB/common/src/main.c:134: default: DISPLAY_ON; break;
+    00000170                        341 00107$:
+    00000170 F0r00            [12]  342 	ldh	a, (_LCDC_REG + 0)
+    00000172 F6 80            [ 8]  343 	or	a, #0x80
+    00000174 E0r00            [12]  344 	ldh	(_LCDC_REG + 0), a
+                                    345 ;C:/CrossZGB/ZGB/common/src/main.c:135: }
+    00000176                        346 00108$:
+                                    347 ;C:/CrossZGB/ZGB/common/src/main.c:137: Void_Func_Void current_update = updateFuncs[current_state];
+    00000176 01r00r00         [12]  348 	ld	bc, #_updateFuncs+0
+    00000179 FAr01r00         [16]  349 	ld	a, (_current_state)
+    0000017C 26 00            [ 8]  350 	ld	h, #0x00
+    0000017E 6F               [ 4]  351 	ld	l, a
+    0000017F 29               [ 8]  352 	add	hl, hl
+    00000180 09               [ 8]  353 	add	hl, bc
+    00000181 5D               [ 4]  354 	ld	e, l
+    00000182 54               [ 4]  355 	ld	d, h
+    00000183 1A               [ 8]  356 	ld	a, (de)
+    00000184 F8 00            [12]  357 	ldhl	sp,	#0
+    00000186 22               [ 8]  358 	ld	(hl+), a
+    00000187 13               [ 8]  359 	inc	de
+    00000188 1A               [ 8]  360 	ld	a, (de)
+    00000189 77               [ 8]  361 	ld	(hl), a
+                                    362 ;C:/CrossZGB/ZGB/common/src/main.c:139: while (state_running) {
+    0000018A                        363 00111$:
+    0000018A FAr01r00         [16]  364 	ld	a, (#_state_running)
+    0000018D B7               [ 4]  365 	or	a, a
+    0000018E 28 3F            [12]  366 	jr	Z, 00113$
+                                    367 ;C:/CrossZGB/ZGB/common/src/main.c:140: if (!vbl_count) vsync();        // wait VBlank if not slowdown
+    00000190 FAr03r00         [16]  368 	ld	a, (#_vbl_count)
+    00000193 B7               [ 4]  369 	or	a, a
+    00000194 20 03            [12]  370 	jr	NZ, 00110$
+    00000196 CDr00r00         [24]  371 	call	_vsync
+    00000199                        372 00110$:
+                                    373 ;C:/CrossZGB/ZGB/common/src/main.c:142: delta_time = (vbl_count < 2u) ? 0u : 1u;
+    00000199 FAr03r00         [16]  374 	ld	a, (#_vbl_count)
+    0000019C D6 02            [ 8]  375 	sub	a, #0x02
+    0000019E 30 03            [12]  376 	jr	NC, 00134$
+    000001A0 AF               [ 4]  377 	xor	a, a
+    000001A1 18 02            [12]  378 	jr	00135$
+    000001A3                        379 00134$:
+    000001A3 3E 01            [ 8]  380 	ld	a, #0x01
+    000001A5                        381 00135$:
+    000001A5 EAr00r00         [16]  382 	ld	(#_delta_time),a
+                                    383 ;C:/CrossZGB/ZGB/common/src/main.c:143: vbl_count = 0;
+    000001A8 AF               [ 4]  384 	xor	a, a
+    000001A9 EAr03r00         [16]  385 	ld	(#_vbl_count),a
+                                    386 ;C:/CrossZGB/ZGB/common/include/Keys.h:16: old_joypads.joy0 = joypads.joy0, old_joypads.joy1 = joypads.joy1, old_joypads.joy2 = joypads.joy2, old_joypads.joy3 = joypads.joy3;
+    000001AC FAr01r00         [16]  387 	ld	a, (#(_joypads + 1) + 0)
+    000001AF 21r01r00         [12]  388 	ld	hl, #(_old_joypads + 1)
+    000001B2 22               [ 8]  389 	ld	(hl+), a
+    000001B3 FAr02r00         [16]  390 	ld	a, (#(_joypads + 2) + 0)
+    000001B6 22               [ 8]  391 	ld	(hl+), a
+    000001B7 FAr03r00         [16]  392 	ld	a, (#(_joypads + 3) + 0)
+    000001BA 22               [ 8]  393 	ld	(hl+), a
+    000001BB FAr04r00         [16]  394 	ld	a, (#(_joypads + 4) + 0)
+    000001BE 77               [ 8]  395 	ld	(hl), a
+                                    396 ;C:/CrossZGB/ZGB/common/include/Keys.h:17: joypad_ex(&joypads);
+    000001BF 11r00r00         [12]  397 	ld	de, #_joypads
+    000001C2 CDr00r00         [24]  398 	call	_joypad_ex
+                                    399 ;C:/CrossZGB/ZGB/common/src/main.c:147: SpriteManagerUpdate();          // render sprites on screen
+    000001C5 CDr00r00         [24]  400 	call	_SpriteManagerUpdate
+                                    401 ;C:/CrossZGB/ZGB/common/src/main.c:149: current_update();               // update current state
+    000001C8 E1               [12]  402 	pop	hl
+    000001C9 E5               [16]  403 	push	hl
+    000001CA CDr00r00         [24]  404 	call	___sdcc_call_hl
+    000001CD 18 BB            [12]  405 	jr	00111$
+    000001CF                        406 00113$:
+                                    407 ;C:/CrossZGB/ZGB/common/src/main.c:152: switch (fade_mode) {                    // hide screen content
+    000001CF FAr02r00         [16]  408 	ld	a, (#_fade_mode)
+    000001D2 B7               [ 4]  409 	or	a, a
+    000001D3 28 10            [12]  410 	jr	Z, 00115$
+    000001D5 FAr02r00         [16]  411 	ld	a, (#_fade_mode)
+    000001D8 3D               [ 4]  412 	dec	a
+    000001D9 20 0D            [12]  413 	jr	NZ, 00118$
+                                    414 ;C:/CrossZGB/ZGB/common/src/main.c:153: case FADE_ON : FadeIn(); break;
+    000001DB 1Er00            [ 8]  415 	ld	e, #b_FadeIn
+    000001DD 21r00r00         [12]  416 	ld	hl, #_FadeIn
+    000001E0 CDr00r00         [24]  417 	call	___sdcc_bcall_ehl
+    000001E3 18 03            [12]  418 	jr	00118$
+                                    419 ;C:/CrossZGB/ZGB/common/src/main.c:154: case FADE_OFF: DISPLAY_OFF; break;
+    000001E5                        420 00115$:
+    000001E5 CDr00r00         [24]  421 	call	_display_off
+                                    422 ;C:/CrossZGB/ZGB/common/src/main.c:155: }
+    000001E8                        423 00118$:
+                                    424 ;C:/CrossZGB/ZGB/common/src/main.c:158: destroyFuncs[current_state]();                  // destroy current state
+    000001E8 FAr01r00         [16]  425 	ld	a, (_current_state)
+    000001EB 26 00            [ 8]  426 	ld	h, #0x00
+    000001ED 6F               [ 4]  427 	ld	l, a
+    000001EE 29               [ 8]  428 	add	hl, hl
+    000001EF 11r00r00         [12]  429 	ld	de, #_destroyFuncs
+    000001F2 19               [ 8]  430 	add	hl, de
+    000001F3 4E               [ 8]  431 	ld	c, (hl)
+    000001F4 23               [ 8]  432 	inc	hl
+    000001F5 46               [ 8]  433 	ld	b, (hl)
+    000001F6 69               [ 4]  434 	ld	l, c
+    000001F7 60               [ 4]  435 	ld	h, b
+    000001F8 CDr00r00         [24]  436 	call	___sdcc_call_hl
+    000001FB C3rC6r00         [16]  437 	jp	00120$
+                                    438 ;C:/CrossZGB/ZGB/common/src/main.c:160: }
+    000001FE 33               [ 8]  439 	inc	sp
+    000001FF 33               [ 8]  440 	inc	sp
+    00000200 C9               [16]  441 	ret
+                                    442 	.area _CODE
+                                    443 	.area _INITIALIZER
+    00000000                        444 __xinit___is_SGB:
+    00000000 00                     445 	.db #0x00	; 0
+    00000001                        446 __xinit__state_running:
+    00000001 00                     447 	.db #0x00	; 0
+    00000002                        448 __xinit__fade_mode:
+    00000002 01                     449 	.db #0x01	; 1
+    00000003                        450 __xinit__vbl_count:
+    00000003 00                     451 	.db #0x00	; 0
+                                    452 	.area _CABS (ABS)

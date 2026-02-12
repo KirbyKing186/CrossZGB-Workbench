@@ -1,0 +1,37 @@
+# Number of SRAM banks (must follow GBDK SRAM guidelines): 1, 4, 16
+S_BANKS = 4
+
+# Usage status of Buffer A (Comment out to not use)
+BUFFER_A_USE = TRUE
+
+# Address of SRAM bank to allocate Buffer A to ( = 0 overwrites default CrossZGB saving, = X makes it unused)
+	# PLEASE NOTE: 
+	# If you modify the value of BUFFER_ADDRESS_A, please modify the `X` in `-Wf-baX` under "compiling buffer_data_a..." to the same value!
+	# For example, if this value is changed from 1 to 14, modify the `-Wf-ba1` to `-Wf-ba14`
+BUFFER_ADDRESS_A = 1
+
+# Usage status of Buffer B (Comment out to not use)
+BUFFER_B_USE = TRUE
+
+# Address of SRAM bank to allocate Buffer B to ( = 0 overwrites default CrossZGB saving, = X makes it unused)
+	# PLEASE NOTE: 
+	# If you modify the value of BUFFER_ADDRESS_B, please modify the `X` in `-Wf-baX` under "compiling buffer_data_b..." to the same value!
+	# For example, if this value is changed from 2 to 15, modify the `-Wf-ba2` to `-Wf-ba15`
+BUFFER_ADDRESS_B = 2
+
+CFLAGS += -DBUFFER_A_USE=$(BUFFER_A_USE)
+CFLAGS += -DRAM_DATA_A=$(BUFFER_ADDRESS_A)
+CFLAGS += -DBUFFER_B_USE=$(BUFFER_B_USE)
+CFLAGS += -DRAM_DATA_B=$(BUFFER_ADDRESS_B)
+
+.SECONDEXPANSION:
+ifdef BUFFER_A_USE
+$(OBJDIR)/BufferDataA.o: BufferDataA.c
+	@echo compiling buffer_data_a on SRAM bank $(BUFFER_ADDRESS_A)
+	@$(LCC) $(CFLAGS) -Wf-ba1 -c -o $@ $<
+endif
+ifdef BUFFER_B_USE
+$(OBJDIR)/BufferDataB.o: BufferDataB.c
+	@echo compiling buffer_data_b on SRAM bank $(BUFFER_ADDRESS_B)
+	@$(LCC) $(CFLAGS) -Wf-ba2 -c -o $@ $<
+endif

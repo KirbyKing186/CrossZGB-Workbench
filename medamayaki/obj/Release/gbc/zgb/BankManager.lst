@@ -1,0 +1,107 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module BankManager
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _bank_stack
+                                     11 	.globl _bank_stackSTACK
+                                     12 	.globl _PushBank
+                                     13 	.globl _PopBank
+                                     14 ;--------------------------------------------------------
+                                     15 ; special function registers
+                                     16 ;--------------------------------------------------------
+                                     17 	.area _HRAM
+                                     18 ;--------------------------------------------------------
+                                     19 ; ram data
+                                     20 ;--------------------------------------------------------
+                                     21 	.area _DATA
+    00000000                         22 _bank_stackSTACK::
+    00000000                         23 	.ds 10
+                                     24 ;--------------------------------------------------------
+                                     25 ; ram data
+                                     26 ;--------------------------------------------------------
+                                     27 	.area _INITIALIZED
+    00000000                         28 _bank_stack::
+    00000000                         29 	.ds 2
+                                     30 ;--------------------------------------------------------
+                                     31 ; absolute external ram data
+                                     32 ;--------------------------------------------------------
+                                     33 	.area _DABS (ABS)
+                                     34 ;--------------------------------------------------------
+                                     35 ; global & static initialisations
+                                     36 ;--------------------------------------------------------
+                                     37 	.area _HOME
+                                     38 	.area _GSINIT
+                                     39 	.area _GSFINAL
+                                     40 	.area _GSINIT
+                                     41 ;--------------------------------------------------------
+                                     42 ; Home
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _HOME
+                                     45 ;C:/CrossZGB/ZGB/common/src/BankManager.c:7: void PushBank(UINT8 b) NONBANKED {
+                                     46 ;	---------------------------------
+                                     47 ; Function PushBank
+                                     48 ; ---------------------------------
+    00000000                         49 _PushBank::
+    00000000 4F               [ 4]   50 	ld	c, a
+                                     51 ;C:/CrossZGB/ZGB/common/src/BankManager.c:8: StackPush(bank_stack, CURRENT_BANK);
+    00000001 21r00r00         [12]   52 	ld	hl, #_bank_stack
+    00000004 34               [12]   53 	inc	(hl)
+    00000005 20 02            [12]   54 	jr	NZ, 00103$
+    00000007 23               [ 8]   55 	inc	hl
+    00000008 34               [12]   56 	inc	(hl)
+    00000009                         57 00103$:
+    00000009 FAr00r00         [16]   58 	ld	a, (_bank_stack)
+    0000000C 5F               [ 4]   59 	ld	e, a
+    0000000D 21r01r00         [12]   60 	ld	hl, #_bank_stack + 1
+    00000010 56               [ 8]   61 	ld	d, (hl)
+    00000011 F0r00            [12]   62 	ldh	a, (__current_bank + 0)
+    00000013 12               [ 8]   63 	ld	(de), a
+                                     64 ;C:/CrossZGB/ZGB/common/src/BankManager.c:9: SWITCH_ROM(b);
+    00000014 79               [ 4]   65 	ld	a, c
+    00000015 E0r00            [12]   66 	ldh	(__current_bank + 0), a
+    00000017 21r00r00         [12]   67 	ld	hl, #_rROMB0
+    0000001A 71               [ 8]   68 	ld	(hl), c
+                                     69 ;C:/CrossZGB/ZGB/common/src/BankManager.c:10: }
+    0000001B C9               [16]   70 	ret
+                                     71 ;C:/CrossZGB/ZGB/common/src/BankManager.c:12: void PopBank(void) NONBANKED {
+                                     72 ;	---------------------------------
+                                     73 ; Function PopBank
+                                     74 ; ---------------------------------
+    0000001C                         75 _PopBank::
+                                     76 ;C:/CrossZGB/ZGB/common/src/BankManager.c:13: UINT8 b = StackPop(bank_stack); 
+    0000001C FAr00r00         [16]   77 	ld	a, (_bank_stack)
+    0000001F 21r01r00         [12]   78 	ld	hl, #_bank_stack + 1
+    00000022 66               [ 8]   79 	ld	h, (hl)
+    00000023 6F               [ 4]   80 	ld	l, a
+    00000024 4E               [ 8]   81 	ld	c, (hl)
+    00000025 21r00r00         [12]   82 	ld	hl, #_bank_stack
+    00000028 2A               [ 8]   83 	ld	a, (hl+)
+    00000029 5F               [ 4]   84 	ld	e, a
+    0000002A 3A               [ 8]   85 	ld	a, (hl-)
+    0000002B 57               [ 4]   86 	ld	d, a
+    0000002C 1B               [ 8]   87 	dec	de
+    0000002D 7B               [ 4]   88 	ld	a, e
+    0000002E 22               [ 8]   89 	ld	(hl+), a
+    0000002F 72               [ 8]   90 	ld	(hl), d
+                                     91 ;C:/CrossZGB/ZGB/common/src/BankManager.c:14: SWITCH_ROM(b);
+    00000030 79               [ 4]   92 	ld	a, c
+    00000031 E0r00            [12]   93 	ldh	(__current_bank + 0), a
+    00000033 21r00r00         [12]   94 	ld	hl, #_rROMB0
+    00000036 71               [ 8]   95 	ld	(hl), c
+                                     96 ;C:/CrossZGB/ZGB/common/src/BankManager.c:15: }
+    00000037 C9               [16]   97 	ret
+                                     98 	.area _HOME
+                                     99 ;--------------------------------------------------------
+                                    100 ; code
+                                    101 ;--------------------------------------------------------
+                                    102 	.area _CODE
+                                    103 	.area _CODE
+                                    104 	.area _INITIALIZER
+    00000000                        105 __xinit__bank_stack:
+    00000000rFFrFF                  106 	.dw (_bank_stackSTACK - 1)
+                                    107 	.area _CABS (ABS)

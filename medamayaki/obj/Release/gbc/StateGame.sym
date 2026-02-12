@@ -1,0 +1,53 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+  8 _Destroy_StateGame                                              000000BE GR
+    _InitDynaStage                                                  ******** GX
+    _InitSpecialInterrupts                                          ******** GX
+    _RestoreDefaultInterrupts                                       ******** GX
+    _RestoreDefaultScroll                                           ******** GX
+    _ScrollInitCollisionGroupVector                                 ******** GX
+    _SpriteManagerAdd                                               ******** GX
+  8 _Start_StateGame                                                00000000 GR
+  8 _Update_StateGame                                               000000BD GR
+  3 ___CRASH_HANDLER_INIT                                           00000000 R
+    ___HandleCrash                                                  ******** GX
+    ___bank_StateGame                                           =   000000FF G
+  9 __xinit____CRASH_HANDLER_INIT                                   00000000 R
+  8 _collision_all                                                  00000081 R
+  8 _collision_bottom                                               000000AA R
+  8 _collision_left                                                 000000AB R
+  8 _collision_platform                                             000000A7 R
+  8 _collision_right                                                000000AC R
+  8 _collision_slope_225_left_bottom                                000000B8 R
+  8 _collision_slope_225_left_top                                   000000BB R
+  8 _collision_slope_225_right_bottom                               000000B0 R
+  8 _collision_slope_225_right_top                                  000000B3 R
+  8 _collision_slope_45_left                                        000000B5 R
+  8 _collision_slope_45_right                                       000000AD R
+  8 _collision_top                                                  000000A6 R
+    _fade_mode                                                      ******** GX
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size        0   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        0   flags    0
+   3 _INITIALIZED                               size        2   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _CODE_255                                  size       C4   flags    0
+   9 _INITIALIZER                               size        2   flags    0
+   A _CABS                                      size        0   flags    8
+

@@ -1,0 +1,50 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _BGP_REG                                                        ******** GX
+  8 _FadeDMG                                                        00000000 GR
+  2 _FadeDMG_colors_10000_145                                       00000000 R
+  8 _FadeIn                                                         000002B3 GR
+  8 _FadeOut                                                        000002D2 GR
+  8 _FadeStepColor                                                  000001F9 GR
+  2 _FadeStepColor_palette_10000_181                                0000008C R
+  2 _FadeStepColor_palette_s_10000_181                              000000CC R
+    _LCDC_REG                                                       ******** GX
+    _OBP0_REG                                                       ******** GX
+    _OBP1_REG                                                       ******** GX
+  8 _UpdateColor                                                    00000173 GR
+  2 _ZGB_Fading_BPal                                                0000000C GR
+  2 _ZGB_Fading_SPal                                                0000004C GR
+    __cpu                                                           ******** GX
+    _display_off                                                    ******** GX
+  8 _pals                                                           0000016D R
+    _set_bkg_palette                                                ******** GX
+    _set_sprite_palette                                             ******** GX
+    _vsync                                                          ******** GX
+    b_FadeIn                                                    =   00000001 G
+    b_FadeOut                                                   =   00000001 G
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size        0   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size      10C   flags    0
+   3 _INITIALIZED                               size        0   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _CODE_1                                    size      2F2   flags    0
+   9 _INITIALIZER                               size        0   flags    0
+   A _CABS                                      size        0   flags    8
+

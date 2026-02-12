@@ -1,0 +1,131 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _ClampScrollLimits                                              ******** GX
+  0 _GetMapSize                                                     00000AC2 GR
+  0 _GetScrollTile                                                  00000A8D GR
+  0 _InitScroll                                                     00000592 GR
+  0 _LoadMap                                                        000001EE GR
+  0 _MoveScroll                                                     00000906 GR
+  2 _MoveScroll___save_10000_369                                    00000226 R
+  2 _MoveScroll_current_column_10000_369                            0000021E R
+  2 _MoveScroll_current_row_10000_369                               00000222 R
+  2 _MoveScroll_new_column_10000_369                                00000220 R
+  2 _MoveScroll_new_row_10000_369                                   00000224 R
+  0 _RefreshScroll                                                  00000876 GR
+  0 _ScrollCollisionsReset                                          000004A6 GR
+  0 _ScrollInitCollisionGroup                                       000004B7 GR
+  0 _ScrollInitCollisionGroupVector                                 000004C9 GR
+  0 _ScrollInitCollisions                                           000004FA GR
+  0 _ScrollInitTilesFromMap                                         0000044F GR
+  0 _ScrollRemoveCollisionGroupVector                               000004E0 GR
+  0 _ScrollScreenRedraw                                             00000516 GR
+  0 _ScrollSetMap                                                   0000037C GR
+  0 _ScrollSetTiles                                                 00000000 GR
+  0 _ScrollUpdateColumn                                             000007CF GR
+  0 _ScrollUpdateColumnR                                            000006FE GR
+  0 _ScrollUpdateColumnWithDelay                                    00000777 GR
+  2 _ScrollUpdateColumn___save_10001_358                            0000021D R
+  0 _ScrollUpdateRow                                                00000675 GR
+  0 _ScrollUpdateRowR                                               000005B5 GR
+  0 _ScrollUpdateRowWithDelay                                       0000061D GR
+  2 _ScrollUpdateRow___save_10001_343                               0000021C R
+    _SetPalette                                                     ******** GX
+    _UPDATE_TILE                                                    ******** GX
+  0 _UpdateMapTile                                                  00000187 GR
+    _VBK_REG                                                        ******** GX
+    _ZGB_Fading_BPal                                                ******** GX
+    __cpu                                                           ******** GX
+    __current_bank                                                  ******** GX
+    __mulint                                                        ******** GX
+  8 __xinit__clamp_enabled                                          00000014 R
+  8 __xinit__last_tile_loaded                                       0000001D R
+  8 __xinit__pending_h_cmap                                         00000019 R
+  8 __xinit__pending_h_map                                          00000015 R
+  8 __xinit__pending_w_cmap                                         0000001B R
+  8 __xinit__pending_w_map                                          00000017 R
+  8 __xinit__scroll_bottom_movement_limit                           00000001 R
+  8 __xinit__scroll_cmap                                            00000004 R
+  8 __xinit__scroll_h_border                                        00000012 R
+  8 __xinit__scroll_map                                             00000002 R
+  8 __xinit__scroll_offset_x                                        00000010 R
+  8 __xinit__scroll_offset_y                                        00000011 R
+  8 __xinit__scroll_target                                          0000000E R
+  8 __xinit__scroll_top_movement_limit                              00000000 R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+  8 __xinit__scroll_x                                               00000006 R
+  8 __xinit__scroll_x_vblank                                        0000000A R
+  8 __xinit__scroll_y                                               00000008 R
+  8 __xinit__scroll_y_vblank                                        0000000C R
+  3 _clamp_enabled                                                  00000014 GR
+    _get_bkg_xy_addr                                                ******** GX
+    _get_win_xy_addr                                                ******** GX
+  2 _hud_map_offset                                                 00000213 GR
+    _last_bg_pal_loaded                                             ******** GX
+  3 _last_tile_loaded                                               0000001D GR
+    _memcmp                                                         ******** GX
+    _memset                                                         ******** GX
+  3 _pending_h_cmap                                                 00000019 GR
+  2 _pending_h_i                                                    0000020D GR
+  3 _pending_h_map                                                  00000015 GR
+  2 _pending_h_x                                                    00000209 GR
+  2 _pending_h_y                                                    0000020B GR
+  3 _pending_w_cmap                                                 0000001B GR
+  2 _pending_w_i                                                    00000212 GR
+  3 _pending_w_map                                                  00000017 GR
+  2 _pending_w_x                                                    0000020E GR
+  2 _pending_w_y                                                    00000210 GR
+    _rROMB0                                                         ******** GX
+  2 _scroll_bank                                                    00000208 GR
+  3 _scroll_bottom_movement_limit                                   00000001 GR
+  3 _scroll_cmap                                                    00000004 GR
+  2 _scroll_collisions                                              00000008 GR
+  2 _scroll_cptr                                                    0000021A GR
+  2 _scroll_h                                                       00000002 GR
+  3 _scroll_h_border                                                00000012 GR
+  3 _scroll_map                                                     00000002 GR
+  3 _scroll_offset_x                                                00000010 GR
+  3 _scroll_offset_y                                                00000011 GR
+  2 _scroll_ptr                                                     00000218 GR
+  3 _scroll_target                                                  0000000E GR
+  2 _scroll_tile_info                                               00000108 GR
+  2 _scroll_tiles_h                                                 00000006 GR
+  2 _scroll_tiles_w                                                 00000004 GR
+  3 _scroll_top_movement_limit                                      00000000 GR
+  2 _scroll_w                                                       00000000 GR
+  3 _scroll_x                                                       00000006 GR
+  3 _scroll_x_vblank                                                0000000A GR
+  3 _scroll_y                                                       00000008 GR
+  3 _scroll_y_vblank                                                0000000C GR
+    _set_bkg_data                                                   ******** GX
+    _set_vram_byte                                                  ******** GX
+  2 _tiles_0                                                        00000216 GR
+  2 _tiles_bank_0                                                   00000215 GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      B1D   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size      227   flags    0
+   3 _INITIALIZED                               size       1E   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _INITIALIZER                               size       1E   flags    0
+   9 _CABS                                      size        0   flags    8
+

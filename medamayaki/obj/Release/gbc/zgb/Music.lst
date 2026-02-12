@@ -1,0 +1,200 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module Music
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _sfx_play_isr
+                                     11 	.globl _stop_music_on_new_state
+                                     12 	.globl _last_music_bank
+                                     13 	.globl _last_music
+                                     14 	.globl _sfx_priority
+                                     15 	.globl _music_mute_mask
+                                     16 	.globl _music_paused
+                                     17 	.globl _MUSIC_isr
+                                     18 	.globl ___PlayMusic
+                                     19 ;--------------------------------------------------------
+                                     20 ; special function registers
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _HRAM
+                                     23 ;--------------------------------------------------------
+                                     24 ; ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _DATA
+    00000000                         27 _MUSIC_isr_old_mute_mask_10000_173:
+    00000000                         28 	.ds 1
+                                     29 ;--------------------------------------------------------
+                                     30 ; ram data
+                                     31 ;--------------------------------------------------------
+                                     32 	.area _INITIALIZED
+    00000000                         33 _music_paused::
+    00000000                         34 	.ds 1
+    00000001                         35 _music_mute_mask::
+    00000001                         36 	.ds 1
+    00000002                         37 _sfx_priority::
+    00000002                         38 	.ds 1
+    00000003                         39 _last_music::
+    00000003                         40 	.ds 2
+    00000005                         41 _last_music_bank::
+    00000005                         42 	.ds 1
+    00000006                         43 _stop_music_on_new_state::
+    00000006                         44 	.ds 1
+                                     45 ;--------------------------------------------------------
+                                     46 ; absolute external ram data
+                                     47 ;--------------------------------------------------------
+                                     48 	.area _DABS (ABS)
+                                     49 ;--------------------------------------------------------
+                                     50 ; global & static initialisations
+                                     51 ;--------------------------------------------------------
+                                     52 	.area _HOME
+                                     53 	.area _GSINIT
+                                     54 	.area _GSFINAL
+                                     55 	.area _GSINIT
+                                     56 ;C:/CrossZGB/ZGB/common/src/Music.c:79: static UINT8 old_mute_mask = ~MUTE_MASK_NONE;
+    00000000 21r00r00         [12]   57 	ld	hl, #_MUSIC_isr_old_mute_mask_10000_173
+    00000003 36 FF            [12]   58 	ld	(hl), #0xff
+                                     59 ;--------------------------------------------------------
+                                     60 ; Home
+                                     61 ;--------------------------------------------------------
+                                     62 	.area _HOME
+                                     63 ;C:/CrossZGB/ZGB/common/src/Music.c:78: void MUSIC_isr(void) NONBANKED {
+                                     64 ;	---------------------------------
+                                     65 ; Function MUSIC_isr
+                                     66 ; ---------------------------------
+    00000000                         67 _MUSIC_isr::
+                                     68 ;C:/CrossZGB/ZGB/common/src/Music.c:80: if (old_mute_mask != music_mute_mask) {
+    00000000 FAr00r00         [16]   69 	ld	a, (#_MUSIC_isr_old_mute_mask_10000_173)
+    00000003 21r01r00         [12]   70 	ld	hl, #_music_mute_mask
+    00000006 96               [ 8]   71 	sub	a, (hl)
+    00000007 28 06            [12]   72 	jr	Z, 00102$
+                                     73 ;C:/CrossZGB/ZGB/common/src/Music.c:82: old_mute_mask = music_mute_mask;
+    00000009 FAr01r00         [16]   74 	ld	a, (#_music_mute_mask)
+    0000000C EAr00r00         [16]   75 	ld	(#_MUSIC_isr_old_mute_mask_10000_173),a
+    0000000F                         76 00102$:
+                                     77 ;C:/CrossZGB/ZGB/common/src/Music.c:85: if (sfx_play_bank != SFX_STOP_BANK) {
+    0000000F FAr00r00         [16]   78 	ld	a, (#_sfx_play_bank)
+    00000012 3C               [ 4]   79 	inc	a
+    00000013 28 45            [12]   80 	jr	Z, 00106$
+                                     81 ;C:/CrossZGB/ZGB/common/src/Music.c:86: if (!sfx_play_isr()) {
+    00000015 CDr00r00         [24]   82 	call	_sfx_play_isr
+    00000018 B7               [ 4]   83 	or	a, a
+    00000019 20 3F            [12]   84 	jr	NZ, 00106$
+                                     85 ;C:/CrossZGB/ZGB/common/src/Music.c:88: sfx_sound_cut_mask(music_mute_mask);
+    0000001B FAr01r00         [16]   86 	ld	a, (_music_mute_mask)
+    0000001E 4F               [ 4]   87 	ld	c, a
+                                     88 ;C:/CrossZGB/ZGB/common/include/Sound.h:62: if (mask & SFX_CH_1) NR12_REG = 0, NR14_REG = SFX_CH_RETRIGGER;
+    0000001F 0F               [ 4]   89 	rrca
+    00000020 30 07            [12]   90 	jr	NC, 00112$
+    00000022 AF               [ 4]   91 	xor	a, a
+    00000023 E0r00            [12]   92 	ldh	(_NR12_REG + 0), a
+    00000025 3E C0            [ 8]   93 	ld	a, #0xc0
+    00000027 E0r00            [12]   94 	ldh	(_NR14_REG + 0), a
+    00000029                         95 00112$:
+                                     96 ;C:/CrossZGB/ZGB/common/include/Sound.h:63: if (mask & SFX_CH_2) NR22_REG = 0, NR24_REG = SFX_CH_RETRIGGER;
+    00000029 CB 49            [ 8]   97 	bit	1, c
+    0000002B 28 07            [12]   98 	jr	Z, 00114$
+    0000002D AF               [ 4]   99 	xor	a, a
+    0000002E E0r00            [12]  100 	ldh	(_NR22_REG + 0), a
+    00000030 3E C0            [ 8]  101 	ld	a, #0xc0
+    00000032 E0r00            [12]  102 	ldh	(_NR24_REG + 0), a
+    00000034                        103 00114$:
+                                    104 ;C:/CrossZGB/ZGB/common/include/Sound.h:64: if (mask & SFX_CH_3) NR32_REG = 0;
+    00000034 CB 51            [ 8]  105 	bit	2, c
+    00000036 28 03            [12]  106 	jr	Z, 00116$
+    00000038 AF               [ 4]  107 	xor	a, a
+    00000039 E0r00            [12]  108 	ldh	(_NR32_REG + 0), a
+    0000003B                        109 00116$:
+                                    110 ;C:/CrossZGB/ZGB/common/include/Sound.h:65: if (mask & SFX_CH_4) NR42_REG = 0, NR44_REG = SFX_CH_RETRIGGER;
+    0000003B CB 59            [ 8]  111 	bit	3, c
+    0000003D 28 07            [12]  112 	jr	Z, 00118$
+    0000003F AF               [ 4]  113 	xor	a, a
+    00000040 E0r00            [12]  114 	ldh	(_NR42_REG + 0), a
+    00000042 3E C0            [ 8]  115 	ld	a, #0xc0
+    00000044 E0r00            [12]  116 	ldh	(_NR44_REG + 0), a
+    00000046                        117 00118$:
+                                    118 ;C:/CrossZGB/ZGB/common/include/Sound.h:66: NR51_REG = 0xFF;
+    00000046 3E FF            [ 8]  119 	ld	a, #0xff
+    00000048 E0r00            [12]  120 	ldh	(_NR51_REG + 0), a
+                                    121 ;C:/CrossZGB/ZGB/common/src/Music.c:91: music_mute_mask = old_mute_mask = MUTE_MASK_NONE;
+    0000004A AF               [ 4]  122 	xor	a, a
+    0000004B EAr00r00         [16]  123 	ld	(#_MUSIC_isr_old_mute_mask_10000_173), a
+    0000004E EAr01r00         [16]  124 	ld	(#_music_mute_mask),a
+                                    125 ;C:/CrossZGB/ZGB/common/src/Music.c:93: sfx_priority = SFX_PRIORITY_MINIMAL;
+    00000051 AF               [ 4]  126 	xor	a, a
+    00000052 EAr02r00         [16]  127 	ld	(#_sfx_priority),a
+                                    128 ;C:/CrossZGB/ZGB/common/src/Music.c:94: sfx_play_bank = SFX_STOP_BANK;
+    00000055 21r00r00         [12]  129 	ld	hl, #_sfx_play_bank
+    00000058 36 FF            [12]  130 	ld	(hl), #0xff
+    0000005A                        131 00106$:
+                                    132 ;C:/CrossZGB/ZGB/common/src/Music.c:98: if (music_paused)
+    0000005A FAr00r00         [16]  133 	ld	a, (#_music_paused)
+    0000005D B7               [ 4]  134 	or	a, a
+                                    135 ;C:/CrossZGB/ZGB/common/src/Music.c:99: return;
+    0000005E C0               [20]  136 	ret	NZ
+                                    137 ;C:/CrossZGB/ZGB/common/src/Music.c:100: if (last_music_bank == SFX_STOP_BANK)
+    0000005F FAr05r00         [16]  138 	ld	a, (#_last_music_bank)
+    00000062 3C               [ 4]  139 	inc	a
+    00000063 C8               [20]  140 	ret	Z
+                                    141 ;C:/CrossZGB/ZGB/common/src/Music.c:101: return;
+                                    142 ;C:/CrossZGB/ZGB/common/src/Music.c:125: }
+    00000064 C9               [16]  143 	ret
+                                    144 ;C:/CrossZGB/ZGB/common/src/Music.c:127: void __PlayMusic(void* music, UINT8 bank, UINT8 loop) NONBANKED {
+                                    145 ;	---------------------------------
+                                    146 ; Function __PlayMusic
+                                    147 ; ---------------------------------
+    00000065                        148 ___PlayMusic::
+    00000065 4F               [ 4]  149 	ld	c, a
+                                    150 ;C:/CrossZGB/ZGB/common/src/Music.c:129: if(music != last_music) {
+    00000066 21r03r00         [12]  151 	ld	hl, #_last_music
+    00000069 7E               [ 8]  152 	ld	a, (hl)
+    0000006A 93               [ 4]  153 	sub	a, e
+    0000006B 20 05            [12]  154 	jr	NZ, 00112$
+    0000006D 23               [ 8]  155 	inc	hl
+    0000006E 7E               [ 8]  156 	ld	a, (hl)
+    0000006F 92               [ 4]  157 	sub	a, d
+    00000070 28 11            [12]  158 	jr	Z, 00102$
+    00000072                        159 00112$:
+                                    160 ;C:/CrossZGB/ZGB/common/src/Music.c:131: UBYTE __save = CURRENT_BANK;
+    00000072 F0r00            [12]  161 	ldh	a, (__current_bank + 0)
+                                    162 ;C:/CrossZGB/ZGB/common/src/Music.c:149: SWITCH_ROM(__save);
+    00000074 E0r00            [12]  163 	ldh	(__current_bank + 0), a
+    00000076 EAr00r00         [16]  164 	ld	(#_rROMB0),a
+                                    165 ;C:/CrossZGB/ZGB/common/src/Music.c:150: last_music = music;
+    00000079 21r03r00         [12]  166 	ld	hl, #_last_music
+    0000007C 7B               [ 4]  167 	ld	a, e
+    0000007D 22               [ 8]  168 	ld	(hl+), a
+    0000007E 72               [ 8]  169 	ld	(hl), d
+                                    170 ;C:/CrossZGB/ZGB/common/src/Music.c:151: last_music_bank = bank;
+    0000007F 21r05r00         [12]  171 	ld	hl, #_last_music_bank
+    00000082 71               [ 8]  172 	ld	(hl), c
+    00000083                        173 00102$:
+                                    174 ;C:/CrossZGB/ZGB/common/src/Music.c:153: music_paused = 0;
+    00000083 AF               [ 4]  175 	xor	a, a
+    00000084 EAr00r00         [16]  176 	ld	(#_music_paused),a
+                                    177 ;C:/CrossZGB/ZGB/common/src/Music.c:154: }
+    00000087 E1               [12]  178 	pop	hl
+    00000088 33               [ 8]  179 	inc	sp
+    00000089 E9               [ 4]  180 	jp	(hl)
+                                    181 	.area _HOME
+                                    182 ;--------------------------------------------------------
+                                    183 ; code
+                                    184 ;--------------------------------------------------------
+                                    185 	.area _CODE
+                                    186 	.area _CODE
+                                    187 	.area _INITIALIZER
+    00000000                        188 __xinit__music_paused:
+    00000000 01                     189 	.db #0x01	; 1
+    00000001                        190 __xinit__music_mute_mask:
+    00000001 00                     191 	.db #0x00	; 0
+    00000002                        192 __xinit__sfx_priority:
+    00000002 00                     193 	.db #0x00	; 0
+    00000003                        194 __xinit__last_music:
+    00000003 00 00                  195 	.dw #0x0000
+    00000005                        196 __xinit__last_music_bank:
+    00000005 FF                     197 	.db #0xff	; 255
+    00000006                        198 __xinit__stop_music_on_new_state:
+    00000006 01                     199 	.db #0x01	; 1
+                                    200 	.area _CABS (ABS)

@@ -1,0 +1,54 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module DefTileReplacement
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _GetTileReplacement
+                                     11 ;--------------------------------------------------------
+                                     12 ; special function registers
+                                     13 ;--------------------------------------------------------
+                                     14 	.area _HRAM
+                                     15 ;--------------------------------------------------------
+                                     16 ; ram data
+                                     17 ;--------------------------------------------------------
+                                     18 	.area _DATA
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _INITIALIZED
+                                     23 ;--------------------------------------------------------
+                                     24 ; absolute external ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _DABS (ABS)
+                                     27 ;--------------------------------------------------------
+                                     28 ; global & static initialisations
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _HOME
+                                     31 	.area _GSINIT
+                                     32 	.area _GSFINAL
+                                     33 	.area _GSINIT
+                                     34 ;--------------------------------------------------------
+                                     35 ; Home
+                                     36 ;--------------------------------------------------------
+                                     37 	.area _HOME
+                                     38 	.area _HOME
+                                     39 ;--------------------------------------------------------
+                                     40 ; code
+                                     41 ;--------------------------------------------------------
+                                     42 	.area _CODE
+                                     43 ;C:/CrossZGB/ZGB/common/src/DefTileReplacement.c:4: UINT8 GetTileReplacement(UINT8* tile_ptr, UINT8* tile) {
+                                     44 ;	---------------------------------
+                                     45 ; Function GetTileReplacement
+                                     46 ; ---------------------------------
+    00000000                         47 _GetTileReplacement::
+                                     48 ;C:/CrossZGB/ZGB/common/src/DefTileReplacement.c:6: return 255u;    // don't replace anything
+    00000000 3E FF            [ 8]   49 	ld	a, #0xff
+                                     50 ;C:/CrossZGB/ZGB/common/src/DefTileReplacement.c:7: }
+    00000002 C9               [16]   51 	ret
+                                     52 	.area _CODE
+                                     53 	.area _INITIALIZER
+                                     54 	.area _CABS (ABS)

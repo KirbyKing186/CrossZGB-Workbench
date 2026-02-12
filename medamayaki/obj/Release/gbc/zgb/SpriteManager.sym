@@ -1,0 +1,87 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _BufferExchange                                                 ******** GX
+    _BufferRotate                                                   ******** GX
+    _ClearOAMs                                                      ******** GX
+    _DrawSprite                                                     ******** GX
+    _InitSprite                                                     ******** GX
+    _RefreshScroll                                                  ******** GX
+    _SetPalette                                                     ******** GX
+  0 _SpriteManagerAdd                                               00000331 GR
+  0 _SpriteManagerFlushRemove                                       000004B8 GR
+  0 _SpriteManagerLoad                                              00000116 GR
+  0 _SpriteManagerRemove                                            0000048C GR
+  0 _SpriteManagerRemoveSprite                                      000004AC GR
+  0 _SpriteManagerReset                                             00000000 GR
+  0 _SpriteManagerUpdate                                            00000583 GR
+  2 _SpriteManagerUpdate___save_10000_312                           00000464 R
+    _SwapOAMs                                                       ******** GX
+  3 _THIS                                                           00000009 GR
+  3 _THIS_IDX                                                       00000008 GR
+    _ZGB_Fading_SPal                                                ******** GX
+  3 ___CRASH_HANDLER_INIT                                           00000000 R
+    ___HandleCrash                                                  ******** GX
+    ___sdcc_call_hl                                                 ******** GX
+    __current_bank                                                  ******** GX
+  8 __xinit__THIS                                                   00000009 R
+  8 __xinit__THIS_IDX                                               00000008 R
+  8 __xinit____CRASH_HANDLER_INIT                                   00000000 R
+  8 __xinit__enable_flickering                                      00000007 R
+  8 __xinit__last_sprite_loaded                                     00000004 R
+  8 __xinit__last_sprite_pal_loaded                                 00000006 R
+  8 __xinit__sprite_manager_sprites_pool                            00000002 R
+  3 _enable_flickering                                              00000007 GR
+  3 _last_sprite_loaded                                             00000004 GR
+  3 _last_sprite_pal_loaded                                         00000006 GR
+    _memcmp                                                         ******** GX
+    _memset                                                         ******** GX
+  2 _prev_scroll_target                                             00000462 GR
+    _rROMB0                                                         ******** GX
+    _scroll_target                                                  ******** GX
+    _set_sprite_data                                                ******** GX
+    _spriteBanks                                                    ******** GX
+    _spriteDataBanks                                                ******** GX
+    _spriteDatas                                                    ******** GX
+    _spriteDestroyFuncs                                             ******** GX
+    _spriteIdxs                                                     ******** GX
+    _spriteIdxsH                                                    ******** GX
+    _spriteIdxsHV                                                   ******** GX
+    _spriteIdxsV                                                    ******** GX
+    _spritePalsOffset                                               ******** GX
+    _spriteStartFuncs                                               ******** GX
+    _spriteUpdateFuncs                                              ******** GX
+  2 _sprite_manager_removal_check                                   00000461 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+  2 _sprite_manager_sprites                                         00000410 GR
+  2 _sprite_manager_sprites_mem                                     00000000 GR
+  3 _sprite_manager_sprites_pool                                    00000002 GR
+  2 _sprite_manager_sprites_poolSTACK                               00000438 GR
+  2 _sprite_manager_updatables                                      0000044C GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      6E4   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size      465   flags    0
+   3 _INITIALIZED                               size        B   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _INITIALIZER                               size        B   flags    0
+   9 _CABS                                      size        0   flags    8
+

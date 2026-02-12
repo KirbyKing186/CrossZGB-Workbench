@@ -1,0 +1,531 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module SGB
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _LoadSGBBorder
+                                     11 	.globl _set_sgb_border
+                                     12 	.globl _sgb_transfer
+                                     13 	.globl _fill_bkg_rect
+                                     14 	.globl _set_bkg_tile_xy
+                                     15 	.globl _set_bkg_data
+                                     16 	.globl _set_vram_byte
+                                     17 	.globl _display_off
+                                     18 	.globl _vsync
+                                     19 	.globl _memset
+                                     20 ;--------------------------------------------------------
+                                     21 ; special function registers
+                                     22 ;--------------------------------------------------------
+                                     23 	.area _HRAM
+                                     24 ;--------------------------------------------------------
+                                     25 ; ram data
+                                     26 ;--------------------------------------------------------
+                                     27 	.area _DATA
+                                     28 ;--------------------------------------------------------
+                                     29 ; ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area _INITIALIZED
+                                     32 ;--------------------------------------------------------
+                                     33 ; absolute external ram data
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _DABS (ABS)
+                                     36 ;--------------------------------------------------------
+                                     37 ; global & static initialisations
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
+                                     40 	.area _GSINIT
+                                     41 	.area _GSFINAL
+                                     42 	.area _GSINIT
+                                     43 ;--------------------------------------------------------
+                                     44 ; Home
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _HOME
+                                     47 	.area _HOME
+                                     48 ;--------------------------------------------------------
+                                     49 ; code
+                                     50 ;--------------------------------------------------------
+                                     51 	.area _CODE
+                                     52 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:19: void set_sgb_border(unsigned char * tiledata, size_t tiledata_size,
+                                     53 ;	---------------------------------
+                                     54 ; Function set_sgb_border
+                                     55 ; ---------------------------------
+    00000000                         56 _set_sgb_border::
+    00000000 E8 E9            [16]   57 	add	sp, #-23
+    00000002 F8 10            [12]   58 	ldhl	sp,	#16
+    00000004 7B               [ 4]   59 	ld	a, e
+    00000005 22               [ 8]   60 	ld	(hl+), a
+    00000006 72               [ 8]   61 	ld	(hl), d
+    00000007 F8 14            [12]   62 	ldhl	sp,	#20
+    00000009 79               [ 4]   63 	ld	a, c
+    0000000A 22               [ 8]   64 	ld	(hl+), a
+    0000000B 70               [ 8]   65 	ld	(hl), b
+                                     66 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:23: if (_is_SGB) {
+    0000000C FAr00r00         [16]   67 	ld	a, (#__is_SGB)
+    0000000F B7               [ 4]   68 	or	a, a
+    00000010 CArD8r01         [16]   69 	jp	Z, 00119$
+                                     70 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:25: memset(map_buf, 0, sizeof(map_buf));
+    00000013 21 00 00         [12]   71 	ld	hl, #0
+    00000016 39               [ 8]   72 	add	hl, sp
+    00000017 11 10 00         [12]   73 	ld	de, #0x0010
+    0000001A D5               [16]   74 	push	de
+    0000001B 11 00 00         [12]   75 	ld	de, #0x0000
+    0000001E D5               [16]   76 	push	de
+    0000001F E5               [16]   77 	push	hl
+    00000020 CDr00r00         [24]   78 	call	_memset
+    00000023 E8 06            [16]   79 	add	sp, #6
+                                     80 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:27: SGB_TRANSFER(SGB_MASK_EN, SGB_SCR_FREEZE); 
+    00000025 F8 00            [12]   81 	ldhl	sp,	#0
+    00000027 3E B9            [ 8]   82 	ld	a, #0xb9
+    00000029 22               [ 8]   83 	ld	(hl+), a
+    0000002A 36 01            [12]   84 	ld	(hl), #0x01
+    0000002C 21 00 00         [12]   85 	ld	hl, #0
+    0000002F 39               [ 8]   86 	add	hl, sp
+    00000030 E5               [16]   87 	push	hl
+    00000031 CDr00r00         [24]   88 	call	_sgb_transfer
+    00000034 E1               [12]   89 	pop	hl
+                                     90 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:29: UINT8 __save_BGP = BGP_REG, __save_lcdc = LCDC_REG;
+    00000035 F0r00            [12]   91 	ldh	a, (_BGP_REG + 0)
+    00000037 F8 12            [12]   92 	ldhl	sp,	#18
+    00000039 22               [ 8]   93 	ld	(hl+), a
+    0000003A F0r00            [12]   94 	ldh	a, (_LCDC_REG + 0)
+    0000003C 77               [ 8]   95 	ld	(hl), a
+                                     96 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:30: HIDE_SPRITES, HIDE_WIN, SHOW_BKG;
+    0000003D F0r00            [12]   97 	ldh	a, (_LCDC_REG + 0)
+    0000003F E6 FD            [ 8]   98 	and	a, #0xfd
+    00000041 E0r00            [12]   99 	ldh	(_LCDC_REG + 0), a
+    00000043 F0r00            [12]  100 	ldh	a, (_LCDC_REG + 0)
+    00000045 E6 DF            [ 8]  101 	and	a, #0xdf
+    00000047 E0r00            [12]  102 	ldh	(_LCDC_REG + 0), a
+    00000049 F0r00            [12]  103 	ldh	a, (_LCDC_REG + 0)
+    0000004B F6 01            [ 8]  104 	or	a, #0x01
+    0000004D E0r00            [12]  105 	ldh	(_LCDC_REG + 0), a
+                                    106 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:31: DISPLAY_ON;
+    0000004F F0r00            [12]  107 	ldh	a, (_LCDC_REG + 0)
+    00000051 F6 80            [ 8]  108 	or	a, #0x80
+    00000053 E0r00            [12]  109 	ldh	(_LCDC_REG + 0), a
+                                    110 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:33: BGP_REG = DMG_PALETTE(DMG_WHITE, DMG_LITE_GRAY, DMG_DARK_GRAY, DMG_BLACK);
+    00000055 3E E4            [ 8]  111 	ld	a, #0xe4
+    00000057 E0r00            [12]  112 	ldh	(_BGP_REG + 0), a
+                                    113 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:34: SCX_REG = SCY_REG = 0U;
+    00000059 AF               [ 4]  114 	xor	a, a
+    0000005A E0r00            [12]  115 	ldh	(_SCY_REG + 0), a
+    0000005C AF               [ 4]  116 	xor	a, a
+    0000005D E0r00            [12]  117 	ldh	(_SCX_REG + 0), a
+                                    118 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:37: for (UINT8 y = 0, tile = 0; y != 14; y++) {
+    0000005F 11 00 00         [12]  119 	ld	de, #0x0
+    00000062                        120 00117$:
+    00000062 7A               [ 4]  121 	ld	a, d
+    00000063 D6 0E            [ 8]  122 	sub	a, #0x0e
+    00000065 28 24            [12]  123 	jr	Z, 00102$
+                                    124 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:38: UINT8 * ptr = set_bkg_tile_xy(0, y, tile++);
+    00000067 7B               [ 4]  125 	ld	a, e
+    00000068 1C               [ 4]  126 	inc	e
+    00000069 D5               [16]  127 	push	de
+    0000006A F5               [16]  128 	push	af
+    0000006B 33               [ 8]  129 	inc	sp
+    0000006C 5A               [ 4]  130 	ld	e, d
+    0000006D AF               [ 4]  131 	xor	a, a
+    0000006E CDr00r00         [24]  132 	call	_set_bkg_tile_xy
+    00000071 D1               [12]  133 	pop	de
+                                    134 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:39: for (UINT8 x = 0; x != (DEVICE_SCREEN_WIDTH - 1); x++)
+    00000072 2E 00            [ 8]  135 	ld	l, #0x00
+    00000074                        136 00114$:
+    00000074 7D               [ 4]  137 	ld	a, l
+    00000075 D6 13            [ 8]  138 	sub	a, #0x13
+    00000077 28 0F            [12]  139 	jr	Z, 00132$
+                                    140 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:40: set_vram_byte(++ptr, tile++);
+    00000079 7B               [ 4]  141 	ld	a, e
+    0000007A 1C               [ 4]  142 	inc	e
+    0000007B 03               [ 8]  143 	inc	bc
+    0000007C E5               [16]  144 	push	hl
+    0000007D D5               [16]  145 	push	de
+    0000007E 59               [ 4]  146 	ld	e, c
+    0000007F 50               [ 4]  147 	ld	d, b
+    00000080 CDr00r00         [24]  148 	call	_set_vram_byte
+    00000083 D1               [12]  149 	pop	de
+    00000084 E1               [12]  150 	pop	hl
+                                    151 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:39: for (UINT8 x = 0; x != (DEVICE_SCREEN_WIDTH - 1); x++)
+    00000085 2C               [ 4]  152 	inc	l
+    00000086 18 EC            [12]  153 	jr	00114$
+    00000088                        154 00132$:
+                                    155 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:37: for (UINT8 y = 0, tile = 0; y != 14; y++) {
+    00000088 14               [ 4]  156 	inc	d
+    00000089 18 D7            [12]  157 	jr	00117$
+    0000008B                        158 00102$:
+                                    159 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:45: UINT8 ntiles = (tiledata_size > 256 * 32) ? 0 : tiledata_size >> 5;
+    0000008B F8 14            [12]  160 	ldhl	sp,	#20
+    0000008D AF               [ 4]  161 	xor	a, a
+    0000008E 96               [ 8]  162 	sub	a, (hl)
+    0000008F 23               [ 8]  163 	inc	hl
+    00000090 3E 20            [ 8]  164 	ld	a, #0x20
+    00000092 9E               [ 8]  165 	sbc	a, (hl)
+    00000093 30 05            [12]  166 	jr	NC, 00121$
+    00000095 01 00 00         [12]  167 	ld	bc, #0x0000
+    00000098 18 19            [12]  168 	jr	00122$
+    0000009A                        169 00121$:
+    0000009A F8 14            [12]  170 	ldhl	sp,#20
+    0000009C 2A               [ 8]  171 	ld	a, (hl+)
+    0000009D 4F               [ 4]  172 	ld	c, a
+    0000009E 46               [ 8]  173 	ld	b, (hl)
+    0000009F CB 38            [ 8]  174 	srl	b
+    000000A1 CB 19            [ 8]  175 	rr	c
+    000000A3 CB 38            [ 8]  176 	srl	b
+    000000A5 CB 19            [ 8]  177 	rr	c
+    000000A7 CB 38            [ 8]  178 	srl	b
+    000000A9 CB 19            [ 8]  179 	rr	c
+    000000AB CB 38            [ 8]  180 	srl	b
+    000000AD CB 19            [ 8]  181 	rr	c
+    000000AF CB 38            [ 8]  182 	srl	b
+    000000B1 CB 19            [ 8]  183 	rr	c
+    000000B3                        184 00122$:
+    000000B3 F8 16            [12]  185 	ldhl	sp,	#22
+    000000B5 71               [ 8]  186 	ld	(hl), c
+                                    187 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:27: SGB_TRANSFER(SGB_MASK_EN, SGB_SCR_FREEZE); 
+    000000B6 21 00 00         [12]  188 	ld	hl, #0
+    000000B9 39               [ 8]  189 	add	hl, sp
+    000000BA 4D               [ 4]  190 	ld	c, l
+    000000BB 44               [ 4]  191 	ld	b, h
+                                    192 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:46: if ((!ntiles) || (ntiles > 128U)) { 
+    000000BC F8 16            [12]  193 	ldhl	sp,	#22
+    000000BE 7E               [ 8]  194 	ld	a, (hl)
+    000000BF B7               [ 4]  195 	or	a, a
+    000000C0 28 05            [12]  196 	jr	Z, 00105$
+    000000C2 3E 80            [ 8]  197 	ld	a, #0x80
+    000000C4 96               [ 8]  198 	sub	a, (hl)
+    000000C5 30 4B            [12]  199 	jr	NC, 00106$
+    000000C7                        200 00105$:
+                                    201 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:47: set_bkg_data(0, 0, tiledata); 
+    000000C7 F8 10            [12]  202 	ldhl	sp,	#16
+    000000C9 2A               [ 8]  203 	ld	a, (hl+)
+    000000CA 5F               [ 4]  204 	ld	e, a
+    000000CB 56               [ 8]  205 	ld	d, (hl)
+    000000CC D5               [16]  206 	push	de
+    000000CD AF               [ 4]  207 	xor	a, a
+    000000CE 0F               [ 4]  208 	rrca
+    000000CF F5               [16]  209 	push	af
+    000000D0 CDr00r00         [24]  210 	call	_set_bkg_data
+    000000D3 E8 04            [16]  211 	add	sp, #4
+                                    212 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:48: SGB_TRANSFER(SGB_CHR_TRN, SGB_CHR_BLOCK0);
+    000000D5 F8 00            [12]  213 	ldhl	sp,	#0
+    000000D7 3E 99            [ 8]  214 	ld	a, #0x99
+    000000D9 22               [ 8]  215 	ld	(hl+), a
+    000000DA 36 00            [12]  216 	ld	(hl), #0x00
+    000000DC C5               [16]  217 	push	bc
+    000000DD CDr00r00         [24]  218 	call	_sgb_transfer
+    000000E0 E1               [12]  219 	pop	hl
+                                    220 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:49: if (ntiles) ntiles -= 128U; 
+    000000E1 F8 16            [12]  221 	ldhl	sp,	#22
+    000000E3 7E               [ 8]  222 	ld	a, (hl)
+    000000E4 B7               [ 4]  223 	or	a, a
+    000000E5 28 04            [12]  224 	jr	Z, 00104$
+    000000E7 7E               [ 8]  225 	ld	a, (hl)
+    000000E8 C6 80            [ 8]  226 	add	a, #0x80
+    000000EA 77               [ 8]  227 	ld	(hl), a
+    000000EB                        228 00104$:
+                                    229 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:50: tiledata += (128 * 32);
+    000000EB F8 10            [12]  230 	ldhl	sp,#16
+    000000ED 2A               [ 8]  231 	ld	a, (hl+)
+    000000EE 5F               [ 4]  232 	ld	e, a
+    000000EF 56               [ 8]  233 	ld	d, (hl)
+    000000F0 21 00 10         [12]  234 	ld	hl, #0x1000
+    000000F3 19               [ 8]  235 	add	hl, de
+    000000F4 5D               [ 4]  236 	ld	e, l
+    000000F5 54               [ 4]  237 	ld	d, h
+                                    238 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:51: set_bkg_data(0, ntiles << 1, tiledata); 
+    000000F6 F8 16            [12]  239 	ldhl	sp,	#22
+    000000F8 7E               [ 8]  240 	ld	a, (hl)
+    000000F9 87               [ 4]  241 	add	a, a
+    000000FA D5               [16]  242 	push	de
+    000000FB 67               [ 4]  243 	ld	h, a
+    000000FC 2E 00            [ 8]  244 	ld	l, #0x00
+    000000FE E5               [16]  245 	push	hl
+    000000FF CDr00r00         [24]  246 	call	_set_bkg_data
+    00000102 E8 04            [16]  247 	add	sp, #4
+                                    248 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:52: SGB_TRANSFER(SGB_CHR_TRN, SGB_CHR_BLOCK1);
+    00000104 F8 00            [12]  249 	ldhl	sp,	#0
+    00000106 3E 99            [ 8]  250 	ld	a, #0x99
+    00000108 22               [ 8]  251 	ld	(hl+), a
+    00000109 36 01            [12]  252 	ld	(hl), #0x01
+    0000010B C5               [16]  253 	push	bc
+    0000010C CDr00r00         [24]  254 	call	_sgb_transfer
+    0000010F E1               [12]  255 	pop	hl
+    00000110 18 1F            [12]  256 	jr	00107$
+    00000112                        257 00106$:
+                                    258 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:54: set_bkg_data(0, ntiles << 1, tiledata); 
+    00000112 F8 16            [12]  259 	ldhl	sp,	#22
+    00000114 7E               [ 8]  260 	ld	a, (hl)
+    00000115 87               [ 4]  261 	add	a, a
+    00000116 F8 10            [12]  262 	ldhl	sp,	#16
+    00000118 5E               [ 8]  263 	ld	e, (hl)
+    00000119 23               [ 8]  264 	inc	hl
+    0000011A 56               [ 8]  265 	ld	d, (hl)
+    0000011B D5               [16]  266 	push	de
+    0000011C 67               [ 4]  267 	ld	h, a
+    0000011D 2E 00            [ 8]  268 	ld	l, #0x00
+    0000011F E5               [16]  269 	push	hl
+    00000120 CDr00r00         [24]  270 	call	_set_bkg_data
+    00000123 E8 04            [16]  271 	add	sp, #4
+                                    272 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:55: SGB_TRANSFER(SGB_CHR_TRN, SGB_CHR_BLOCK0);
+    00000125 F8 00            [12]  273 	ldhl	sp,	#0
+    00000127 3E 99            [ 8]  274 	ld	a, #0x99
+    00000129 22               [ 8]  275 	ld	(hl+), a
+    0000012A 36 00            [12]  276 	ld	(hl), #0x00
+    0000012C C5               [16]  277 	push	bc
+    0000012D CDr00r00         [24]  278 	call	_sgb_transfer
+    00000130 E1               [12]  279 	pop	hl
+    00000131                        280 00107$:
+                                    281 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:59: set_bkg_data(0, (UINT8)(tilemap_size >> 4), tilemap);
+    00000131 F8 1B            [12]  282 	ldhl	sp,#27
+    00000133 2A               [ 8]  283 	ld	a, (hl+)
+    00000134 5F               [ 4]  284 	ld	e, a
+    00000135 56               [ 8]  285 	ld	d, (hl)
+    00000136 CB 3A            [ 8]  286 	srl	d
+    00000138 CB 1B            [ 8]  287 	rr	e
+    0000013A CB 3A            [ 8]  288 	srl	d
+    0000013C CB 1B            [ 8]  289 	rr	e
+    0000013E CB 3A            [ 8]  290 	srl	d
+    00000140 CB 1B            [ 8]  291 	rr	e
+    00000142 CB 3A            [ 8]  292 	srl	d
+    00000144 CB 1B            [ 8]  293 	rr	e
+    00000146 7B               [ 4]  294 	ld	a, e
+    00000147 F8 19            [12]  295 	ldhl	sp,	#25
+    00000149 5E               [ 8]  296 	ld	e, (hl)
+    0000014A 23               [ 8]  297 	inc	hl
+    0000014B 56               [ 8]  298 	ld	d, (hl)
+    0000014C D5               [16]  299 	push	de
+    0000014D 67               [ 4]  300 	ld	h, a
+    0000014E 2E 00            [ 8]  301 	ld	l, #0x00
+    00000150 E5               [16]  302 	push	hl
+    00000151 CDr00r00         [24]  303 	call	_set_bkg_data
+    00000154 E8 04            [16]  304 	add	sp, #4
+                                    305 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:60: set_bkg_data(128, (UINT8)(palette_size >> 4), palette);
+    00000156 F8 1F            [12]  306 	ldhl	sp,#31
+    00000158 2A               [ 8]  307 	ld	a, (hl+)
+    00000159 5F               [ 4]  308 	ld	e, a
+    0000015A 56               [ 8]  309 	ld	d, (hl)
+    0000015B CB 3A            [ 8]  310 	srl	d
+    0000015D CB 1B            [ 8]  311 	rr	e
+    0000015F CB 3A            [ 8]  312 	srl	d
+    00000161 CB 1B            [ 8]  313 	rr	e
+    00000163 CB 3A            [ 8]  314 	srl	d
+    00000165 CB 1B            [ 8]  315 	rr	e
+    00000167 CB 3A            [ 8]  316 	srl	d
+    00000169 CB 1B            [ 8]  317 	rr	e
+    0000016B 7B               [ 4]  318 	ld	a, e
+    0000016C F8 1D            [12]  319 	ldhl	sp,	#29
+    0000016E 5E               [ 8]  320 	ld	e, (hl)
+    0000016F 23               [ 8]  321 	inc	hl
+    00000170 56               [ 8]  322 	ld	d, (hl)
+    00000171 D5               [16]  323 	push	de
+    00000172 67               [ 4]  324 	ld	h, a
+    00000173 2E 80            [ 8]  325 	ld	l, #0x80
+    00000175 E5               [16]  326 	push	hl
+    00000176 CDr00r00         [24]  327 	call	_set_bkg_data
+    00000179 E8 04            [16]  328 	add	sp, #4
+                                    329 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:61: SGB_TRANSFER(SGB_PCT_TRN, 0);
+    0000017B F8 00            [12]  330 	ldhl	sp,	#0
+    0000017D 3E A1            [ 8]  331 	ld	a, #0xa1
+    0000017F 22               [ 8]  332 	ld	(hl+), a
+    00000180 36 00            [12]  333 	ld	(hl), #0x00
+    00000182 C5               [16]  334 	push	bc
+    00000183 CDr00r00         [24]  335 	call	_sgb_transfer
+    00000186 E1               [12]  336 	pop	hl
+                                    337 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:64: memset(map_buf, 0, sizeof(map_buf));
+    00000187 21 00 00         [12]  338 	ld	hl, #0
+    0000018A 39               [ 8]  339 	add	hl, sp
+    0000018B 11 10 00         [12]  340 	ld	de, #0x0010
+    0000018E D5               [16]  341 	push	de
+    0000018F 11 00 00         [12]  342 	ld	de, #0x0000
+    00000192 D5               [16]  343 	push	de
+    00000193 E5               [16]  344 	push	hl
+    00000194 CDr00r00         [24]  345 	call	_memset
+    00000197 E8 06            [16]  346 	add	sp, #6
+                                    347 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:65: set_bkg_data(0, 1, map_buf);
+    00000199 C5               [16]  348 	push	bc
+    0000019A AF               [ 4]  349 	xor	a, a
+    0000019B 3C               [ 4]  350 	inc	a
+    0000019C F5               [16]  351 	push	af
+    0000019D CDr00r00         [24]  352 	call	_set_bkg_data
+    000001A0 E8 04            [16]  353 	add	sp, #4
+                                    354 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:66: fill_bkg_rect(0, 0, DEVICE_SCREEN_WIDTH, DEVICE_SCREEN_HEIGHT, 0);
+    000001A2 AF               [ 4]  355 	xor	a, a
+    000001A3 67               [ 4]  356 	ld	h, a
+    000001A4 2E 12            [ 8]  357 	ld	l, #0x12
+    000001A6 E5               [16]  358 	push	hl
+    000001A7 3E 14            [ 8]  359 	ld	a, #0x14
+    000001A9 F5               [16]  360 	push	af
+    000001AA 33               [ 8]  361 	inc	sp
+    000001AB AF               [ 4]  362 	xor	a, a
+    000001AC 0F               [ 4]  363 	rrca
+    000001AD F5               [16]  364 	push	af
+    000001AE CDr00r00         [24]  365 	call	_fill_bkg_rect
+    000001B1 E8 05            [16]  366 	add	sp, #5
+                                    367 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:68: BGP_REG = __save_BGP;
+    000001B3 F8 12            [12]  368 	ldhl	sp,	#18
+    000001B5 7E               [ 8]  369 	ld	a, (hl)
+    000001B6 E0r00            [12]  370 	ldh	(_BGP_REG + 0), a
+                                    371 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:70: vsync();
+    000001B8 CDr00r00         [24]  372 	call	_vsync
+                                    373 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:72: SGB_TRANSFER(SGB_MASK_EN, SGB_SCR_UNFREEZE); 
+    000001BB F8 00            [12]  374 	ldhl	sp,	#0
+    000001BD 3E B9            [ 8]  375 	ld	a, #0xb9
+    000001BF 22               [ 8]  376 	ld	(hl+), a
+    000001C0 36 00            [12]  377 	ld	(hl), #0x00
+    000001C2 C5               [16]  378 	push	bc
+    000001C3 CDr00r00         [24]  379 	call	_sgb_transfer
+    000001C6 33               [ 8]  380 	inc	sp
+    000001C7 33               [ 8]  381 	inc	sp
+                                    382 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:74: if ((__save_lcdc & LCDCF_ON) == 0) DISPLAY_OFF;
+    000001C8 E5               [16]  383 	push	hl
+    000001C9 F8 15            [12]  384 	ldhl	sp,	#21
+    000001CB CB 7E            [12]  385 	bit	7, (hl)
+    000001CD E1               [12]  386 	pop	hl
+    000001CE 20 03            [12]  387 	jr	NZ, 00110$
+    000001D0 CDr00r00         [24]  388 	call	_display_off
+    000001D3                        389 00110$:
+                                    390 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:75: LCDC_REG = __save_lcdc;
+    000001D3 F8 13            [12]  391 	ldhl	sp,	#19
+    000001D5 7E               [ 8]  392 	ld	a, (hl)
+    000001D6 E0r00            [12]  393 	ldh	(_LCDC_REG + 0), a
+    000001D8                        394 00119$:
+                                    395 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:78: }
+    000001D8 E8 17            [16]  396 	add	sp, #23
+    000001DA E1               [12]  397 	pop	hl
+    000001DB E8 08            [16]  398 	add	sp, #8
+    000001DD E9               [ 4]  399 	jp	(hl)
+                                    400 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:80: void LoadSGBBorder(UINT8 map_bank, struct MapInfo* map) {
+                                    401 ;	---------------------------------
+                                    402 ; Function LoadSGBBorder
+                                    403 ; ---------------------------------
+    000001DE                        404 _LoadSGBBorder::
+    000001DE E8 F3            [16]  405 	add	sp, #-13
+    000001E0 4F               [ 4]  406 	ld	c, a
+    000001E1 F8 0B            [12]  407 	ldhl	sp,	#11
+    000001E3 73               [ 8]  408 	ld	(hl), e
+    000001E4 23               [ 8]  409 	inc	hl
+    000001E5 72               [ 8]  410 	ld	(hl), d
+                                    411 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:81: UINT8 __save = CURRENT_BANK;
+    000001E6 F0r00            [12]  412 	ldh	a, (__current_bank + 0)
+    000001E8 F8 00            [12]  413 	ldhl	sp,	#0
+    000001EA 77               [ 8]  414 	ld	(hl), a
+                                    415 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:82: SWITCH_ROM(map_bank);
+    000001EB 79               [ 4]  416 	ld	a, c
+    000001EC E0r00            [12]  417 	ldh	(__current_bank + 0), a
+    000001EE 21r00r00         [12]  418 	ld	hl, #_rROMB0
+    000001F1 71               [ 8]  419 	ld	(hl), c
+                                    420 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:83: set_sgb_border(map->tiles->data, map->tiles->num_frames << 5, map->data, 1792, map->tiles->pals, map->tiles->num_pals << 5);
+    000001F2 F8 0B            [12]  421 	ldhl	sp,#11
+    000001F4 2A               [ 8]  422 	ld	a, (hl+)
+    000001F5 5F               [ 4]  423 	ld	e, a
+    000001F6 56               [ 8]  424 	ld	d, (hl)
+    000001F7 21 09 00         [12]  425 	ld	hl, #0x0009
+    000001FA 19               [ 8]  426 	add	hl, de
+    000001FB 2A               [ 8]  427 	ld	a, (hl+)
+    000001FC 4F               [ 4]  428 	ld	c, a
+    000001FD 46               [ 8]  429 	ld	b, (hl)
+    000001FE 69               [ 4]  430 	ld	l, c
+    000001FF 60               [ 4]  431 	ld	h, b
+    00000200 23               [ 8]  432 	inc	hl
+    00000201 23               [ 8]  433 	inc	hl
+    00000202 23               [ 8]  434 	inc	hl
+    00000203 5E               [ 8]  435 	ld	e, (hl)
+    00000204 AF               [ 4]  436 	xor	a, a
+    00000205 CB 23            [ 8]  437 	sla	e
+    00000207 8F               [ 4]  438 	adc	a, a
+    00000208 CB 23            [ 8]  439 	sla	e
+    0000020A 8F               [ 4]  440 	adc	a, a
+    0000020B CB 23            [ 8]  441 	sla	e
+    0000020D 8F               [ 4]  442 	adc	a, a
+    0000020E CB 23            [ 8]  443 	sla	e
+    00000210 8F               [ 4]  444 	adc	a, a
+    00000211 CB 23            [ 8]  445 	sla	e
+    00000213 8F               [ 4]  446 	adc	a, a
+    00000214 F8 01            [12]  447 	ldhl	sp,	#1
+    00000216 73               [ 8]  448 	ld	(hl), e
+    00000217 23               [ 8]  449 	inc	hl
+    00000218 77               [ 8]  450 	ld	(hl), a
+    00000219 21 04 00         [12]  451 	ld	hl, #0x0004
+    0000021C 09               [ 8]  452 	add	hl, bc
+    0000021D 5D               [ 4]  453 	ld	e, l
+    0000021E 54               [ 4]  454 	ld	d, h
+    0000021F 1A               [ 8]  455 	ld	a, (de)
+    00000220 F8 03            [12]  456 	ldhl	sp,	#3
+    00000222 22               [ 8]  457 	ld	(hl+), a
+    00000223 13               [ 8]  458 	inc	de
+    00000224 1A               [ 8]  459 	ld	a, (de)
+    00000225 77               [ 8]  460 	ld	(hl), a
+    00000226 F8 0B            [12]  461 	ldhl	sp,#11
+    00000228 2A               [ 8]  462 	ld	a, (hl+)
+    00000229 5F               [ 4]  463 	ld	e, a
+    0000022A 56               [ 8]  464 	ld	d, (hl)
+    0000022B 1A               [ 8]  465 	ld	a, (de)
+    0000022C F8 05            [12]  466 	ldhl	sp,	#5
+    0000022E 22               [ 8]  467 	ld	(hl+), a
+    0000022F 13               [ 8]  468 	inc	de
+    00000230 1A               [ 8]  469 	ld	a, (de)
+    00000231 22               [ 8]  470 	ld	(hl+), a
+    00000232 0A               [ 8]  471 	ld	a, (bc)
+    00000233 1E 00            [ 8]  472 	ld	e, #0x00
+    00000235 87               [ 4]  473 	add	a, a
+    00000236 CB 13            [ 8]  474 	rl	e
+    00000238 87               [ 4]  475 	add	a, a
+    00000239 CB 13            [ 8]  476 	rl	e
+    0000023B 87               [ 4]  477 	add	a, a
+    0000023C CB 13            [ 8]  478 	rl	e
+    0000023E 87               [ 4]  479 	add	a, a
+    0000023F CB 13            [ 8]  480 	rl	e
+    00000241 87               [ 4]  481 	add	a, a
+    00000242 CB 13            [ 8]  482 	rl	e
+    00000244 22               [ 8]  483 	ld	(hl+), a
+    00000245 7B               [ 4]  484 	ld	a, e
+    00000246 22               [ 8]  485 	ld	(hl+), a
+    00000247 03               [ 8]  486 	inc	bc
+    00000248 59               [ 4]  487 	ld	e, c
+    00000249 50               [ 4]  488 	ld	d, b
+    0000024A 1A               [ 8]  489 	ld	a, (de)
+    0000024B 22               [ 8]  490 	ld	(hl+), a
+    0000024C 13               [ 8]  491 	inc	de
+    0000024D 1A               [ 8]  492 	ld	a, (de)
+    0000024E 77               [ 8]  493 	ld	(hl), a
+    0000024F F8 01            [12]  494 	ldhl	sp,	#1
+    00000251 2A               [ 8]  495 	ld	a, (hl+)
+    00000252 5F               [ 4]  496 	ld	e, a
+    00000253 2A               [ 8]  497 	ld	a, (hl+)
+    00000254 57               [ 4]  498 	ld	d, a
+    00000255 D5               [16]  499 	push	de
+    00000256 2A               [ 8]  500 	ld	a, (hl+)
+    00000257 5F               [ 4]  501 	ld	e, a
+    00000258 2A               [ 8]  502 	ld	a, (hl+)
+    00000259 57               [ 4]  503 	ld	d, a
+    0000025A D5               [16]  504 	push	de
+    0000025B 11 00 07         [12]  505 	ld	de, #0x0700
+    0000025E D5               [16]  506 	push	de
+    0000025F 2A               [ 8]  507 	ld	a, (hl+)
+    00000260 5F               [ 4]  508 	ld	e, a
+    00000261 2A               [ 8]  509 	ld	a, (hl+)
+    00000262 57               [ 4]  510 	ld	d, a
+    00000263 D5               [16]  511 	push	de
+    00000264 2A               [ 8]  512 	ld	a, (hl+)
+    00000265 4F               [ 4]  513 	ld	c, a
+    00000266 2A               [ 8]  514 	ld	a, (hl+)
+    00000267 47               [ 4]  515 	ld	b, a
+    00000268 2A               [ 8]  516 	ld	a, (hl+)
+    00000269 5F               [ 4]  517 	ld	e, a
+    0000026A 56               [ 8]  518 	ld	d, (hl)
+    0000026B CDr00r00         [24]  519 	call	_set_sgb_border
+                                    520 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:84: SWITCH_ROM(__save);
+    0000026E F8 00            [12]  521 	ldhl	sp,	#0
+    00000270 7E               [ 8]  522 	ld	a, (hl)
+    00000271 E0r00            [12]  523 	ldh	(__current_bank + 0), a
+    00000273 7E               [ 8]  524 	ld	a, (hl)
+    00000274 EAr00r00         [16]  525 	ld	(#_rROMB0),a
+                                    526 ;C:/CrossZGB/ZGB/common/src/gb/SGB.c:85: }
+    00000277 E8 0D            [16]  527 	add	sp, #13
+    00000279 C9               [16]  528 	ret
+                                    529 	.area _CODE
+                                    530 	.area _INITIALIZER
+                                    531 	.area _CABS (ABS)

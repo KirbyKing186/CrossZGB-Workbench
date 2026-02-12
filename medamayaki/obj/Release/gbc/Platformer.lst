@@ -1,0 +1,1738 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module Platformer
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _tile_col_test_range_x
+                                     11 	.globl _tile_col_test_range_y
+                                     12 	.globl b_PlatformerUpdate
+                                     13 	.globl _PlatformerUpdate
+                                     14 ;--------------------------------------------------------
+                                     15 ; special function registers
+                                     16 ;--------------------------------------------------------
+                                     17 	.area _HRAM
+                                     18 ;--------------------------------------------------------
+                                     19 ; ram data
+                                     20 ;--------------------------------------------------------
+                                     21 	.area _DATA
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area _INITIALIZED
+    00000000                         26 ___CRASH_HANDLER_INIT:
+    00000000                         27 	.ds 2
+                                     28 ;--------------------------------------------------------
+                                     29 ; absolute external ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area _DABS (ABS)
+                                     32 ;--------------------------------------------------------
+                                     33 ; global & static initialisations
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _HOME
+                                     36 	.area _GSINIT
+                                     37 	.area _GSFINAL
+                                     38 	.area _GSINIT
+                                     39 ;--------------------------------------------------------
+                                     40 ; Home
+                                     41 ;--------------------------------------------------------
+                                     42 	.area _HOME
+                                     43 	.area _HOME
+                                     44 ;--------------------------------------------------------
+                                     45 ; code
+                                     46 ;--------------------------------------------------------
+                                     47 	.area _CODE
+                                     48 ;Platformer.c:9: void PlatformerUpdate(Sprite* this) BANKED {
+                                     49 ;	---------------------------------
+                                     50 ; Function PlatformerUpdate
+                                     51 ; ---------------------------------
+                         00000000    52 	b_PlatformerUpdate	= 0
+    00000000                         53 _PlatformerUpdate::
+    00000000 E8 D6            [16]   54 	add	sp, #-42
+                                     55 ;Platformer.c:11: CUSTOM_DATA* data = (CUSTOM_DATA*)this->custom_data;
+    00000002 F8 30            [12]   56 	ldhl	sp,#48
+    00000004 2A               [ 8]   57 	ld	a, (hl+)
+    00000005 5F               [ 4]   58 	ld	e, a
+    00000006 56               [ 8]   59 	ld	d, (hl)
+    00000007 21 24 00         [12]   60 	ld	hl, #0x0024
+    0000000A 19               [ 8]   61 	add	hl, de
+    0000000B E5               [16]   62 	push	hl
+    0000000C 7D               [ 4]   63 	ld	a, l
+    0000000D F8 2A            [12]   64 	ldhl	sp,	#42
+    0000000F 77               [ 8]   65 	ld	(hl), a
+    00000010 E1               [12]   66 	pop	hl
+    00000011 7C               [ 4]   67 	ld	a, h
+    00000012 F8 29            [12]   68 	ldhl	sp,	#41
+    00000014 77               [ 8]   69 	ld	(hl), a
+                                     70 ;Platformer.c:13: UINT16 coll_offset_w = PX_TO_SUBPX(this->coll_w) - 1;
+    00000015 F8 30            [12]   71 	ldhl	sp,#48
+    00000017 2A               [ 8]   72 	ld	a, (hl+)
+    00000018 5F               [ 4]   73 	ld	e, a
+    00000019 56               [ 8]   74 	ld	d, (hl)
+    0000001A 21 04 00         [12]   75 	ld	hl, #0x0004
+    0000001D 19               [ 8]   76 	add	hl, de
+    0000001E 4D               [ 4]   77 	ld	c, l
+    0000001F 44               [ 4]   78 	ld	b, h
+    00000020 0A               [ 8]   79 	ld	a, (bc)
+    00000021 6F               [ 4]   80 	ld	l, a
+    00000022 26 00            [ 8]   81 	ld	h, #0x00
+    00000024 29               [ 8]   82 	add	hl, hl
+    00000025 29               [ 8]   83 	add	hl, hl
+    00000026 29               [ 8]   84 	add	hl, hl
+    00000027 29               [ 8]   85 	add	hl, hl
+    00000028 4D               [ 4]   86 	ld	c, l
+    00000029 44               [ 4]   87 	ld	b, h
+    0000002A 11 01 00         [12]   88 	ld	de, #0x0001
+    0000002D 79               [ 4]   89 	ld	a, c
+    0000002E 93               [ 4]   90 	sub	a, e
+    0000002F 5F               [ 4]   91 	ld	e, a
+    00000030 78               [ 4]   92 	ld	a, b
+    00000031 9A               [ 4]   93 	sbc	a, d
+    00000032 F8 27            [12]   94 	ldhl	sp,	#39
+    00000034 32               [ 8]   95 	ld	(hl-), a
+    00000035 73               [ 8]   96 	ld	(hl), e
+                                     97 ;Platformer.c:14: UINT16 coll_offset_h = PX_TO_SUBPX(this->coll_h) - 1;
+    00000036 F8 30            [12]   98 	ldhl	sp,#48
+    00000038 2A               [ 8]   99 	ld	a, (hl+)
+    00000039 5F               [ 4]  100 	ld	e, a
+    0000003A 56               [ 8]  101 	ld	d, (hl)
+    0000003B 21 05 00         [12]  102 	ld	hl, #0x0005
+    0000003E 19               [ 8]  103 	add	hl, de
+    0000003F 4D               [ 4]  104 	ld	c, l
+    00000040 44               [ 4]  105 	ld	b, h
+    00000041 0A               [ 8]  106 	ld	a, (bc)
+    00000042 6F               [ 4]  107 	ld	l, a
+    00000043 26 00            [ 8]  108 	ld	h, #0x00
+    00000045 29               [ 8]  109 	add	hl, hl
+    00000046 29               [ 8]  110 	add	hl, hl
+    00000047 29               [ 8]  111 	add	hl, hl
+    00000048 29               [ 8]  112 	add	hl, hl
+    00000049 4D               [ 4]  113 	ld	c, l
+    0000004A 44               [ 4]  114 	ld	b, h
+    0000004B 11 01 00         [12]  115 	ld	de, #0x0001
+    0000004E 79               [ 4]  116 	ld	a, c
+    0000004F 93               [ 4]  117 	sub	a, e
+    00000050 5F               [ 4]  118 	ld	e, a
+    00000051 78               [ 4]  119 	ld	a, b
+    00000052 9A               [ 4]  120 	sbc	a, d
+    00000053 F8 01            [12]  121 	ldhl	sp,	#1
+    00000055 32               [ 8]  122 	ld	(hl-), a
+    00000056 73               [ 8]  123 	ld	(hl), e
+                                    124 ;Platformer.c:15: UINT16 sp_half_width = DIV_2(coll_offset_w);
+    00000057 F8 26            [12]  125 	ldhl	sp,	#38
+    00000059 3A               [ 8]  126 	ld	a, (hl-)
+    0000005A 2B               [ 8]  127 	dec	hl
+    0000005B 77               [ 8]  128 	ld	(hl), a
+    0000005C F8 27            [12]  129 	ldhl	sp,	#39
+    0000005E 3A               [ 8]  130 	ld	a, (hl-)
+    0000005F 2B               [ 8]  131 	dec	hl
+    00000060 77               [ 8]  132 	ld	(hl), a
+    00000061 CB 3E            [16]  133 	srl	(hl)
+    00000063 2B               [ 8]  134 	dec	hl
+    00000064 CB 1E            [16]  135 	rr	(hl)
+                                    136 ;Platformer.c:16: UINT8 prev_on_slope = data->plat.on_slope;
+    00000066 F8 28            [12]  137 	ldhl	sp,#40
+    00000068 2A               [ 8]  138 	ld	a, (hl+)
+    00000069 5F               [ 4]  139 	ld	e, a
+    0000006A 56               [ 8]  140 	ld	d, (hl)
+    0000006B 21 0A 00         [12]  141 	ld	hl, #0x000a
+    0000006E 19               [ 8]  142 	add	hl, de
+    0000006F E5               [16]  143 	push	hl
+    00000070 7D               [ 4]  144 	ld	a, l
+    00000071 F8 04            [12]  145 	ldhl	sp,	#4
+    00000073 77               [ 8]  146 	ld	(hl), a
+    00000074 E1               [12]  147 	pop	hl
+    00000075 7C               [ 4]  148 	ld	a, h
+    00000076 F8 03            [12]  149 	ldhl	sp,	#3
+    00000078 32               [ 8]  150 	ld	(hl-), a
+    00000079 2A               [ 8]  151 	ld	a, (hl+)
+    0000007A 5F               [ 4]  152 	ld	e, a
+    0000007B 2A               [ 8]  153 	ld	a, (hl+)
+    0000007C 57               [ 4]  154 	ld	d, a
+    0000007D 1A               [ 8]  155 	ld	a, (de)
+                                    156 ;Platformer.c:17: data->plat.on_slope = FALSE;
+    0000007E 32               [ 8]  157 	ld	(hl-), a
+    0000007F 3A               [ 8]  158 	ld	a, (hl-)
+    00000080 6E               [ 8]  159 	ld	l, (hl)
+    00000081 67               [ 4]  160 	ld	h, a
+    00000082 36 00            [12]  161 	ld	(hl), #0x00
+                                    162 ;Platformer.c:20: if (data->grounded) {
+    00000084 F8 28            [12]  163 	ldhl	sp,#40
+    00000086 2A               [ 8]  164 	ld	a, (hl+)
+    00000087 5F               [ 4]  165 	ld	e, a
+    00000088 56               [ 8]  166 	ld	d, (hl)
+    00000089 21 09 00         [12]  167 	ld	hl, #0x0009
+    0000008C 19               [ 8]  168 	add	hl, de
+    0000008D E5               [16]  169 	push	hl
+    0000008E 7D               [ 4]  170 	ld	a, l
+    0000008F F8 07            [12]  171 	ldhl	sp,	#7
+    00000091 77               [ 8]  172 	ld	(hl), a
+    00000092 E1               [12]  173 	pop	hl
+    00000093 7C               [ 4]  174 	ld	a, h
+    00000094 F8 06            [12]  175 	ldhl	sp,	#6
+    00000096 32               [ 8]  176 	ld	(hl-), a
+    00000097 2A               [ 8]  177 	ld	a, (hl+)
+    00000098 5F               [ 4]  178 	ld	e, a
+    00000099 56               [ 8]  179 	ld	d, (hl)
+    0000009A 1A               [ 8]  180 	ld	a, (de)
+    0000009B 4F               [ 4]  181 	ld	c, a
+                                    182 ;Platformer.c:21: data->plat.drop_timer = 0;
+    0000009C F8 28            [12]  183 	ldhl	sp,#40
+    0000009E 2A               [ 8]  184 	ld	a, (hl+)
+    0000009F 5F               [ 4]  185 	ld	e, a
+    000000A0 56               [ 8]  186 	ld	d, (hl)
+    000000A1 21 0D 00         [12]  187 	ld	hl, #0x000d
+    000000A4 19               [ 8]  188 	add	hl, de
+    000000A5 E5               [16]  189 	push	hl
+    000000A6 7D               [ 4]  190 	ld	a, l
+    000000A7 F8 09            [12]  191 	ldhl	sp,	#9
+    000000A9 77               [ 8]  192 	ld	(hl), a
+    000000AA E1               [12]  193 	pop	hl
+    000000AB 7C               [ 4]  194 	ld	a, h
+    000000AC F8 08            [12]  195 	ldhl	sp,	#8
+    000000AE 77               [ 8]  196 	ld	(hl), a
+                                    197 ;Platformer.c:20: if (data->grounded) {
+    000000AF 79               [ 4]  198 	ld	a, c
+    000000B0 B7               [ 4]  199 	or	a, a
+    000000B1 28 07            [12]  200 	jr	Z, 00103$
+                                    201 ;Platformer.c:21: data->plat.drop_timer = 0;
+    000000B3 3A               [ 8]  202 	ld	a, (hl-)
+    000000B4 6E               [ 8]  203 	ld	l, (hl)
+    000000B5 67               [ 4]  204 	ld	h, a
+    000000B6 36 00            [12]  205 	ld	(hl), #0x00
+    000000B8 18 10            [12]  206 	jr	00108$
+                                    207 ;Platformer.c:23: COUNTER_DECREMENT(data->plat.drop_timer);
+    000000BA                        208 00103$:
+    000000BA F8 07            [12]  209 	ldhl	sp,#7
+    000000BC 2A               [ 8]  210 	ld	a, (hl+)
+    000000BD 5F               [ 4]  211 	ld	e, a
+    000000BE 56               [ 8]  212 	ld	d, (hl)
+    000000BF 1A               [ 8]  213 	ld	a, (de)
+    000000C0 B7               [ 4]  214 	or	a, a
+    000000C1 28 07            [12]  215 	jr	Z, 00108$
+    000000C3 2B               [ 8]  216 	dec	hl
+    000000C4 3D               [ 4]  217 	dec	a
+    000000C5 5E               [ 8]  218 	ld	e, (hl)
+    000000C6 23               [ 8]  219 	inc	hl
+    000000C7 66               [ 8]  220 	ld	h, (hl)
+    000000C8 6B               [ 4]  221 	ld	l, e
+    000000C9 77               [ 8]  222 	ld	(hl), a
+    000000CA                        223 00108$:
+                                    224 ;Platformer.c:25: if (DROP_THROUGH_CONDITION) data->plat.drop_timer = DROP_FRAMES_MAX;
+    000000CA 21r01r00         [12]  225 	ld	hl, #(_joypads + 1)
+    000000CD 4E               [ 8]  226 	ld	c, (hl)
+    000000CE FAr01r00         [16]  227 	ld	a, (#(_old_joypads + 1) + 0)
+    000000D1 A9               [ 4]  228 	xor	a, c
+    000000D2 A1               [ 4]  229 	and	a, c
+    000000D3 CB 5F            [ 8]  230 	bit	3, a
+    000000D5 28 07            [12]  231 	jr	Z, 00110$
+    000000D7 F8 07            [12]  232 	ldhl	sp,	#7
+    000000D9 2A               [ 8]  233 	ld	a, (hl+)
+    000000DA 66               [ 8]  234 	ld	h, (hl)
+    000000DB 6F               [ 4]  235 	ld	l, a
+    000000DC 36 05            [12]  236 	ld	(hl), #0x05
+    000000DE                        237 00110$:
+                                    238 ;Platformer.c:29: INT8 plat_delta_x = CLAMP(VEL_TO_SUBPX(data->vel.x), -MAX_DELTA, MAX_DELTA);
+    000000DE F8 28            [12]  239 	ldhl	sp,#40
+    000000E0 2A               [ 8]  240 	ld	a, (hl+)
+    000000E1 5F               [ 4]  241 	ld	e, a
+    000000E2 56               [ 8]  242 	ld	d, (hl)
+    000000E3 21 04 00         [12]  243 	ld	hl, #0x0004
+    000000E6 19               [ 8]  244 	add	hl, de
+    000000E7 E5               [16]  245 	push	hl
+    000000E8 7D               [ 4]  246 	ld	a, l
+    000000E9 F8 0B            [12]  247 	ldhl	sp,	#11
+    000000EB 77               [ 8]  248 	ld	(hl), a
+    000000EC E1               [12]  249 	pop	hl
+    000000ED 7C               [ 4]  250 	ld	a, h
+    000000EE F8 0A            [12]  251 	ldhl	sp,	#10
+    000000F0 32               [ 8]  252 	ld	(hl-), a
+    000000F1 2A               [ 8]  253 	ld	a, (hl+)
+    000000F2 5F               [ 4]  254 	ld	e, a
+    000000F3 56               [ 8]  255 	ld	d, (hl)
+    000000F4 1A               [ 8]  256 	ld	a, (de)
+    000000F5 F8 22            [12]  257 	ldhl	sp,	#34
+    000000F7 22               [ 8]  258 	ld	(hl+), a
+    000000F8 13               [ 8]  259 	inc	de
+    000000F9 1A               [ 8]  260 	ld	a, (de)
+    000000FA 77               [ 8]  261 	ld	(hl), a
+    000000FB 4E               [ 8]  262 	ld	c, (hl)
+    000000FC 79               [ 4]  263 	ld	a, c
+    000000FD 07               [ 4]  264 	rlca
+    000000FE 9F               [ 4]  265 	sbc	a, a
+    000000FF 47               [ 4]  266 	ld	b, a
+    00000100 79               [ 4]  267 	ld	a, c
+    00000101 D6 81            [ 8]  268 	sub	a, #0x81
+    00000103 78               [ 4]  269 	ld	a, b
+    00000104 17               [ 4]  270 	rla
+    00000105 3F               [ 4]  271 	ccf
+    00000106 1F               [ 4]  272 	rra
+    00000107 DE 7F            [ 8]  273 	sbc	a, #0x7f
+    00000109 30 05            [12]  274 	jr	NC, 00163$
+    0000010B 01 81 FF         [12]  275 	ld	bc, #0xff81
+    0000010E 18 23            [12]  276 	jr	00164$
+    00000110                        277 00163$:
+    00000110 58               [ 4]  278 	ld	e, b
+    00000111 16 00            [ 8]  279 	ld	d, #0x00
+    00000113 3E 7F            [ 8]  280 	ld	a, #0x7f
+    00000115 B9               [ 4]  281 	cp	a, c
+    00000116 3E 00            [ 8]  282 	ld	a, #0x00
+    00000118 98               [ 4]  283 	sbc	a, b
+    00000119 CB 7B            [ 8]  284 	bit	7, e
+    0000011B 28 07            [12]  285 	jr	Z, 00400$
+    0000011D CB 7A            [ 8]  286 	bit	7, d
+    0000011F 20 08            [12]  287 	jr	NZ, 00401$
+    00000121 BF               [ 4]  288 	cp	a, a
+    00000122 18 05            [12]  289 	jr	00401$
+    00000124                        290 00400$:
+    00000124 CB 7A            [ 8]  291 	bit	7, d
+    00000126 28 01            [12]  292 	jr	Z, 00401$
+    00000128 37               [ 4]  293 	scf
+    00000129                        294 00401$:
+    00000129 30 05            [12]  295 	jr	NC, 00165$
+    0000012B 01 7F 00         [12]  296 	ld	bc, #0x007f
+    0000012E 18 03            [12]  297 	jr	00166$
+    00000130                        298 00165$:
+    00000130 F8 23            [12]  299 	ldhl	sp,	#35
+    00000132 4E               [ 8]  300 	ld	c, (hl)
+    00000133                        301 00166$:
+    00000133                        302 00164$:
+    00000133 F8 21            [12]  303 	ldhl	sp,	#33
+    00000135 71               [ 8]  304 	ld	(hl), c
+                                    305 ;Platformer.c:32: UINT16 tile_y_start = SUBPX_TO_TILE(data->pos.y + coll_offset_h);
+    00000136 F8 28            [12]  306 	ldhl	sp,#40
+    00000138 2A               [ 8]  307 	ld	a, (hl+)
+    00000139 5F               [ 4]  308 	ld	e, a
+    0000013A 56               [ 8]  309 	ld	d, (hl)
+    0000013B 21 02 00         [12]  310 	ld	hl, #0x0002
+    0000013E 19               [ 8]  311 	add	hl, de
+    0000013F E5               [16]  312 	push	hl
+    00000140 7D               [ 4]  313 	ld	a, l
+    00000141 F8 0D            [12]  314 	ldhl	sp,	#13
+    00000143 77               [ 8]  315 	ld	(hl), a
+    00000144 E1               [12]  316 	pop	hl
+    00000145 7C               [ 4]  317 	ld	a, h
+    00000146 F8 0C            [12]  318 	ldhl	sp,	#12
+    00000148 77               [ 8]  319 	ld	(hl), a
+                                    320 ;Platformer.c:34: UINT16 new_x = ((data->pos.x + plat_delta_x) > 0) ? data->pos.x + plat_delta_x : 0;
+    00000149 F8 28            [12]  321 	ldhl	sp,	#40
+    0000014B 7E               [ 8]  322 	ld	a, (hl)
+    0000014C F8 0D            [12]  323 	ldhl	sp,	#13
+    0000014E 77               [ 8]  324 	ld	(hl), a
+    0000014F F8 29            [12]  325 	ldhl	sp,	#41
+    00000151 7E               [ 8]  326 	ld	a, (hl)
+    00000152 F8 0E            [12]  327 	ldhl	sp,	#14
+    00000154 77               [ 8]  328 	ld	(hl), a
+    00000155 F8 21            [12]  329 	ldhl	sp,	#33
+    00000157 7E               [ 8]  330 	ld	a, (hl)
+    00000158 4F               [ 4]  331 	ld	c, a
+    00000159 07               [ 4]  332 	rlca
+    0000015A 9F               [ 4]  333 	sbc	a, a
+    0000015B 47               [ 4]  334 	ld	b, a
+                                    335 ;Platformer.c:66: if ((tile_hit_y == data->plat.slope_y) &&
+    0000015C F8 28            [12]  336 	ldhl	sp,#40
+    0000015E 2A               [ 8]  337 	ld	a, (hl+)
+    0000015F 5F               [ 4]  338 	ld	e, a
+    00000160 56               [ 8]  339 	ld	d, (hl)
+    00000161 21 0B 00         [12]  340 	ld	hl, #0x000b
+    00000164 19               [ 8]  341 	add	hl, de
+    00000165 E5               [16]  342 	push	hl
+    00000166 7D               [ 4]  343 	ld	a, l
+    00000167 F8 11            [12]  344 	ldhl	sp,	#17
+    00000169 77               [ 8]  345 	ld	(hl), a
+    0000016A E1               [12]  346 	pop	hl
+    0000016B 7C               [ 4]  347 	ld	a, h
+    0000016C F8 10            [12]  348 	ldhl	sp,	#16
+                                    349 ;Platformer.c:34: UINT16 new_x = ((data->pos.x + plat_delta_x) > 0) ? data->pos.x + plat_delta_x : 0;
+    0000016E 22               [ 8]  350 	ld	(hl+), a
+    0000016F 79               [ 4]  351 	ld	a, c
+    00000170 22               [ 8]  352 	ld	(hl+), a
+    00000171 70               [ 8]  353 	ld	(hl), b
+                                    354 ;Platformer.c:30: if (plat_delta_x) {
+    00000172 F8 21            [12]  355 	ldhl	sp,	#33
+    00000174 7E               [ 8]  356 	ld	a, (hl)
+    00000175 B7               [ 4]  357 	or	a, a
+    00000176 CAr38r03         [16]  358 	jp	Z, 00125$
+                                    359 ;Platformer.c:32: UINT16 tile_y_start = SUBPX_TO_TILE(data->pos.y + coll_offset_h);
+    00000179 F8 0B            [12]  360 	ldhl	sp,#11
+    0000017B 2A               [ 8]  361 	ld	a, (hl+)
+    0000017C 5F               [ 4]  362 	ld	e, a
+    0000017D 56               [ 8]  363 	ld	d, (hl)
+    0000017E 1A               [ 8]  364 	ld	a, (de)
+    0000017F 4F               [ 4]  365 	ld	c, a
+    00000180 13               [ 8]  366 	inc	de
+    00000181 1A               [ 8]  367 	ld	a, (de)
+    00000182 47               [ 4]  368 	ld	b, a
+    00000183 E1               [12]  369 	pop	hl
+    00000184 E5               [16]  370 	push	hl
+    00000185 09               [ 8]  371 	add	hl, bc
+    00000186 5D               [ 4]  372 	ld	e, l
+    00000187 54               [ 4]  373 	ld	d, h
+    00000188 F8 1A            [12]  374 	ldhl	sp,	#26
+    0000018A 7B               [ 4]  375 	ld	a, e
+    0000018B 22               [ 8]  376 	ld	(hl+), a
+    0000018C 72               [ 8]  377 	ld	(hl), d
+    0000018D CB 3E            [16]  378 	srl	(hl)
+    0000018F 2B               [ 8]  379 	dec	hl
+    00000190 CB 1E            [16]  380 	rr	(hl)
+    00000192 23               [ 8]  381 	inc	hl
+    00000193 CB 3E            [16]  382 	srl	(hl)
+    00000195 2B               [ 8]  383 	dec	hl
+    00000196 CB 1E            [16]  384 	rr	(hl)
+    00000198 23               [ 8]  385 	inc	hl
+    00000199 CB 3E            [16]  386 	srl	(hl)
+    0000019B 2B               [ 8]  387 	dec	hl
+    0000019C CB 1E            [16]  388 	rr	(hl)
+    0000019E 23               [ 8]  389 	inc	hl
+    0000019F CB 3E            [16]  390 	srl	(hl)
+    000001A1 2B               [ 8]  391 	dec	hl
+    000001A2 CB 1E            [16]  392 	rr	(hl)
+    000001A4 23               [ 8]  393 	inc	hl
+    000001A5 CB 3E            [16]  394 	srl	(hl)
+    000001A7 2B               [ 8]  395 	dec	hl
+    000001A8 CB 1E            [16]  396 	rr	(hl)
+    000001AA 23               [ 8]  397 	inc	hl
+    000001AB CB 3E            [16]  398 	srl	(hl)
+    000001AD 2B               [ 8]  399 	dec	hl
+    000001AE CB 1E            [16]  400 	rr	(hl)
+    000001B0 23               [ 8]  401 	inc	hl
+    000001B1 CB 3E            [16]  402 	srl	(hl)
+    000001B3 2B               [ 8]  403 	dec	hl
+    000001B4 CB 1E            [16]  404 	rr	(hl)
+                                    405 ;Platformer.c:33: UINT16 tile_y_end = SUBPX_TO_TILE(data->pos.y);
+    000001B6 CB 38            [ 8]  406 	srl	b
+    000001B8 CB 19            [ 8]  407 	rr	c
+    000001BA CB 38            [ 8]  408 	srl	b
+    000001BC CB 19            [ 8]  409 	rr	c
+    000001BE CB 38            [ 8]  410 	srl	b
+    000001C0 CB 19            [ 8]  411 	rr	c
+    000001C2 CB 38            [ 8]  412 	srl	b
+    000001C4 CB 19            [ 8]  413 	rr	c
+    000001C6 CB 38            [ 8]  414 	srl	b
+    000001C8 CB 19            [ 8]  415 	rr	c
+    000001CA CB 38            [ 8]  416 	srl	b
+    000001CC CB 19            [ 8]  417 	rr	c
+    000001CE CB 38            [ 8]  418 	srl	b
+    000001D0 CB 19            [ 8]  419 	rr	c
+                                    420 ;Platformer.c:34: UINT16 new_x = ((data->pos.x + plat_delta_x) > 0) ? data->pos.x + plat_delta_x : 0;
+    000001D2 F8 0D            [12]  421 	ldhl	sp,#13
+    000001D4 2A               [ 8]  422 	ld	a, (hl+)
+    000001D5 5F               [ 4]  423 	ld	e, a
+    000001D6 56               [ 8]  424 	ld	d, (hl)
+    000001D7 1A               [ 8]  425 	ld	a, (de)
+    000001D8 F8 22            [12]  426 	ldhl	sp,	#34
+    000001DA 22               [ 8]  427 	ld	(hl+), a
+    000001DB 13               [ 8]  428 	inc	de
+    000001DC 1A               [ 8]  429 	ld	a, (de)
+    000001DD 32               [ 8]  430 	ld	(hl-), a
+    000001DE 2A               [ 8]  431 	ld	a, (hl+)
+    000001DF 5F               [ 4]  432 	ld	e, a
+    000001E0 56               [ 8]  433 	ld	d, (hl)
+    000001E1 F8 11            [12]  434 	ldhl	sp,	#17
+    000001E3 2A               [ 8]  435 	ld	a,	(hl+)
+    000001E4 66               [ 8]  436 	ld	h, (hl)
+    000001E5 6F               [ 4]  437 	ld	l, a
+    000001E6 19               [ 8]  438 	add	hl, de
+    000001E7 5D               [ 4]  439 	ld	e, l
+    000001E8 54               [ 4]  440 	ld	d, h
+    000001E9 7A               [ 4]  441 	ld	a, d
+    000001EA B3               [ 4]  442 	or	a, e
+    000001EB 20 03            [12]  443 	jr	NZ, 00168$
+    000001ED 11 00 00         [12]  444 	ld	de, #0x0000
+    000001F0                        445 00168$:
+    000001F0 F8 1C            [12]  446 	ldhl	sp,	#28
+    000001F2 7B               [ 4]  447 	ld	a, e
+    000001F3 22               [ 8]  448 	ld	(hl+), a
+    000001F4 72               [ 8]  449 	ld	(hl), d
+                                    450 ;Platformer.c:38: INT16 bounds_edge = 0;
+    000001F5 AF               [ 4]  451 	xor	a, a
+    000001F6 F8 22            [12]  452 	ldhl	sp,	#34
+    000001F8 22               [ 8]  453 	ld	(hl+), a
+                                    454 ;Platformer.c:40: if (plat_delta_x > 0)
+    000001F9 32               [ 8]  455 	ld	(hl-), a
+    000001FA 2B               [ 8]  456 	dec	hl
+    000001FB 5E               [ 8]  457 	ld	e, (hl)
+    000001FC AF               [ 4]  458 	xor	a, a
+    000001FD 57               [ 4]  459 	ld	d, a
+    000001FE 96               [ 8]  460 	sub	a, (hl)
+    000001FF CB 7B            [ 8]  461 	bit	7, e
+    00000201 28 07            [12]  462 	jr	Z, 00402$
+    00000203 CB 7A            [ 8]  463 	bit	7, d
+    00000205 20 08            [12]  464 	jr	NZ, 00403$
+    00000207 BF               [ 4]  465 	cp	a, a
+    00000208 18 05            [12]  466 	jr	00403$
+    0000020A                        467 00402$:
+    0000020A CB 7A            [ 8]  468 	bit	7, d
+    0000020C 28 01            [12]  469 	jr	Z, 00403$
+    0000020E 37               [ 4]  470 	scf
+    0000020F                        471 00403$:
+    0000020F 30 1B            [12]  472 	jr	NC, 00112$
+                                    473 ;Platformer.c:43: moving_right = TRUE;
+    00000211 F8 1E            [12]  474 	ldhl	sp,	#30
+                                    475 ;Platformer.c:44: hit_flag = COLLISION_LEFT;
+    00000213 3E 01            [ 8]  476 	ld	a, #0x01
+    00000215 22               [ 8]  477 	ld	(hl+), a
+    00000216 36 04            [12]  478 	ld	(hl), #0x04
+                                    479 ;Platformer.c:45: bounds_edge = EXCLUSIVE_OFFSET(coll_offset_w);
+    00000218 F8 26            [12]  480 	ldhl	sp,#38
+    0000021A 2A               [ 8]  481 	ld	a, (hl+)
+    0000021B 5F               [ 4]  482 	ld	e, a
+    0000021C 56               [ 8]  483 	ld	d, (hl)
+    0000021D 6B               [ 4]  484 	ld	l, e
+    0000021E 62               [ 4]  485 	ld	h, d
+    0000021F 23               [ 8]  486 	inc	hl
+    00000220 E5               [16]  487 	push	hl
+    00000221 7D               [ 4]  488 	ld	a, l
+    00000222 F8 24            [12]  489 	ldhl	sp,	#36
+    00000224 77               [ 8]  490 	ld	(hl), a
+    00000225 E1               [12]  491 	pop	hl
+    00000226 7C               [ 4]  492 	ld	a, h
+    00000227 F8 23            [12]  493 	ldhl	sp,	#35
+    00000229 77               [ 8]  494 	ld	(hl), a
+    0000022A 18 06            [12]  495 	jr	00113$
+    0000022C                        496 00112$:
+                                    497 ;Platformer.c:50: moving_right = FALSE;
+    0000022C F8 1E            [12]  498 	ldhl	sp,	#30
+                                    499 ;Platformer.c:51: hit_flag = COLLISION_RIGHT;
+    0000022E AF               [ 4]  500 	xor	a, a
+    0000022F 22               [ 8]  501 	ld	(hl+), a
+    00000230 36 08            [12]  502 	ld	(hl), #0x08
+    00000232                        503 00113$:
+                                    504 ;Platformer.c:54: UINT16 tile_x = SUBPX_TO_TILE(new_x + bounds_edge);
+    00000232 F8 22            [12]  505 	ldhl	sp,	#34
+    00000234 3A               [ 8]  506 	ld	a, (hl-)
+    00000235 2B               [ 8]  507 	dec	hl
+    00000236 77               [ 8]  508 	ld	(hl), a
+    00000237 F8 23            [12]  509 	ldhl	sp,	#35
+    00000239 3A               [ 8]  510 	ld	a, (hl-)
+    0000023A 2B               [ 8]  511 	dec	hl
+    0000023B 32               [ 8]  512 	ld	(hl-), a
+    0000023C 2A               [ 8]  513 	ld	a, (hl+)
+    0000023D 5F               [ 4]  514 	ld	e, a
+    0000023E 56               [ 8]  515 	ld	d, (hl)
+    0000023F F8 1C            [12]  516 	ldhl	sp,	#28
+    00000241 2A               [ 8]  517 	ld	a,	(hl+)
+    00000242 66               [ 8]  518 	ld	h, (hl)
+    00000243 6F               [ 4]  519 	ld	l, a
+    00000244 19               [ 8]  520 	add	hl, de
+    00000245 5D               [ 4]  521 	ld	e, l
+    00000246 54               [ 4]  522 	ld	d, h
+    00000247 F8 22            [12]  523 	ldhl	sp,	#34
+    00000249 7B               [ 4]  524 	ld	a, e
+    0000024A 22               [ 8]  525 	ld	(hl+), a
+    0000024B 72               [ 8]  526 	ld	(hl), d
+    0000024C CB 3E            [16]  527 	srl	(hl)
+    0000024E 2B               [ 8]  528 	dec	hl
+    0000024F CB 1E            [16]  529 	rr	(hl)
+    00000251 23               [ 8]  530 	inc	hl
+    00000252 CB 3E            [16]  531 	srl	(hl)
+    00000254 2B               [ 8]  532 	dec	hl
+    00000255 CB 1E            [16]  533 	rr	(hl)
+    00000257 23               [ 8]  534 	inc	hl
+    00000258 CB 3E            [16]  535 	srl	(hl)
+    0000025A 2B               [ 8]  536 	dec	hl
+    0000025B CB 1E            [16]  537 	rr	(hl)
+    0000025D 23               [ 8]  538 	inc	hl
+    0000025E CB 3E            [16]  539 	srl	(hl)
+    00000260 2B               [ 8]  540 	dec	hl
+    00000261 CB 1E            [16]  541 	rr	(hl)
+    00000263 23               [ 8]  542 	inc	hl
+    00000264 CB 3E            [16]  543 	srl	(hl)
+    00000266 2B               [ 8]  544 	dec	hl
+    00000267 CB 1E            [16]  545 	rr	(hl)
+    00000269 23               [ 8]  546 	inc	hl
+    0000026A CB 3E            [16]  547 	srl	(hl)
+    0000026C 2B               [ 8]  548 	dec	hl
+    0000026D CB 1E            [16]  549 	rr	(hl)
+    0000026F 23               [ 8]  550 	inc	hl
+    00000270 CB 3E            [16]  551 	srl	(hl)
+    00000272 2B               [ 8]  552 	dec	hl
+    00000273 CB 1E            [16]  553 	rr	(hl)
+                                    554 ;Platformer.c:56: UINT8 tile = tile_col_test_range_y(hit_flag, tile_x, tile_y_start, tile_y_end);
+    00000275 C5               [16]  555 	push	bc
+    00000276 F8 1C            [12]  556 	ldhl	sp,	#28
+    00000278 2A               [ 8]  557 	ld	a, (hl+)
+    00000279 5F               [ 4]  558 	ld	e, a
+    0000027A 56               [ 8]  559 	ld	d, (hl)
+    0000027B D5               [16]  560 	push	de
+    0000027C F8 26            [12]  561 	ldhl	sp,	#38
+    0000027E 2A               [ 8]  562 	ld	a, (hl+)
+    0000027F 5F               [ 4]  563 	ld	e, a
+    00000280 56               [ 8]  564 	ld	d, (hl)
+    00000281 F8 23            [12]  565 	ldhl	sp,	#35
+    00000283 7E               [ 8]  566 	ld	a, (hl)
+    00000284 CDr00r00         [24]  567 	call	_tile_col_test_range_y
+                                    568 ;Platformer.c:58: if (tile) {
+    00000287 B7               [ 4]  569 	or	a, a
+    00000288 CAr2Cr03         [16]  570 	jp	Z, 00123$
+                                    571 ;Platformer.c:66: if ((tile_hit_y == data->plat.slope_y) &&
+    0000028B F8 0F            [12]  572 	ldhl	sp,#15
+    0000028D 2A               [ 8]  573 	ld	a, (hl+)
+    0000028E 5F               [ 4]  574 	ld	e, a
+    0000028F 56               [ 8]  575 	ld	d, (hl)
+    00000290 1A               [ 8]  576 	ld	a, (de)
+    00000291 F8 1A            [12]  577 	ldhl	sp,	#26
+    00000293 22               [ 8]  578 	ld	(hl+), a
+    00000294 13               [ 8]  579 	inc	de
+    00000295 1A               [ 8]  580 	ld	a, (de)
+    00000296 77               [ 8]  581 	ld	(hl), a
+    00000297 FAr00r00         [16]  582 	ld	a, (#_tile_hit_y)
+    0000029A F8 1A            [12]  583 	ldhl	sp,	#26
+    0000029C 96               [ 8]  584 	sub	a, (hl)
+    0000029D 20 1A            [12]  585 	jr	NZ, 00115$
+    0000029F FAr01r00         [16]  586 	ld	a, (#_tile_hit_y + 1)
+    000002A2 F8 1B            [12]  587 	ldhl	sp,	#27
+    000002A4 96               [ 8]  588 	sub	a, (hl)
+    000002A5 20 12            [12]  589 	jr	NZ, 00115$
+                                    590 ;Platformer.c:67: (IS_ON_SLOPE(prev_on_slope) &&
+    000002A7 F8 04            [12]  591 	ldhl	sp,	#4
+    000002A9 7E               [ 8]  592 	ld	a, (hl)
+    000002AA E6 60            [ 8]  593 	and	a, #0x60
+    000002AC 28 0B            [12]  594 	jr	Z, 00115$
+                                    595 ;Platformer.c:68: (IS_SLOPE_LEFT(prev_on_slope) != moving_right)))
+    000002AE F8 04            [12]  596 	ldhl	sp,	#4
+    000002B0 7E               [ 8]  597 	ld	a, (hl)
+    000002B1 E6 10            [ 8]  598 	and	a, #0x10
+    000002B3 F8 1E            [12]  599 	ldhl	sp,	#30
+    000002B5 4E               [ 8]  600 	ld	c, (hl)
+    000002B6 91               [ 4]  601 	sub	a, c
+    000002B7 20 73            [12]  602 	jr	NZ, 00123$
+                                    603 ;Platformer.c:70: goto finally_update_x;
+    000002B9                        604 00115$:
+                                    605 ;Platformer.c:72: if (moving_right) {
+    000002B9 F8 1E            [12]  606 	ldhl	sp,	#30
+    000002BB 7E               [ 8]  607 	ld	a, (hl)
+    000002BC B7               [ 4]  608 	or	a, a
+    000002BD 28 2B            [12]  609 	jr	Z, 00119$
+                                    610 ;Platformer.c:73: new_x = TILE_TO_SUBPX(tile_x) - bounds_edge;
+    000002BF F8 22            [12]  611 	ldhl	sp,	#34
+    000002C1 2A               [ 8]  612 	ld	a, (hl+)
+    000002C2 4E               [ 8]  613 	ld	c, (hl)
+    000002C3 87               [ 4]  614 	add	a, a
+    000002C4 CB 11            [ 8]  615 	rl	c
+    000002C6 87               [ 4]  616 	add	a, a
+    000002C7 CB 11            [ 8]  617 	rl	c
+    000002C9 87               [ 4]  618 	add	a, a
+    000002CA CB 11            [ 8]  619 	rl	c
+    000002CC 87               [ 4]  620 	add	a, a
+    000002CD CB 11            [ 8]  621 	rl	c
+    000002CF 87               [ 4]  622 	add	a, a
+    000002D0 CB 11            [ 8]  623 	rl	c
+    000002D2 87               [ 4]  624 	add	a, a
+    000002D3 CB 11            [ 8]  625 	rl	c
+    000002D5 87               [ 4]  626 	add	a, a
+    000002D6 CB 11            [ 8]  627 	rl	c
+    000002D8 5F               [ 4]  628 	ld	e, a
+    000002D9 51               [ 4]  629 	ld	d, c
+    000002DA F8 20            [12]  630 	ldhl	sp,	#32
+    000002DC 2A               [ 8]  631 	ld	a,	(hl+)
+    000002DD 66               [ 8]  632 	ld	h, (hl)
+    000002DE 6F               [ 4]  633 	ld	l, a
+    000002DF 7B               [ 4]  634 	ld	a, e
+    000002E0 95               [ 4]  635 	sub	a, l
+    000002E1 5F               [ 4]  636 	ld	e, a
+    000002E2 7A               [ 4]  637 	ld	a, d
+    000002E3 9C               [ 4]  638 	sbc	a, h
+    000002E4 F8 1D            [12]  639 	ldhl	sp,	#29
+    000002E6 32               [ 8]  640 	ld	(hl-), a
+    000002E7 73               [ 8]  641 	ld	(hl), e
+    000002E8 18 3A            [12]  642 	jr	00120$
+    000002EA                        643 00119$:
+                                    644 ;Platformer.c:75: new_x = TILE_TO_SUBPX(tile_x + 1) - bounds_edge;
+    000002EA F8 22            [12]  645 	ldhl	sp,#34
+    000002EC 2A               [ 8]  646 	ld	a, (hl+)
+    000002ED 5F               [ 4]  647 	ld	e, a
+    000002EE 56               [ 8]  648 	ld	d, (hl)
+    000002EF 6B               [ 4]  649 	ld	l, e
+    000002F0 62               [ 4]  650 	ld	h, d
+    000002F1 23               [ 8]  651 	inc	hl
+    000002F2 E5               [16]  652 	push	hl
+    000002F3 7D               [ 4]  653 	ld	a, l
+    000002F4 F8 20            [12]  654 	ldhl	sp,	#32
+    000002F6 77               [ 8]  655 	ld	(hl), a
+    000002F7 E1               [12]  656 	pop	hl
+    000002F8 7C               [ 4]  657 	ld	a, h
+    000002F9 F8 1F            [12]  658 	ldhl	sp,	#31
+    000002FB 32               [ 8]  659 	ld	(hl-), a
+    000002FC 7E               [ 8]  660 	ld	a, (hl)
+    000002FD F8 22            [12]  661 	ldhl	sp,	#34
+    000002FF 77               [ 8]  662 	ld	(hl), a
+    00000300 F8 1F            [12]  663 	ldhl	sp,	#31
+    00000302 7E               [ 8]  664 	ld	a, (hl)
+    00000303 F8 23            [12]  665 	ldhl	sp,	#35
+    00000305 77               [ 8]  666 	ld	(hl), a
+    00000306 3E 07            [ 8]  667 	ld	a, #0x07
+    00000308                        668 00410$:
+    00000308 F8 22            [12]  669 	ldhl	sp,	#34
+    0000030A CB 26            [16]  670 	sla	(hl)
+    0000030C 23               [ 8]  671 	inc	hl
+    0000030D CB 16            [16]  672 	rl	(hl)
+    0000030F 3D               [ 4]  673 	dec	a
+    00000310 20 F6            [12]  674 	jr	NZ, 00410$
+    00000312 2B               [ 8]  675 	dec	hl
+    00000313 2A               [ 8]  676 	ld	a, (hl+)
+    00000314 5F               [ 4]  677 	ld	e, a
+    00000315 56               [ 8]  678 	ld	d, (hl)
+    00000316 F8 20            [12]  679 	ldhl	sp,	#32
+    00000318 2A               [ 8]  680 	ld	a,	(hl+)
+    00000319 66               [ 8]  681 	ld	h, (hl)
+    0000031A 6F               [ 4]  682 	ld	l, a
+    0000031B 7B               [ 4]  683 	ld	a, e
+    0000031C 95               [ 4]  684 	sub	a, l
+    0000031D 5F               [ 4]  685 	ld	e, a
+    0000031E 7A               [ 4]  686 	ld	a, d
+    0000031F 9C               [ 4]  687 	sbc	a, h
+    00000320 F8 1D            [12]  688 	ldhl	sp,	#29
+    00000322 32               [ 8]  689 	ld	(hl-), a
+    00000323 73               [ 8]  690 	ld	(hl), e
+    00000324                        691 00120$:
+                                    692 ;Platformer.c:78: data->vel.x = 0;
+    00000324 F8 09            [12]  693 	ldhl	sp,	#9
+    00000326 2A               [ 8]  694 	ld	a, (hl+)
+    00000327 66               [ 8]  695 	ld	h, (hl)
+    00000328 6F               [ 4]  696 	ld	l, a
+    00000329 AF               [ 4]  697 	xor	a, a
+    0000032A 22               [ 8]  698 	ld	(hl+), a
+    0000032B 77               [ 8]  699 	ld	(hl), a
+                                    700 ;Platformer.c:81: finally_update_x:
+    0000032C                        701 00123$:
+                                    702 ;Platformer.c:82: data->pos.x = new_x;
+    0000032C F8 0D            [12]  703 	ldhl	sp,	#13
+    0000032E 2A               [ 8]  704 	ld	a, (hl+)
+    0000032F 5F               [ 4]  705 	ld	e, a
+    00000330 56               [ 8]  706 	ld	d, (hl)
+    00000331 F8 1C            [12]  707 	ldhl	sp,	#28
+    00000333 2A               [ 8]  708 	ld	a, (hl+)
+    00000334 12               [ 8]  709 	ld	(de), a
+    00000335 13               [ 8]  710 	inc	de
+    00000336 7E               [ 8]  711 	ld	a, (hl)
+    00000337 12               [ 8]  712 	ld	(de), a
+    00000338                        713 00125$:
+                                    714 ;Platformer.c:87: INT8 plat_delta_y = CLAMP(VEL_TO_SUBPX(data->vel.y), -MAX_DELTA, MAX_DELTA);
+    00000338 F8 28            [12]  715 	ldhl	sp,#40
+    0000033A 2A               [ 8]  716 	ld	a, (hl+)
+    0000033B 5F               [ 4]  717 	ld	e, a
+    0000033C 56               [ 8]  718 	ld	d, (hl)
+    0000033D 21 06 00         [12]  719 	ld	hl, #0x0006
+    00000340 19               [ 8]  720 	add	hl, de
+    00000341 E5               [16]  721 	push	hl
+    00000342 7D               [ 4]  722 	ld	a, l
+    00000343 F8 15            [12]  723 	ldhl	sp,	#21
+    00000345 77               [ 8]  724 	ld	(hl), a
+    00000346 E1               [12]  725 	pop	hl
+    00000347 7C               [ 4]  726 	ld	a, h
+    00000348 F8 14            [12]  727 	ldhl	sp,	#20
+    0000034A 32               [ 8]  728 	ld	(hl-), a
+    0000034B 2A               [ 8]  729 	ld	a, (hl+)
+    0000034C 5F               [ 4]  730 	ld	e, a
+    0000034D 56               [ 8]  731 	ld	d, (hl)
+    0000034E 13               [ 8]  732 	inc	de
+    0000034F 1A               [ 8]  733 	ld	a, (de)
+    00000350 4F               [ 4]  734 	ld	c, a
+    00000351 69               [ 4]  735 	ld	l, c
+    00000352 7D               [ 4]  736 	ld	a, l
+    00000353 07               [ 4]  737 	rlca
+    00000354 9F               [ 4]  738 	sbc	a, a
+    00000355 67               [ 4]  739 	ld	h, a
+    00000356 7D               [ 4]  740 	ld	a, l
+    00000357 D6 81            [ 8]  741 	sub	a, #0x81
+    00000359 7C               [ 4]  742 	ld	a, h
+    0000035A 17               [ 4]  743 	rla
+    0000035B 3F               [ 4]  744 	ccf
+    0000035C 1F               [ 4]  745 	rra
+    0000035D DE 7F            [ 8]  746 	sbc	a, #0x7f
+    0000035F 30 05            [12]  747 	jr	NC, 00169$
+    00000361 01 81 FF         [12]  748 	ld	bc, #0xff81
+    00000364 18 1E            [12]  749 	jr	00170$
+    00000366                        750 00169$:
+    00000366 5C               [ 4]  751 	ld	e, h
+    00000367 16 00            [ 8]  752 	ld	d, #0x00
+    00000369 3E 7F            [ 8]  753 	ld	a, #0x7f
+    0000036B BD               [ 4]  754 	cp	a, l
+    0000036C 3E 00            [ 8]  755 	ld	a, #0x00
+    0000036E 9C               [ 4]  756 	sbc	a, h
+    0000036F CB 7B            [ 8]  757 	bit	7, e
+    00000371 28 07            [12]  758 	jr	Z, 00411$
+    00000373 CB 7A            [ 8]  759 	bit	7, d
+    00000375 20 08            [12]  760 	jr	NZ, 00412$
+    00000377 BF               [ 4]  761 	cp	a, a
+    00000378 18 05            [12]  762 	jr	00412$
+    0000037A                        763 00411$:
+    0000037A CB 7A            [ 8]  764 	bit	7, d
+    0000037C 28 01            [12]  765 	jr	Z, 00412$
+    0000037E 37               [ 4]  766 	scf
+    0000037F                        767 00412$:
+    0000037F 30 03            [12]  768 	jr	NC, 00171$
+    00000381 01 7F 00         [12]  769 	ld	bc, #0x007f
+    00000384                        770 00171$:
+    00000384                        771 00170$:
+    00000384 F8 15            [12]  772 	ldhl	sp,	#21
+    00000386 71               [ 8]  773 	ld	(hl), c
+                                    774 ;Platformer.c:88: if (plat_delta_y) {
+    00000387 7E               [ 8]  775 	ld	a, (hl)
+    00000388 B7               [ 4]  776 	or	a, a
+    00000389 CArE1r07         [16]  777 	jp	Z, 00160$
+                                    778 ;Platformer.c:90: UINT16 new_y = ((data->pos.y + plat_delta_y) > 0) ? data->pos.y + plat_delta_y : 0;
+    0000038C F8 0B            [12]  779 	ldhl	sp,#11
+    0000038E 2A               [ 8]  780 	ld	a, (hl+)
+    0000038F 5F               [ 4]  781 	ld	e, a
+    00000390 56               [ 8]  782 	ld	d, (hl)
+    00000391 1A               [ 8]  783 	ld	a, (de)
+    00000392 4F               [ 4]  784 	ld	c, a
+    00000393 13               [ 8]  785 	inc	de
+    00000394 1A               [ 8]  786 	ld	a, (de)
+    00000395 47               [ 4]  787 	ld	b, a
+    00000396 F8 15            [12]  788 	ldhl	sp,	#21
+    00000398 7E               [ 8]  789 	ld	a, (hl)
+    00000399 5F               [ 4]  790 	ld	e, a
+    0000039A 07               [ 4]  791 	rlca
+    0000039B 9F               [ 4]  792 	sbc	a, a
+    0000039C 6B               [ 4]  793 	ld	l, e
+    0000039D 67               [ 4]  794 	ld	h, a
+    0000039E 09               [ 8]  795 	add	hl, bc
+    0000039F 7C               [ 4]  796 	ld	a, h
+    000003A0 B5               [ 4]  797 	or	a, l
+    000003A1 28 04            [12]  798 	jr	Z, 00173$
+    000003A3 5D               [ 4]  799 	ld	e, l
+    000003A4 54               [ 4]  800 	ld	d, h
+    000003A5 18 03            [12]  801 	jr	00174$
+    000003A7                        802 00173$:
+    000003A7 11 00 00         [12]  803 	ld	de, #0x0000
+    000003AA                        804 00174$:
+    000003AA F8 16            [12]  805 	ldhl	sp,	#22
+    000003AC 7B               [ 4]  806 	ld	a, e
+    000003AD 22               [ 8]  807 	ld	(hl+), a
+    000003AE 72               [ 8]  808 	ld	(hl), d
+                                    809 ;Platformer.c:91: UINT8 prev_grounded = data->grounded;
+    000003AF F8 05            [12]  810 	ldhl	sp,#5
+    000003B1 2A               [ 8]  811 	ld	a, (hl+)
+    000003B2 5F               [ 4]  812 	ld	e, a
+    000003B3 56               [ 8]  813 	ld	d, (hl)
+    000003B4 1A               [ 8]  814 	ld	a, (de)
+    000003B5 F8 18            [12]  815 	ldhl	sp,	#24
+    000003B7 77               [ 8]  816 	ld	(hl), a
+                                    817 ;Platformer.c:94: data->grounded = prev_on_slope;
+    000003B8 F8 05            [12]  818 	ldhl	sp,	#5
+    000003BA 2A               [ 8]  819 	ld	a, (hl+)
+    000003BB 5F               [ 4]  820 	ld	e, a
+    000003BC 3A               [ 8]  821 	ld	a, (hl-)
+    000003BD 2B               [ 8]  822 	dec	hl
+    000003BE 57               [ 4]  823 	ld	d, a
+    000003BF 7E               [ 8]  824 	ld	a, (hl)
+    000003C0 12               [ 8]  825 	ld	(de), a
+                                    826 ;Platformer.c:96: UINT16 tile_x_start = SUBPX_TO_TILE(data->pos.x);
+    000003C1 F8 0D            [12]  827 	ldhl	sp,#13
+    000003C3 2A               [ 8]  828 	ld	a, (hl+)
+    000003C4 5F               [ 4]  829 	ld	e, a
+    000003C5 56               [ 8]  830 	ld	d, (hl)
+    000003C6 1A               [ 8]  831 	ld	a, (de)
+    000003C7 F8 28            [12]  832 	ldhl	sp,	#40
+    000003C9 22               [ 8]  833 	ld	(hl+), a
+    000003CA 13               [ 8]  834 	inc	de
+    000003CB 1A               [ 8]  835 	ld	a, (de)
+    000003CC 32               [ 8]  836 	ld	(hl-), a
+    000003CD 7E               [ 8]  837 	ld	a, (hl)
+    000003CE F8 19            [12]  838 	ldhl	sp,	#25
+    000003D0 77               [ 8]  839 	ld	(hl), a
+    000003D1 F8 29            [12]  840 	ldhl	sp,	#41
+    000003D3 7E               [ 8]  841 	ld	a, (hl)
+    000003D4 F8 1A            [12]  842 	ldhl	sp,	#26
+    000003D6 77               [ 8]  843 	ld	(hl), a
+    000003D7 CB 3E            [16]  844 	srl	(hl)
+    000003D9 2B               [ 8]  845 	dec	hl
+    000003DA CB 1E            [16]  846 	rr	(hl)
+    000003DC 23               [ 8]  847 	inc	hl
+    000003DD CB 3E            [16]  848 	srl	(hl)
+    000003DF 2B               [ 8]  849 	dec	hl
+    000003E0 CB 1E            [16]  850 	rr	(hl)
+    000003E2 23               [ 8]  851 	inc	hl
+    000003E3 CB 3E            [16]  852 	srl	(hl)
+    000003E5 2B               [ 8]  853 	dec	hl
+    000003E6 CB 1E            [16]  854 	rr	(hl)
+    000003E8 23               [ 8]  855 	inc	hl
+    000003E9 CB 3E            [16]  856 	srl	(hl)
+    000003EB 2B               [ 8]  857 	dec	hl
+    000003EC CB 1E            [16]  858 	rr	(hl)
+    000003EE 23               [ 8]  859 	inc	hl
+    000003EF CB 3E            [16]  860 	srl	(hl)
+    000003F1 2B               [ 8]  861 	dec	hl
+    000003F2 CB 1E            [16]  862 	rr	(hl)
+    000003F4 23               [ 8]  863 	inc	hl
+    000003F5 CB 3E            [16]  864 	srl	(hl)
+    000003F7 2B               [ 8]  865 	dec	hl
+    000003F8 CB 1E            [16]  866 	rr	(hl)
+    000003FA 23               [ 8]  867 	inc	hl
+    000003FB CB 3E            [16]  868 	srl	(hl)
+    000003FD 2B               [ 8]  869 	dec	hl
+    000003FE CB 1E            [16]  870 	rr	(hl)
+                                    871 ;Platformer.c:97: UINT16 tile_x_end = SUBPX_TO_TILE(data->pos.x + coll_offset_w);
+    00000400 F8 28            [12]  872 	ldhl	sp,#40
+    00000402 2A               [ 8]  873 	ld	a, (hl+)
+    00000403 5F               [ 4]  874 	ld	e, a
+    00000404 56               [ 8]  875 	ld	d, (hl)
+    00000405 F8 26            [12]  876 	ldhl	sp,	#38
+    00000407 2A               [ 8]  877 	ld	a,	(hl+)
+    00000408 66               [ 8]  878 	ld	h, (hl)
+    00000409 6F               [ 4]  879 	ld	l, a
+    0000040A 19               [ 8]  880 	add	hl, de
+    0000040B 4D               [ 4]  881 	ld	c, l
+    0000040C 44               [ 4]  882 	ld	b, h
+    0000040D F8 1B            [12]  883 	ldhl	sp,	#27
+    0000040F 79               [ 4]  884 	ld	a, c
+    00000410 22               [ 8]  885 	ld	(hl+), a
+    00000411 70               [ 8]  886 	ld	(hl), b
+    00000412 CB 3E            [16]  887 	srl	(hl)
+    00000414 2B               [ 8]  888 	dec	hl
+    00000415 CB 1E            [16]  889 	rr	(hl)
+    00000417 23               [ 8]  890 	inc	hl
+    00000418 CB 3E            [16]  891 	srl	(hl)
+    0000041A 2B               [ 8]  892 	dec	hl
+    0000041B CB 1E            [16]  893 	rr	(hl)
+    0000041D 23               [ 8]  894 	inc	hl
+    0000041E CB 3E            [16]  895 	srl	(hl)
+    00000420 2B               [ 8]  896 	dec	hl
+    00000421 CB 1E            [16]  897 	rr	(hl)
+    00000423 23               [ 8]  898 	inc	hl
+    00000424 CB 3E            [16]  899 	srl	(hl)
+    00000426 2B               [ 8]  900 	dec	hl
+    00000427 CB 1E            [16]  901 	rr	(hl)
+    00000429 23               [ 8]  902 	inc	hl
+    0000042A CB 3E            [16]  903 	srl	(hl)
+    0000042C 2B               [ 8]  904 	dec	hl
+    0000042D CB 1E            [16]  905 	rr	(hl)
+    0000042F 23               [ 8]  906 	inc	hl
+    00000430 CB 3E            [16]  907 	srl	(hl)
+    00000432 2B               [ 8]  908 	dec	hl
+    00000433 CB 1E            [16]  909 	rr	(hl)
+    00000435 23               [ 8]  910 	inc	hl
+    00000436 CB 3E            [16]  911 	srl	(hl)
+    00000438 2B               [ 8]  912 	dec	hl
+    00000439 CB 1E            [16]  913 	rr	(hl)
+                                    914 ;Platformer.c:99: if (plat_delta_y >= 0) {
+    0000043B F8 15            [12]  915 	ldhl	sp,	#21
+    0000043D CB 7E            [12]  916 	bit	7, (hl)
+    0000043F C2r81r07         [16]  917 	jp	NZ, 00156$
+                                    918 ;Platformer.c:102: UINT16 y_bottom = new_y + coll_offset_h;
+    00000442 23               [ 8]  919 	inc	hl
+    00000443 2A               [ 8]  920 	ld	a, (hl+)
+    00000444 5F               [ 4]  921 	ld	e, a
+    00000445 56               [ 8]  922 	ld	d, (hl)
+    00000446 E1               [12]  923 	pop	hl
+    00000447 E5               [16]  924 	push	hl
+    00000448 19               [ 8]  925 	add	hl, de
+    00000449 E5               [16]  926 	push	hl
+    0000044A 7D               [ 4]  927 	ld	a, l
+    0000044B F8 1F            [12]  928 	ldhl	sp,	#31
+    0000044D 77               [ 8]  929 	ld	(hl), a
+    0000044E E1               [12]  930 	pop	hl
+    0000044F 7C               [ 4]  931 	ld	a, h
+    00000450 F8 1E            [12]  932 	ldhl	sp,	#30
+                                    933 ;Platformer.c:103: UINT16 new_tile_y = SUBPX_TO_TILE(y_bottom);
+    00000452 32               [ 8]  934 	ld	(hl-), a
+    00000453 2A               [ 8]  935 	ld	a, (hl+)
+    00000454 23               [ 8]  936 	inc	hl
+    00000455 32               [ 8]  937 	ld	(hl-), a
+    00000456 2A               [ 8]  938 	ld	a, (hl+)
+    00000457 23               [ 8]  939 	inc	hl
+    00000458 77               [ 8]  940 	ld	(hl), a
+    00000459 CB 3E            [16]  941 	srl	(hl)
+    0000045B 2B               [ 8]  942 	dec	hl
+    0000045C CB 1E            [16]  943 	rr	(hl)
+    0000045E 23               [ 8]  944 	inc	hl
+    0000045F CB 3E            [16]  945 	srl	(hl)
+    00000461 2B               [ 8]  946 	dec	hl
+    00000462 CB 1E            [16]  947 	rr	(hl)
+    00000464 23               [ 8]  948 	inc	hl
+    00000465 CB 3E            [16]  949 	srl	(hl)
+    00000467 2B               [ 8]  950 	dec	hl
+    00000468 CB 1E            [16]  951 	rr	(hl)
+    0000046A 23               [ 8]  952 	inc	hl
+    0000046B CB 3E            [16]  953 	srl	(hl)
+    0000046D 2B               [ 8]  954 	dec	hl
+    0000046E CB 1E            [16]  955 	rr	(hl)
+    00000470 23               [ 8]  956 	inc	hl
+    00000471 CB 3E            [16]  957 	srl	(hl)
+    00000473 2B               [ 8]  958 	dec	hl
+    00000474 CB 1E            [16]  959 	rr	(hl)
+    00000476 23               [ 8]  960 	inc	hl
+    00000477 CB 3E            [16]  961 	srl	(hl)
+    00000479 2B               [ 8]  962 	dec	hl
+    0000047A CB 1E            [16]  963 	rr	(hl)
+    0000047C 23               [ 8]  964 	inc	hl
+    0000047D CB 3E            [16]  965 	srl	(hl)
+    0000047F 2B               [ 8]  966 	dec	hl
+    00000480 CB 1E            [16]  967 	rr	(hl)
+                                    968 ;Platformer.c:105: UINT16 tile_y_start = SUBPX_TO_TILE(data->pos.y + coll_offset_h) - 1;
+    00000482 F8 0B            [12]  969 	ldhl	sp,#11
+    00000484 2A               [ 8]  970 	ld	a, (hl+)
+    00000485 5F               [ 4]  971 	ld	e, a
+    00000486 56               [ 8]  972 	ld	d, (hl)
+    00000487 1A               [ 8]  973 	ld	a, (de)
+    00000488 4F               [ 4]  974 	ld	c, a
+    00000489 13               [ 8]  975 	inc	de
+    0000048A 1A               [ 8]  976 	ld	a, (de)
+    0000048B 47               [ 4]  977 	ld	b, a
+    0000048C E1               [12]  978 	pop	hl
+    0000048D E5               [16]  979 	push	hl
+    0000048E 09               [ 8]  980 	add	hl, bc
+    0000048F 4D               [ 4]  981 	ld	c, l
+    00000490 44               [ 4]  982 	ld	b, h
+    00000491 CB 38            [ 8]  983 	srl	b
+    00000493 CB 19            [ 8]  984 	rr	c
+    00000495 CB 38            [ 8]  985 	srl	b
+    00000497 CB 19            [ 8]  986 	rr	c
+    00000499 CB 38            [ 8]  987 	srl	b
+    0000049B CB 19            [ 8]  988 	rr	c
+    0000049D CB 38            [ 8]  989 	srl	b
+    0000049F CB 19            [ 8]  990 	rr	c
+    000004A1 CB 38            [ 8]  991 	srl	b
+    000004A3 CB 19            [ 8]  992 	rr	c
+    000004A5 CB 38            [ 8]  993 	srl	b
+    000004A7 CB 19            [ 8]  994 	rr	c
+    000004A9 CB 38            [ 8]  995 	srl	b
+    000004AB CB 19            [ 8]  996 	rr	c
+    000004AD 11 01 00         [12]  997 	ld	de, #0x0001
+    000004B0 79               [ 4]  998 	ld	a, c
+    000004B1 93               [ 4]  999 	sub	a, e
+    000004B2 5F               [ 4] 1000 	ld	e, a
+    000004B3 78               [ 4] 1001 	ld	a, b
+    000004B4 9A               [ 4] 1002 	sbc	a, d
+    000004B5 F8 27            [12] 1003 	ldhl	sp,	#39
+    000004B7 32               [ 8] 1004 	ld	(hl-), a
+    000004B8 73               [ 8] 1005 	ld	(hl), e
+                                   1006 ;Platformer.c:106: UINT16 tile_y_end = new_tile_y;
+    000004B9 F8 1F            [12] 1007 	ldhl	sp,	#31
+    000004BB 2A               [ 8] 1008 	ld	a, (hl+)
+    000004BC 4F               [ 4] 1009 	ld	c, a
+    000004BD 46               [ 8] 1010 	ld	b, (hl)
+                                   1011 ;Platformer.c:112: if (prev_grounded && (tile_y_end == (tile_y_start + 1))) {
+    000004BE F8 18            [12] 1012 	ldhl	sp,	#24
+    000004C0 7E               [ 8] 1013 	ld	a, (hl)
+    000004C1 B7               [ 4] 1014 	or	a, a
+    000004C2 28 17            [12] 1015 	jr	Z, 00127$
+    000004C4 F8 26            [12] 1016 	ldhl	sp,	#38
+    000004C6 2A               [ 8] 1017 	ld	a, (hl+)
+    000004C7 5F               [ 4] 1018 	ld	e, a
+    000004C8 56               [ 8] 1019 	ld	d, (hl)
+    000004C9 13               [ 8] 1020 	inc	de
+    000004CA F8 1F            [12] 1021 	ldhl	sp,	#31
+    000004CC 7E               [ 8] 1022 	ld	a, (hl)
+    000004CD 93               [ 4] 1023 	sub	a, e
+    000004CE 20 0B            [12] 1024 	jr	NZ, 00127$
+    000004D0 23               [ 8] 1025 	inc	hl
+    000004D1 7E               [ 8] 1026 	ld	a, (hl)
+    000004D2 92               [ 4] 1027 	sub	a, d
+    000004D3 20 06            [12] 1028 	jr	NZ, 00127$
+                                   1029 ;Platformer.c:113: tile_y_end += 1;
+    000004D5 F8 1F            [12] 1030 	ldhl	sp,	#31
+    000004D7 2A               [ 8] 1031 	ld	a, (hl+)
+    000004D8 4F               [ 4] 1032 	ld	c, a
+    000004D9 46               [ 8] 1033 	ld	b, (hl)
+    000004DA 03               [ 8] 1034 	inc	bc
+                                   1035 ;Platformer.c:114: tile_y_offset = TRUE;
+    000004DB                       1036 00127$:
+                                   1037 ;Platformer.c:117: UINT16 x_mid_coord = data->pos.x + sp_half_width + PX_TO_SUBPX(1);
+    000004DB F8 28            [12] 1038 	ldhl	sp,#40
+    000004DD 2A               [ 8] 1039 	ld	a, (hl+)
+    000004DE 5F               [ 4] 1040 	ld	e, a
+    000004DF 56               [ 8] 1041 	ld	d, (hl)
+    000004E0 F8 24            [12] 1042 	ldhl	sp,	#36
+    000004E2 2A               [ 8] 1043 	ld	a,	(hl+)
+    000004E3 66               [ 8] 1044 	ld	h, (hl)
+    000004E4 6F               [ 4] 1045 	ld	l, a
+    000004E5 19               [ 8] 1046 	add	hl, de
+    000004E6 5D               [ 4] 1047 	ld	e, l
+    000004E7 54               [ 4] 1048 	ld	d, h
+    000004E8 21 10 00         [12] 1049 	ld	hl, #0x0010
+    000004EB 19               [ 8] 1050 	add	hl, de
+    000004EC E5               [16] 1051 	push	hl
+    000004ED 7D               [ 4] 1052 	ld	a, l
+    000004EE F8 2A            [12] 1053 	ldhl	sp,	#42
+    000004F0 77               [ 8] 1054 	ld	(hl), a
+    000004F1 E1               [12] 1055 	pop	hl
+    000004F2 7C               [ 4] 1056 	ld	a, h
+    000004F3 F8 29            [12] 1057 	ldhl	sp,	#41
+                                   1058 ;Platformer.c:118: UINT16 tile_x = SUBPX_TO_TILE(x_mid_coord);
+    000004F5 32               [ 8] 1059 	ld	(hl-), a
+    000004F6 2A               [ 8] 1060 	ld	a, (hl+)
+    000004F7 5F               [ 4] 1061 	ld	e, a
+    000004F8 56               [ 8] 1062 	ld	d, (hl)
+    000004F9 CB 3A            [ 8] 1063 	srl	d
+    000004FB CB 1B            [ 8] 1064 	rr	e
+    000004FD CB 3A            [ 8] 1065 	srl	d
+    000004FF CB 1B            [ 8] 1066 	rr	e
+    00000501 CB 3A            [ 8] 1067 	srl	d
+    00000503 CB 1B            [ 8] 1068 	rr	e
+    00000505 CB 3A            [ 8] 1069 	srl	d
+    00000507 CB 1B            [ 8] 1070 	rr	e
+    00000509 CB 3A            [ 8] 1071 	srl	d
+    0000050B CB 1B            [ 8] 1072 	rr	e
+    0000050D CB 3A            [ 8] 1073 	srl	d
+    0000050F CB 1B            [ 8] 1074 	rr	e
+    00000511 CB 3A            [ 8] 1075 	srl	d
+    00000513 CB 1B            [ 8] 1076 	rr	e
+                                   1077 ;Platformer.c:120: tile = tile_col_test_range_y(COLLISION_SLOPE_ANY, tile_x, tile_y_start, tile_y_end);
+    00000515 C5               [16] 1078 	push	bc
+    00000516 F8 28            [12] 1079 	ldhl	sp,	#40
+    00000518 2A               [ 8] 1080 	ld	a, (hl+)
+    00000519 4F               [ 4] 1081 	ld	c, a
+    0000051A 46               [ 8] 1082 	ld	b, (hl)
+    0000051B C5               [16] 1083 	push	bc
+    0000051C 3E 60            [ 8] 1084 	ld	a, #0x60
+    0000051E CDr00r00         [24] 1085 	call	_tile_col_test_range_y
+                                   1086 ;Platformer.c:121: if (tile) {
+    00000521 F8 21            [12] 1087 	ldhl	sp,#33
+                                   1088 ;Platformer.c:122: const UINT8 slope_type = (tile & COLLISION_SLOPE);
+    00000523 77               [ 8] 1089 	ld	(hl),a
+    00000524 B7               [ 4] 1090 	or	a,a
+    00000525 CArEAr06         [16] 1091 	jp	Z,00143$
+    00000528 23               [ 8] 1092 	inc	hl
+    00000529 E6 F0            [ 8] 1093 	and	a, #0xf0
+    0000052B 77               [ 8] 1094 	ld	(hl), a
+                                   1095 ;Platformer.c:123: UINT8 x_offset = SUBPX_TILE_REMAINDER(x_mid_coord);
+    0000052C F8 28            [12] 1096 	ldhl	sp,	#40
+    0000052E 7E               [ 8] 1097 	ld	a, (hl)
+    0000052F E6 7F            [ 8] 1098 	and	a, #0x7f
+    00000531 77               [ 8] 1099 	ld	(hl), a
+                                   1100 ;Platformer.c:124: INT16 offset = 0;
+    00000532 AF               [ 4] 1101 	xor	a, a
+    00000533 F8 23            [12] 1102 	ldhl	sp,	#35
+    00000535 22               [ 8] 1103 	ld	(hl+), a
+    00000536 77               [ 8] 1104 	ld	(hl), a
+                                   1105 ;Platformer.c:128: offset = (PX_TO_SUBPX(8) - x_offset) - coll_offset_h;
+    00000537 F8 28            [12] 1106 	ldhl	sp,	#40
+    00000539 2A               [ 8] 1107 	ld	a, (hl+)
+    0000053A 77               [ 8] 1108 	ld	(hl), a
+                                   1109 ;Platformer.c:126: switch (slope_type) {
+    0000053B F8 22            [12] 1110 	ldhl	sp,	#34
+    0000053D 7E               [ 8] 1111 	ld	a, (hl)
+    0000053E D6 20            [ 8] 1112 	sub	a, #0x20
+    00000540 28 42            [12] 1113 	jr	Z, 00129$
+    00000542 F8 22            [12] 1114 	ldhl	sp,	#34
+    00000544 7E               [ 8] 1115 	ld	a, (hl)
+    00000545 D6 30            [ 8] 1116 	sub	a, #0x30
+    00000547 CArCAr05         [16] 1117 	jp	Z, 00132$
+                                   1118 ;Platformer.c:131: offset = (PX_TO_SUBPX(8) - DIV_2(x_offset)) - coll_offset_h;
+    0000054A F8 28            [12] 1119 	ldhl	sp,	#40
+    0000054C 7E               [ 8] 1120 	ld	a, (hl)
+    0000054D CB 3F            [ 8] 1121 	srl	a
+    0000054F F8 25            [12] 1122 	ldhl	sp,	#37
+    00000551 77               [ 8] 1123 	ld	(hl), a
+                                   1124 ;Platformer.c:126: switch (slope_type) {
+    00000552 F8 22            [12] 1125 	ldhl	sp,	#34
+    00000554 7E               [ 8] 1126 	ld	a, (hl)
+    00000555 D6 40            [ 8] 1127 	sub	a, #0x40
+    00000557 28 45            [12] 1128 	jr	Z, 00130$
+                                   1129 ;Platformer.c:140: offset = DIV_2(x_offset) - coll_offset_h + PX_TO_SUBPX(4);
+    00000559 F8 25            [12] 1130 	ldhl	sp,	#37
+    0000055B 2A               [ 8] 1131 	ld	a, (hl+)
+    0000055C 22               [ 8] 1132 	ld	(hl+), a
+    0000055D AF               [ 4] 1133 	xor	a, a
+    0000055E 32               [ 8] 1134 	ld	(hl-), a
+    0000055F 2A               [ 8] 1135 	ld	a, (hl+)
+    00000560 5F               [ 4] 1136 	ld	e, a
+    00000561 56               [ 8] 1137 	ld	d, (hl)
+    00000562 E1               [12] 1138 	pop	hl
+    00000563 E5               [16] 1139 	push	hl
+    00000564 7B               [ 4] 1140 	ld	a, e
+    00000565 95               [ 4] 1141 	sub	a, l
+    00000566 5F               [ 4] 1142 	ld	e, a
+    00000567 7A               [ 4] 1143 	ld	a, d
+    00000568 9C               [ 4] 1144 	sbc	a, h
+    00000569 F8 29            [12] 1145 	ldhl	sp,	#41
+    0000056B 32               [ 8] 1146 	ld	(hl-), a
+    0000056C 73               [ 8] 1147 	ld	(hl), e
+                                   1148 ;Platformer.c:126: switch (slope_type) {
+    0000056D F8 22            [12] 1149 	ldhl	sp,	#34
+    0000056F 7E               [ 8] 1150 	ld	a, (hl)
+    00000570 D6 50            [ 8] 1151 	sub	a, #0x50
+    00000572 28 68            [12] 1152 	jr	Z, 00133$
+    00000574 F8 22            [12] 1153 	ldhl	sp,	#34
+    00000576 7E               [ 8] 1154 	ld	a, (hl)
+    00000577 D6 60            [ 8] 1155 	sub	a, #0x60
+    00000579 28 39            [12] 1156 	jr	Z, 00131$
+    0000057B F8 22            [12] 1157 	ldhl	sp,	#34
+    0000057D 7E               [ 8] 1158 	ld	a, (hl)
+    0000057E D6 70            [ 8] 1159 	sub	a, #0x70
+    00000580 28 6F            [12] 1160 	jr	Z, 00134$
+    00000582 18 79            [12] 1161 	jr	00135$
+                                   1162 ;Platformer.c:127: case COLLISION_SLOPE_45_RIGHT:
+    00000584                       1163 00129$:
+                                   1164 ;Platformer.c:128: offset = (PX_TO_SUBPX(8) - x_offset) - coll_offset_h;
+    00000584 3E 80            [ 8] 1165 	ld	a, #0x80
+    00000586 F8 29            [12] 1166 	ldhl	sp,	#41
+    00000588 96               [ 8] 1167 	sub	a, (hl)
+    00000589 77               [ 8] 1168 	ld	(hl), a
+    0000058A 3A               [ 8] 1169 	ld	a, (hl-)
+    0000058B 22               [ 8] 1170 	ld	(hl+), a
+    0000058C AF               [ 4] 1171 	xor	a, a
+    0000058D 32               [ 8] 1172 	ld	(hl-), a
+    0000058E 2A               [ 8] 1173 	ld	a, (hl+)
+    0000058F 5F               [ 4] 1174 	ld	e, a
+    00000590 56               [ 8] 1175 	ld	d, (hl)
+    00000591 E1               [12] 1176 	pop	hl
+    00000592 E5               [16] 1177 	push	hl
+    00000593 7B               [ 4] 1178 	ld	a, e
+    00000594 95               [ 4] 1179 	sub	a, l
+    00000595 5F               [ 4] 1180 	ld	e, a
+    00000596 7A               [ 4] 1181 	ld	a, d
+    00000597 9C               [ 4] 1182 	sbc	a, h
+    00000598 F8 24            [12] 1183 	ldhl	sp,	#36
+    0000059A 32               [ 8] 1184 	ld	(hl-), a
+    0000059B 73               [ 8] 1185 	ld	(hl), e
+                                   1186 ;Platformer.c:129: break;
+    0000059C 18 5F            [12] 1187 	jr	00135$
+                                   1188 ;Platformer.c:130: case COLLISION_SLOPE_225_RIGHT_BOT:
+    0000059E                       1189 00130$:
+                                   1190 ;Platformer.c:131: offset = (PX_TO_SUBPX(8) - DIV_2(x_offset)) - coll_offset_h;
+    0000059E 3E 80            [ 8] 1191 	ld	a, #0x80
+    000005A0 F8 25            [12] 1192 	ldhl	sp,	#37
+    000005A2 96               [ 8] 1193 	sub	a, (hl)
+    000005A3 0E 00            [ 8] 1194 	ld	c, #0x00
+    000005A5 5F               [ 4] 1195 	ld	e, a
+    000005A6 51               [ 4] 1196 	ld	d, c
+    000005A7 E1               [12] 1197 	pop	hl
+    000005A8 E5               [16] 1198 	push	hl
+    000005A9 7B               [ 4] 1199 	ld	a, e
+    000005AA 95               [ 4] 1200 	sub	a, l
+    000005AB 5F               [ 4] 1201 	ld	e, a
+    000005AC 7A               [ 4] 1202 	ld	a, d
+    000005AD 9C               [ 4] 1203 	sbc	a, h
+    000005AE F8 24            [12] 1204 	ldhl	sp,	#36
+    000005B0 32               [ 8] 1205 	ld	(hl-), a
+    000005B1 73               [ 8] 1206 	ld	(hl), e
+                                   1207 ;Platformer.c:132: break;
+    000005B2 18 49            [12] 1208 	jr	00135$
+                                   1209 ;Platformer.c:133: case COLLISION_SLOPE_225_RIGHT_TOP:
+    000005B4                       1210 00131$:
+                                   1211 ;Platformer.c:134: offset = (PX_TO_SUBPX(4) - DIV_2(x_offset)) - coll_offset_h;
+    000005B4 3E 40            [ 8] 1212 	ld	a, #0x40
+    000005B6 F8 25            [12] 1213 	ldhl	sp,	#37
+    000005B8 96               [ 8] 1214 	sub	a, (hl)
+    000005B9 0E 00            [ 8] 1215 	ld	c, #0x00
+    000005BB 5F               [ 4] 1216 	ld	e, a
+    000005BC 51               [ 4] 1217 	ld	d, c
+    000005BD E1               [12] 1218 	pop	hl
+    000005BE E5               [16] 1219 	push	hl
+    000005BF 7B               [ 4] 1220 	ld	a, e
+    000005C0 95               [ 4] 1221 	sub	a, l
+    000005C1 5F               [ 4] 1222 	ld	e, a
+    000005C2 7A               [ 4] 1223 	ld	a, d
+    000005C3 9C               [ 4] 1224 	sbc	a, h
+    000005C4 F8 24            [12] 1225 	ldhl	sp,	#36
+    000005C6 32               [ 8] 1226 	ld	(hl-), a
+    000005C7 73               [ 8] 1227 	ld	(hl), e
+                                   1228 ;Platformer.c:135: break;
+    000005C8 18 33            [12] 1229 	jr	00135$
+                                   1230 ;Platformer.c:136: case COLLISION_SLOPE_45_LEFT:
+    000005CA                       1231 00132$:
+                                   1232 ;Platformer.c:137: offset = x_offset - coll_offset_h;
+    000005CA F8 29            [12] 1233 	ldhl	sp,	#41
+    000005CC 5E               [ 8] 1234 	ld	e, (hl)
+    000005CD 16 00            [ 8] 1235 	ld	d, #0x00
+    000005CF E1               [12] 1236 	pop	hl
+    000005D0 E5               [16] 1237 	push	hl
+    000005D1 7B               [ 4] 1238 	ld	a, e
+    000005D2 95               [ 4] 1239 	sub	a, l
+    000005D3 5F               [ 4] 1240 	ld	e, a
+    000005D4 7A               [ 4] 1241 	ld	a, d
+    000005D5 9C               [ 4] 1242 	sbc	a, h
+    000005D6 F8 24            [12] 1243 	ldhl	sp,	#36
+    000005D8 32               [ 8] 1244 	ld	(hl-), a
+    000005D9 73               [ 8] 1245 	ld	(hl), e
+                                   1246 ;Platformer.c:138: break;
+    000005DA 18 21            [12] 1247 	jr	00135$
+                                   1248 ;Platformer.c:139: case COLLISION_SLOPE_225_LEFT_BOT:
+    000005DC                       1249 00133$:
+                                   1250 ;Platformer.c:140: offset = DIV_2(x_offset) - coll_offset_h + PX_TO_SUBPX(4);
+    000005DC F8 28            [12] 1251 	ldhl	sp,#40
+    000005DE 2A               [ 8] 1252 	ld	a, (hl+)
+    000005DF 5F               [ 4] 1253 	ld	e, a
+    000005E0 56               [ 8] 1254 	ld	d, (hl)
+    000005E1 21 40 00         [12] 1255 	ld	hl, #0x0040
+    000005E4 19               [ 8] 1256 	add	hl, de
+    000005E5 E5               [16] 1257 	push	hl
+    000005E6 7D               [ 4] 1258 	ld	a, l
+    000005E7 F8 25            [12] 1259 	ldhl	sp,	#37
+    000005E9 77               [ 8] 1260 	ld	(hl), a
+    000005EA E1               [12] 1261 	pop	hl
+    000005EB 7C               [ 4] 1262 	ld	a, h
+    000005EC F8 24            [12] 1263 	ldhl	sp,	#36
+    000005EE 77               [ 8] 1264 	ld	(hl), a
+                                   1265 ;Platformer.c:141: break;
+    000005EF 18 0C            [12] 1266 	jr	00135$
+                                   1267 ;Platformer.c:142: case COLLISION_SLOPE_225_LEFT_TOP:
+    000005F1                       1268 00134$:
+                                   1269 ;Platformer.c:143: offset = DIV_2(x_offset) - coll_offset_h;
+    000005F1 F8 28            [12] 1270 	ldhl	sp,	#40
+    000005F3 7E               [ 8] 1271 	ld	a, (hl)
+    000005F4 F8 23            [12] 1272 	ldhl	sp,	#35
+    000005F6 77               [ 8] 1273 	ld	(hl), a
+    000005F7 F8 29            [12] 1274 	ldhl	sp,	#41
+    000005F9 7E               [ 8] 1275 	ld	a, (hl)
+    000005FA F8 24            [12] 1276 	ldhl	sp,	#36
+    000005FC 77               [ 8] 1277 	ld	(hl), a
+                                   1278 ;Platformer.c:145: }				
+    000005FD                       1279 00135$:
+                                   1280 ;Platformer.c:147: UINT16 slope_y_coord = TILE_TO_SUBPX(tile_hit_y) + offset - 1;
+    000005FD FAr00r00         [16] 1281 	ld	a, (_tile_hit_y)
+    00000600 21r01r00         [12] 1282 	ld	hl, #_tile_hit_y + 1
+    00000603 46               [ 8] 1283 	ld	b, (hl)
+    00000604 87               [ 4] 1284 	add	a, a
+    00000605 CB 10            [ 8] 1285 	rl	b
+    00000607 87               [ 4] 1286 	add	a, a
+    00000608 CB 10            [ 8] 1287 	rl	b
+    0000060A 87               [ 4] 1288 	add	a, a
+    0000060B CB 10            [ 8] 1289 	rl	b
+    0000060D 87               [ 4] 1290 	add	a, a
+    0000060E CB 10            [ 8] 1291 	rl	b
+    00000610 87               [ 4] 1292 	add	a, a
+    00000611 CB 10            [ 8] 1293 	rl	b
+    00000613 87               [ 4] 1294 	add	a, a
+    00000614 CB 10            [ 8] 1295 	rl	b
+    00000616 87               [ 4] 1296 	add	a, a
+    00000617 CB 10            [ 8] 1297 	rl	b
+    00000619 F8 23            [12] 1298 	ldhl	sp,	#35
+    0000061B 4E               [ 8] 1299 	ld	c, (hl)
+    0000061C 23               [ 8] 1300 	inc	hl
+    0000061D 5E               [ 8] 1301 	ld	e, (hl)
+    0000061E 81               [ 4] 1302 	add	a, c
+    0000061F 4F               [ 4] 1303 	ld	c, a
+    00000620 78               [ 4] 1304 	ld	a, b
+    00000621 8B               [ 4] 1305 	adc	a, e
+    00000622 47               [ 4] 1306 	ld	b, a
+    00000623 11 01 00         [12] 1307 	ld	de, #0x0001
+    00000626 79               [ 4] 1308 	ld	a, c
+    00000627 93               [ 4] 1309 	sub	a, e
+    00000628 5F               [ 4] 1310 	ld	e, a
+    00000629 78               [ 4] 1311 	ld	a, b
+    0000062A 9A               [ 4] 1312 	sbc	a, d
+    0000062B F8 29            [12] 1313 	ldhl	sp,	#41
+    0000062D 32               [ 8] 1314 	ld	(hl-), a
+    0000062E 73               [ 8] 1315 	ld	(hl), e
+                                   1316 ;Platformer.c:151: if (prev_grounded || slope_y_coord <= new_y) {
+    0000062F F8 18            [12] 1317 	ldhl	sp,	#24
+    00000631 7E               [ 8] 1318 	ld	a, (hl)
+    00000632 B7               [ 4] 1319 	or	a, a
+    00000633 20 0F            [12] 1320 	jr	NZ, 00139$
+    00000635 F8 16            [12] 1321 	ldhl	sp,	#22
+    00000637 5D               [ 4] 1322 	ld	e, l
+    00000638 54               [ 4] 1323 	ld	d, h
+    00000639 F8 28            [12] 1324 	ldhl	sp,	#40
+    0000063B 1A               [ 8] 1325 	ld	a, (de)
+    0000063C 13               [ 8] 1326 	inc	de
+    0000063D 96               [ 8] 1327 	sub	a, (hl)
+    0000063E 23               [ 8] 1328 	inc	hl
+    0000063F 1A               [ 8] 1329 	ld	a, (de)
+    00000640 9E               [ 8] 1330 	sbc	a, (hl)
+    00000641 DArEAr06         [16] 1331 	jp	C, 00143$
+    00000644                       1332 00139$:
+                                   1333 ;Platformer.c:153: UINT16 slope_top_tile_y = SUBPX_TO_TILE(slope_y_coord);
+    00000644 F8 28            [12] 1334 	ldhl	sp,#40
+    00000646 2A               [ 8] 1335 	ld	a, (hl+)
+    00000647 4F               [ 4] 1336 	ld	c, a
+    00000648 46               [ 8] 1337 	ld	b, (hl)
+    00000649 CB 38            [ 8] 1338 	srl	b
+    0000064B CB 19            [ 8] 1339 	rr	c
+    0000064D CB 38            [ 8] 1340 	srl	b
+    0000064F CB 19            [ 8] 1341 	rr	c
+    00000651 CB 38            [ 8] 1342 	srl	b
+    00000653 CB 19            [ 8] 1343 	rr	c
+    00000655 CB 38            [ 8] 1344 	srl	b
+    00000657 CB 19            [ 8] 1345 	rr	c
+    00000659 CB 38            [ 8] 1346 	srl	b
+    0000065B CB 19            [ 8] 1347 	rr	c
+    0000065D CB 38            [ 8] 1348 	srl	b
+    0000065F CB 19            [ 8] 1349 	rr	c
+    00000661 CB 38            [ 8] 1350 	srl	b
+    00000663 CB 19            [ 8] 1351 	rr	c
+                                   1352 ;Platformer.c:155: data->plat.slope_y = tile_hit_y;
+    00000665 F8 0F            [12] 1353 	ldhl	sp,	#15
+    00000667 2A               [ 8] 1354 	ld	a, (hl+)
+    00000668 5F               [ 4] 1355 	ld	e, a
+    00000669 56               [ 8] 1356 	ld	d, (hl)
+    0000066A FAr00r00         [16] 1357 	ld	a, (_tile_hit_y)
+    0000066D 12               [ 8] 1358 	ld	(de), a
+    0000066E 13               [ 8] 1359 	inc	de
+    0000066F FAr01r00         [16] 1360 	ld	a, (_tile_hit_y + 1)
+    00000672 12               [ 8] 1361 	ld	(de), a
+                                   1362 ;Platformer.c:156: data->plat.on_slope = tile;
+    00000673 F8 02            [12] 1363 	ldhl	sp,	#2
+    00000675 2A               [ 8] 1364 	ld	a, (hl+)
+    00000676 5F               [ 4] 1365 	ld	e, a
+    00000677 56               [ 8] 1366 	ld	d, (hl)
+    00000678 F8 21            [12] 1367 	ldhl	sp,	#33
+    0000067A 7E               [ 8] 1368 	ld	a, (hl)
+    0000067B 12               [ 8] 1369 	ld	(de), a
+                                   1370 ;Platformer.c:157: data->grounded = TRUE;
+    0000067C F8 05            [12] 1371 	ldhl	sp,	#5
+    0000067E 2A               [ 8] 1372 	ld	a, (hl+)
+    0000067F 66               [ 8] 1373 	ld	h, (hl)
+    00000680 6F               [ 4] 1374 	ld	l, a
+    00000681 36 01            [12] 1375 	ld	(hl), #0x01
+                                   1376 ;Platformer.c:159: UINT8 top_tile = tile_col_test_range_x(COLLISION_BOTTOM, slope_top_tile_y, tile_x_start, tile_x_end);
+    00000683 F8 1B            [12] 1377 	ldhl	sp,	#27
+    00000685 2A               [ 8] 1378 	ld	a, (hl+)
+    00000686 5F               [ 4] 1379 	ld	e, a
+    00000687 56               [ 8] 1380 	ld	d, (hl)
+    00000688 D5               [16] 1381 	push	de
+    00000689 F8 1B            [12] 1382 	ldhl	sp,	#27
+    0000068B 2A               [ 8] 1383 	ld	a, (hl+)
+    0000068C 5F               [ 4] 1384 	ld	e, a
+    0000068D 56               [ 8] 1385 	ld	d, (hl)
+    0000068E D5               [16] 1386 	push	de
+    0000068F 59               [ 4] 1387 	ld	e, c
+    00000690 50               [ 4] 1388 	ld	d, b
+    00000691 3E 02            [ 8] 1389 	ld	a, #0x02
+    00000693 CDr00r00         [24] 1390 	call	_tile_col_test_range_x
+                                   1391 ;Platformer.c:160: if (top_tile) {
+    00000696 B7               [ 4] 1392 	or	a, a
+    00000697 28 33            [12] 1393 	jr	Z, 00137$
+                                   1394 ;Platformer.c:161: data->vel.y = 0;
+    00000699 F8 13            [12] 1395 	ldhl	sp,	#19
+    0000069B 2A               [ 8] 1396 	ld	a, (hl+)
+    0000069C 66               [ 8] 1397 	ld	h, (hl)
+    0000069D 6F               [ 4] 1398 	ld	l, a
+    0000069E AF               [ 4] 1399 	xor	a, a
+    0000069F 22               [ 8] 1400 	ld	(hl+), a
+    000006A0 77               [ 8] 1401 	ld	(hl), a
+                                   1402 ;Platformer.c:162: data->vel.x = 0;
+    000006A1 F8 09            [12] 1403 	ldhl	sp,	#9
+    000006A3 2A               [ 8] 1404 	ld	a, (hl+)
+    000006A4 66               [ 8] 1405 	ld	h, (hl)
+    000006A5 6F               [ 4] 1406 	ld	l, a
+    000006A6 AF               [ 4] 1407 	xor	a, a
+    000006A7 22               [ 8] 1408 	ld	(hl+), a
+    000006A8 77               [ 8] 1409 	ld	(hl), a
+                                   1410 ;Platformer.c:163: data->pos.x -= plat_delta_x;
+    000006A9 F8 0D            [12] 1411 	ldhl	sp,#13
+    000006AB 2A               [ 8] 1412 	ld	a, (hl+)
+    000006AC 5F               [ 4] 1413 	ld	e, a
+    000006AD 56               [ 8] 1414 	ld	d, (hl)
+    000006AE 1A               [ 8] 1415 	ld	a, (de)
+    000006AF 47               [ 4] 1416 	ld	b, a
+    000006B0 13               [ 8] 1417 	inc	de
+    000006B1 1A               [ 8] 1418 	ld	a, (de)
+    000006B2 4F               [ 4] 1419 	ld	c, a
+    000006B3 58               [ 4] 1420 	ld	e, b
+    000006B4 51               [ 4] 1421 	ld	d, c
+    000006B5 F8 11            [12] 1422 	ldhl	sp,	#17
+    000006B7 2A               [ 8] 1423 	ld	a,	(hl+)
+    000006B8 66               [ 8] 1424 	ld	h, (hl)
+    000006B9 6F               [ 4] 1425 	ld	l, a
+    000006BA 7B               [ 4] 1426 	ld	a, e
+    000006BB 95               [ 4] 1427 	sub	a, l
+    000006BC 5F               [ 4] 1428 	ld	e, a
+    000006BD 7A               [ 4] 1429 	ld	a, d
+    000006BE 9C               [ 4] 1430 	sbc	a, h
+    000006BF 4F               [ 4] 1431 	ld	c, a
+    000006C0 43               [ 4] 1432 	ld	b, e
+    000006C1 F8 0D            [12] 1433 	ldhl	sp,	#13
+    000006C3 2A               [ 8] 1434 	ld	a, (hl+)
+    000006C4 66               [ 8] 1435 	ld	h, (hl)
+    000006C5 6F               [ 4] 1436 	ld	l, a
+    000006C6 78               [ 4] 1437 	ld	a, b
+    000006C7 22               [ 8] 1438 	ld	(hl+), a
+    000006C8 71               [ 8] 1439 	ld	(hl), c
+    000006C9 C3rE1r07         [16] 1440 	jp	00160$
+    000006CC                       1441 00137$:
+                                   1442 ;Platformer.c:165: data->pos.y = slope_y_coord;
+    000006CC F8 0B            [12] 1443 	ldhl	sp,	#11
+    000006CE 2A               [ 8] 1444 	ld	a, (hl+)
+    000006CF 5F               [ 4] 1445 	ld	e, a
+    000006D0 56               [ 8] 1446 	ld	d, (hl)
+    000006D1 F8 28            [12] 1447 	ldhl	sp,	#40
+    000006D3 2A               [ 8] 1448 	ld	a, (hl+)
+    000006D4 12               [ 8] 1449 	ld	(de), a
+    000006D5 13               [ 8] 1450 	inc	de
+    000006D6 7E               [ 8] 1451 	ld	a, (hl)
+    000006D7 12               [ 8] 1452 	ld	(de), a
+                                   1453 ;Platformer.c:166: data->vel.y = 0;
+    000006D8 F8 13            [12] 1454 	ldhl	sp,	#19
+    000006DA 2A               [ 8] 1455 	ld	a, (hl+)
+    000006DB 66               [ 8] 1456 	ld	h, (hl)
+    000006DC 6F               [ 4] 1457 	ld	l, a
+    000006DD AF               [ 4] 1458 	xor	a, a
+    000006DE 22               [ 8] 1459 	ld	(hl+), a
+    000006DF 77               [ 8] 1460 	ld	(hl), a
+                                   1461 ;Platformer.c:168: data->plat.drop_timer = 0;
+    000006E0 F8 07            [12] 1462 	ldhl	sp,	#7
+    000006E2 2A               [ 8] 1463 	ld	a, (hl+)
+    000006E3 66               [ 8] 1464 	ld	h, (hl)
+    000006E4 6F               [ 4] 1465 	ld	l, a
+    000006E5 36 00            [12] 1466 	ld	(hl), #0x00
+                                   1467 ;Platformer.c:171: goto finally_finish;	// Renamed from "goto finally_check_actor_col;"
+    000006E7 C3rE1r07         [16] 1468 	jp	00160$
+    000006EA                       1469 00143$:
+                                   1470 ;Platformer.c:178: if (!prev_on_slope && (SUBPX_TILE_REMAINDER(y_bottom) > SUBPX_TILE_REMAINDER(plat_delta_y))) {
+    000006EA F8 04            [12] 1471 	ldhl	sp,	#4
+    000006EC 7E               [ 8] 1472 	ld	a, (hl)
+    000006ED B7               [ 4] 1473 	or	a, a
+    000006EE 20 0E            [12] 1474 	jr	NZ, 00145$
+    000006F0 F8 1D            [12] 1475 	ldhl	sp,	#29
+    000006F2 4E               [ 8] 1476 	ld	c, (hl)
+    000006F3 CB B9            [ 8] 1477 	res	7, c
+    000006F5 F8 15            [12] 1478 	ldhl	sp,	#21
+    000006F7 46               [ 8] 1479 	ld	b, (hl)
+    000006F8 CB B8            [ 8] 1480 	res	7, b
+    000006FA 78               [ 4] 1481 	ld	a, b
+    000006FB 91               [ 4] 1482 	sub	a, c
+    000006FC 38 75            [12] 1483 	jr	C, 00152$
+                                   1484 ;Platformer.c:179: goto finally_update_y;
+    000006FE                       1485 00145$:
+                                   1486 ;Platformer.c:182: tile = tile_col_test_range_x(COLLISION_TOP, new_tile_y, tile_x_start, tile_x_end);
+    000006FE F8 1B            [12] 1487 	ldhl	sp,	#27
+    00000700 2A               [ 8] 1488 	ld	a, (hl+)
+    00000701 5F               [ 4] 1489 	ld	e, a
+    00000702 56               [ 8] 1490 	ld	d, (hl)
+    00000703 D5               [16] 1491 	push	de
+    00000704 F8 1B            [12] 1492 	ldhl	sp,	#27
+    00000706 2A               [ 8] 1493 	ld	a, (hl+)
+    00000707 5F               [ 4] 1494 	ld	e, a
+    00000708 56               [ 8] 1495 	ld	d, (hl)
+    00000709 D5               [16] 1496 	push	de
+    0000070A F8 23            [12] 1497 	ldhl	sp,	#35
+    0000070C 2A               [ 8] 1498 	ld	a, (hl+)
+    0000070D 5F               [ 4] 1499 	ld	e, a
+    0000070E 56               [ 8] 1500 	ld	d, (hl)
+    0000070F 3E 01            [ 8] 1501 	ld	a, #0x01
+    00000711 CDr00r00         [24] 1502 	call	_tile_col_test_range_x
+                                   1503 ;Platformer.c:183: if (tile) {
+    00000714 4F               [ 4] 1504 	ld	c, a
+    00000715 B7               [ 4] 1505 	or	a, a
+    00000716 28 5B            [12] 1506 	jr	Z, 00152$
+                                   1507 ;Platformer.c:186: if (data->plat.drop_timer && (tile & PLATFORM_BIT))
+    00000718 F8 07            [12] 1508 	ldhl	sp,#7
+    0000071A 2A               [ 8] 1509 	ld	a, (hl+)
+    0000071B 5F               [ 4] 1510 	ld	e, a
+    0000071C 56               [ 8] 1511 	ld	d, (hl)
+    0000071D 1A               [ 8] 1512 	ld	a, (de)
+    0000071E B7               [ 4] 1513 	or	a, a
+    0000071F 28 04            [12] 1514 	jr	Z, 00148$
+    00000721 CB 79            [ 8] 1515 	bit	7, c
+    00000723 20 4E            [12] 1516 	jr	NZ, 00152$
+                                   1517 ;Platformer.c:188: goto finally_update_y;
+    00000725                       1518 00148$:
+                                   1519 ;Platformer.c:191: new_y = TILE_TO_SUBPX(tile_hit_y) - coll_offset_h - 1;
+    00000725 FAr00r00         [16] 1520 	ld	a, (#_tile_hit_y)
+    00000728 F8 26            [12] 1521 	ldhl	sp,	#38
+    0000072A 77               [ 8] 1522 	ld	(hl), a
+    0000072B FAr01r00         [16] 1523 	ld	a, (#_tile_hit_y + 1)
+    0000072E F8 27            [12] 1524 	ldhl	sp,	#39
+    00000730 77               [ 8] 1525 	ld	(hl), a
+    00000731 3E 07            [ 8] 1526 	ld	a, #0x07
+    00000733                       1527 00424$:
+    00000733 F8 26            [12] 1528 	ldhl	sp,	#38
+    00000735 CB 26            [16] 1529 	sla	(hl)
+    00000737 23               [ 8] 1530 	inc	hl
+    00000738 CB 16            [16] 1531 	rl	(hl)
+    0000073A 3D               [ 4] 1532 	dec	a
+    0000073B 20 F6            [12] 1533 	jr	NZ, 00424$
+    0000073D 2B               [ 8] 1534 	dec	hl
+    0000073E 2A               [ 8] 1535 	ld	a, (hl+)
+    0000073F 5F               [ 4] 1536 	ld	e, a
+    00000740 56               [ 8] 1537 	ld	d, (hl)
+    00000741 E1               [12] 1538 	pop	hl
+    00000742 E5               [16] 1539 	push	hl
+    00000743 7B               [ 4] 1540 	ld	a, e
+    00000744 95               [ 4] 1541 	sub	a, l
+    00000745 5F               [ 4] 1542 	ld	e, a
+    00000746 7A               [ 4] 1543 	ld	a, d
+    00000747 9C               [ 4] 1544 	sbc	a, h
+    00000748 F8 29            [12] 1545 	ldhl	sp,	#41
+    0000074A 32               [ 8] 1546 	ld	(hl-), a
+    0000074B 7B               [ 4] 1547 	ld	a, e
+    0000074C 22               [ 8] 1548 	ld	(hl+), a
+    0000074D 2B               [ 8] 1549 	dec	hl
+    0000074E 2A               [ 8] 1550 	ld	a, (hl+)
+    0000074F 5F               [ 4] 1551 	ld	e, a
+    00000750 56               [ 8] 1552 	ld	d, (hl)
+    00000751 21 01 00         [12] 1553 	ld	hl, #0x0001
+    00000754 7B               [ 4] 1554 	ld	a, e
+    00000755 95               [ 4] 1555 	sub	a, l
+    00000756 5F               [ 4] 1556 	ld	e, a
+    00000757 7A               [ 4] 1557 	ld	a, d
+    00000758 9C               [ 4] 1558 	sbc	a, h
+    00000759 F8 17            [12] 1559 	ldhl	sp,	#23
+    0000075B 32               [ 8] 1560 	ld	(hl-), a
+    0000075C 73               [ 8] 1561 	ld	(hl), e
+                                   1562 ;Platformer.c:193: data->vel.y = 0;
+    0000075D F8 13            [12] 1563 	ldhl	sp,	#19
+    0000075F 2A               [ 8] 1564 	ld	a, (hl+)
+    00000760 66               [ 8] 1565 	ld	h, (hl)
+    00000761 6F               [ 4] 1566 	ld	l, a
+    00000762 AF               [ 4] 1567 	xor	a, a
+    00000763 22               [ 8] 1568 	ld	(hl+), a
+    00000764 77               [ 8] 1569 	ld	(hl), a
+                                   1570 ;Platformer.c:195: data->plat.drop_timer = 0;
+    00000765 F8 07            [12] 1571 	ldhl	sp,	#7
+    00000767 2A               [ 8] 1572 	ld	a, (hl+)
+    00000768 66               [ 8] 1573 	ld	h, (hl)
+    00000769 6F               [ 4] 1574 	ld	l, a
+    0000076A 36 00            [12] 1575 	ld	(hl), #0x00
+                                   1576 ;Platformer.c:197: data->grounded = TRUE;
+    0000076C F8 05            [12] 1577 	ldhl	sp,	#5
+    0000076E 2A               [ 8] 1578 	ld	a, (hl+)
+    0000076F 66               [ 8] 1579 	ld	h, (hl)
+    00000770 6F               [ 4] 1580 	ld	l, a
+    00000771 36 01            [12] 1581 	ld	(hl), #0x01
+                                   1582 ;Platformer.c:199: finally_update_y:
+    00000773                       1583 00152$:
+                                   1584 ;Platformer.c:200: data->pos.y = new_y;
+    00000773 F8 0B            [12] 1585 	ldhl	sp,	#11
+    00000775 2A               [ 8] 1586 	ld	a, (hl+)
+    00000776 5F               [ 4] 1587 	ld	e, a
+    00000777 56               [ 8] 1588 	ld	d, (hl)
+    00000778 F8 16            [12] 1589 	ldhl	sp,	#22
+    0000077A 2A               [ 8] 1590 	ld	a, (hl+)
+    0000077B 12               [ 8] 1591 	ld	(de), a
+    0000077C 13               [ 8] 1592 	inc	de
+    0000077D 7E               [ 8] 1593 	ld	a, (hl)
+    0000077E 12               [ 8] 1594 	ld	(de), a
+    0000077F 18 60            [12] 1595 	jr	00160$
+    00000781                       1596 00156$:
+                                   1597 ;Platformer.c:205: UINT16 tile_y = SUBPX_TO_TILE(new_y);
+    00000781 F8 16            [12] 1598 	ldhl	sp,#22
+    00000783 2A               [ 8] 1599 	ld	a, (hl+)
+    00000784 5F               [ 4] 1600 	ld	e, a
+    00000785 56               [ 8] 1601 	ld	d, (hl)
+    00000786 CB 3A            [ 8] 1602 	srl	d
+    00000788 CB 1B            [ 8] 1603 	rr	e
+    0000078A CB 3A            [ 8] 1604 	srl	d
+    0000078C CB 1B            [ 8] 1605 	rr	e
+    0000078E CB 3A            [ 8] 1606 	srl	d
+    00000790 CB 1B            [ 8] 1607 	rr	e
+    00000792 CB 3A            [ 8] 1608 	srl	d
+    00000794 CB 1B            [ 8] 1609 	rr	e
+    00000796 CB 3A            [ 8] 1610 	srl	d
+    00000798 CB 1B            [ 8] 1611 	rr	e
+    0000079A CB 3A            [ 8] 1612 	srl	d
+    0000079C CB 1B            [ 8] 1613 	rr	e
+    0000079E CB 3A            [ 8] 1614 	srl	d
+    000007A0 CB 1B            [ 8] 1615 	rr	e
+                                   1616 ;Platformer.c:206: UINT8 tile = tile_col_test_range_x(COLLISION_BOTTOM, tile_y, tile_x_start, tile_x_end);
+    000007A2 F8 1B            [12] 1617 	ldhl	sp,	#27
+    000007A4 2A               [ 8] 1618 	ld	a, (hl+)
+    000007A5 4F               [ 4] 1619 	ld	c, a
+    000007A6 46               [ 8] 1620 	ld	b, (hl)
+    000007A7 C5               [16] 1621 	push	bc
+    000007A8 F8 1B            [12] 1622 	ldhl	sp,	#27
+    000007AA 2A               [ 8] 1623 	ld	a, (hl+)
+    000007AB 4F               [ 4] 1624 	ld	c, a
+    000007AC 46               [ 8] 1625 	ld	b, (hl)
+    000007AD C5               [16] 1626 	push	bc
+    000007AE 3E 02            [ 8] 1627 	ld	a, #0x02
+    000007B0 CDr00r00         [24] 1628 	call	_tile_col_test_range_x
+                                   1629 ;Platformer.c:208: if (tile) {
+    000007B3 B7               [ 4] 1630 	or	a, a
+    000007B4 28 1F            [12] 1631 	jr	Z, 00154$
+                                   1632 ;Platformer.c:210: new_y = TILE_TO_SUBPX(tile_hit_y + 1) + 1;
+    000007B6 FAr00r00         [16] 1633 	ld	a, (_tile_hit_y)
+    000007B9 4F               [ 4] 1634 	ld	c, a
+    000007BA 21r01r00         [12] 1635 	ld	hl, #_tile_hit_y + 1
+    000007BD 46               [ 8] 1636 	ld	b, (hl)
+    000007BE 03               [ 8] 1637 	inc	bc
+    000007BF AF               [ 4] 1638 	xor	a, a
+    000007C0 CB 18            [ 8] 1639 	rr	b
+    000007C2 41               [ 4] 1640 	ld	b, c
+    000007C3 CB 18            [ 8] 1641 	rr	b
+    000007C5 1F               [ 4] 1642 	rra
+    000007C6 4F               [ 4] 1643 	ld	c, a
+    000007C7 03               [ 8] 1644 	inc	bc
+    000007C8 F8 16            [12] 1645 	ldhl	sp,	#22
+    000007CA 79               [ 4] 1646 	ld	a, c
+    000007CB 22               [ 8] 1647 	ld	(hl+), a
+    000007CC 70               [ 8] 1648 	ld	(hl), b
+                                   1649 ;Platformer.c:211: data->vel.y = 0;
+    000007CD F8 13            [12] 1650 	ldhl	sp,	#19
+    000007CF 2A               [ 8] 1651 	ld	a, (hl+)
+    000007D0 66               [ 8] 1652 	ld	h, (hl)
+    000007D1 6F               [ 4] 1653 	ld	l, a
+    000007D2 AF               [ 4] 1654 	xor	a, a
+    000007D3 22               [ 8] 1655 	ld	(hl+), a
+    000007D4 77               [ 8] 1656 	ld	(hl), a
+    000007D5                       1657 00154$:
+                                   1658 ;Platformer.c:213: data->pos.y = new_y;
+    000007D5 F8 0B            [12] 1659 	ldhl	sp,	#11
+    000007D7 2A               [ 8] 1660 	ld	a, (hl+)
+    000007D8 5F               [ 4] 1661 	ld	e, a
+    000007D9 56               [ 8] 1662 	ld	d, (hl)
+    000007DA F8 16            [12] 1663 	ldhl	sp,	#22
+    000007DC 2A               [ 8] 1664 	ld	a, (hl+)
+    000007DD 12               [ 8] 1665 	ld	(de), a
+    000007DE 13               [ 8] 1666 	inc	de
+    000007DF 7E               [ 8] 1667 	ld	a, (hl)
+    000007E0 12               [ 8] 1668 	ld	(de), a
+                                   1669 ;Platformer.c:217: finally_finish:
+    000007E1                       1670 00160$:
+                                   1671 ;Platformer.c:219: this->x = SUBPX_TO_PX(data->pos.x);
+    000007E1 F8 30            [12] 1672 	ldhl	sp,	#48
+    000007E3 2A               [ 8] 1673 	ld	a, (hl+)
+    000007E4 4F               [ 4] 1674 	ld	c, a
+    000007E5 46               [ 8] 1675 	ld	b, (hl)
+    000007E6 F8 0D            [12] 1676 	ldhl	sp,#13
+    000007E8 2A               [ 8] 1677 	ld	a, (hl+)
+    000007E9 5F               [ 4] 1678 	ld	e, a
+    000007EA 56               [ 8] 1679 	ld	d, (hl)
+    000007EB 1A               [ 8] 1680 	ld	a, (de)
+    000007EC 6F               [ 4] 1681 	ld	l, a
+    000007ED 13               [ 8] 1682 	inc	de
+    000007EE 1A               [ 8] 1683 	ld	a, (de)
+    000007EF 67               [ 4] 1684 	ld	h, a
+    000007F0 AF               [ 4] 1685 	xor	a, a
+    000007F1 29               [ 8] 1686 	add	hl, hl
+    000007F2 17               [ 4] 1687 	rla
+    000007F3 29               [ 8] 1688 	add	hl, hl
+    000007F4 17               [ 4] 1689 	rla
+    000007F5 29               [ 8] 1690 	add	hl, hl
+    000007F6 17               [ 4] 1691 	rla
+    000007F7 29               [ 8] 1692 	add	hl, hl
+    000007F8 17               [ 4] 1693 	rla
+    000007F9 5F               [ 4] 1694 	ld	e, a
+    000007FA 7C               [ 4] 1695 	ld	a, h
+    000007FB 02               [ 8] 1696 	ld	(bc), a
+    000007FC 03               [ 8] 1697 	inc	bc
+    000007FD 7B               [ 4] 1698 	ld	a, e
+    000007FE 02               [ 8] 1699 	ld	(bc), a
+                                   1700 ;Platformer.c:220: this->y = SUBPX_TO_PX(data->pos.y);
+    000007FF F8 30            [12] 1701 	ldhl	sp,	#48
+    00000801 2A               [ 8] 1702 	ld	a, (hl+)
+    00000802 4F               [ 4] 1703 	ld	c, a
+    00000803 46               [ 8] 1704 	ld	b, (hl)
+    00000804 03               [ 8] 1705 	inc	bc
+    00000805 03               [ 8] 1706 	inc	bc
+    00000806 F8 0B            [12] 1707 	ldhl	sp,#11
+    00000808 2A               [ 8] 1708 	ld	a, (hl+)
+    00000809 5F               [ 4] 1709 	ld	e, a
+    0000080A 56               [ 8] 1710 	ld	d, (hl)
+    0000080B 1A               [ 8] 1711 	ld	a, (de)
+    0000080C 6F               [ 4] 1712 	ld	l, a
+    0000080D 13               [ 8] 1713 	inc	de
+    0000080E 1A               [ 8] 1714 	ld	a, (de)
+    0000080F 67               [ 4] 1715 	ld	h, a
+    00000810 AF               [ 4] 1716 	xor	a, a
+    00000811 29               [ 8] 1717 	add	hl, hl
+    00000812 17               [ 4] 1718 	rla
+    00000813 29               [ 8] 1719 	add	hl, hl
+    00000814 17               [ 4] 1720 	rla
+    00000815 29               [ 8] 1721 	add	hl, hl
+    00000816 17               [ 4] 1722 	rla
+    00000817 29               [ 8] 1723 	add	hl, hl
+    00000818 17               [ 4] 1724 	rla
+    00000819 5F               [ 4] 1725 	ld	e, a
+    0000081A 7C               [ 4] 1726 	ld	a, h
+    0000081B 02               [ 8] 1727 	ld	(bc), a
+    0000081C 03               [ 8] 1728 	inc	bc
+    0000081D 7B               [ 4] 1729 	ld	a, e
+    0000081E 02               [ 8] 1730 	ld	(bc), a
+                                   1731 ;Platformer.c:222: }
+    0000081F E8 2A            [16] 1732 	add	sp, #42
+    00000821 C9               [16] 1733 	ret
+                                   1734 	.area _CODE
+                                   1735 	.area _INITIALIZER
+    00000000                       1736 __xinit____CRASH_HANDLER_INIT:
+    00000000r00r00                 1737 	.dw ___HandleCrash
+                                   1738 	.area _CABS (ABS)

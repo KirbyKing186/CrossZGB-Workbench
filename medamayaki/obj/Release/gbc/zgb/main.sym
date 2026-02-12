@@ -1,0 +1,114 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _BGP_REG                                                        ******** GX
+    _CheckSRAMIntegrity                                             ******** GX
+    _FadeIn                                                         ******** GX
+    _FadeOut                                                        ******** GX
+    _IE_REG                                                         ******** GX
+    _InitOAMs                                                       ******** GX
+    _InitSprites                                                    ******** GX
+    _InitStates                                                     ******** GX
+    _InitWindow                                                     ******** GX
+    _LCDC_REG                                                       ******** GX
+    _MUSIC_isr                                                      ******** GX
+    _NR12_REG                                                       ******** GX
+    _NR14_REG                                                       ******** GX
+    _NR22_REG                                                       ******** GX
+    _NR24_REG                                                       ******** GX
+    _NR32_REG                                                       ******** GX
+    _NR42_REG                                                       ******** GX
+    _NR44_REG                                                       ******** GX
+    _NR50_REG                                                       ******** GX
+    _NR51_REG                                                       ******** GX
+    _NR52_REG                                                       ******** GX
+    _OBP0_REG                                                       ******** GX
+    _OBP1_REG                                                       ******** GX
+    _SetDefaultColorPalettes                                        ******** GX
+  0 _SetState                                                       00000000 GR
+    _SetWindowPos                                                   ******** GX
+    _SpriteManagerReset                                             ******** GX
+    _SpriteManagerUpdate                                            ******** GX
+    _TAC_REG                                                        ******** GX
+    _TMA_REG                                                        ******** GX
+    _VBL_isr                                                        ******** GX
+    _WY_REG                                                         ******** GX
+  0 ___force_use_font                                               00000000 R
+    ___sdcc_bcall_ehl                                               ******** GX
+    ___sdcc_call_hl                                                 ******** GX
+    __cpu                                                           ******** GX
+    __current_bank                                                  ******** GX
+  3 __is_SGB                                                        00000000 GR
+  8 __xinit___is_SGB                                                00000000 R
+  8 __xinit__fade_mode                                              00000002 R
+  8 __xinit__state_running                                          00000001 R
+  8 __xinit__vbl_count                                              00000003 R
+    _add_VBL                                                        ******** GX
+    _add_low_priority_TIM                                           ******** GX
+    _cpu_fast                                                       ******** GX
+  2 _current_state                                                  00000001 GR
+  2 _delta_time                                                     00000000 GR
+    _destroyFuncs                                                   ******** GX
+    _display_off                                                    ******** GX
+  3 _fade_mode                                                      00000002 GR
+    _font_recode_table                                              ******** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    _joypad_ex                                                      ******** GX
+    _joypad_init                                                    ******** GX
+    _joypads                                                        ******** GX
+    _last_bg_pal_loaded                                             ******** GX
+    _last_tile_loaded                                               ******** GX
+  0 _main                                                           00000008 GR
+    _next_state                                                     ******** GX
+    _old_joypads                                                    ******** GX
+    _rROMB0                                                         ******** GX
+    _savegame                                                       ******** GX
+    _scroll_offset_x                                                ******** GX
+    _scroll_offset_y                                                ******** GX
+    _scroll_target                                                  ******** GX
+    _scroll_x                                                       ******** GX
+    _scroll_x_vblank                                                ******** GX
+    _scroll_y                                                       ******** GX
+    _scroll_y_vblank                                                ******** GX
+    _set_interrupts                                                 ******** GX
+    _sgb_check                                                      ******** GX
+    _sprite_manager_updatables                                      ******** GX
+    _startFuncs                                                     ******** GX
+    _stateBanks                                                     ******** GX
+  3 _state_running                                                  00000001 GR
+    _updateFuncs                                                    ******** GX
+  3 _vbl_count                                                      00000003 GR
+    _vsync                                                          ******** GX
+    b_CheckSRAMIntegrity                                            ******** GX
+    b_FadeIn                                                        ******** GX
+    b_FadeOut                                                       ******** GX
+    b_InitSprites                                                   ******** GX
+    b_InitStates                                                    ******** GX
+    b_SetDefaultColorPalettes                                       ******** GX
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      201   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        2   flags    0
+   3 _INITIALIZED                               size        4   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _INITIALIZER                               size        4   flags    0
+   9 _CABS                                      size        0   flags    8
+

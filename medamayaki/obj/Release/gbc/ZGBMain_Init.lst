@@ -1,0 +1,220 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module ZGBMain_Init
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl b_InitSprites
+                                     11 	.globl _InitSprites
+                                     12 	.globl b_InitStates
+                                     13 	.globl _InitStates
+                                     14 	.globl _StateDestroyDefault
+                                     15 	.globl _memcpy
+                                     16 	.globl _spritePalsOffset
+                                     17 	.globl _spriteIdxsHV
+                                     18 	.globl _spriteIdxsV
+                                     19 	.globl _spriteIdxsH
+                                     20 	.globl _spriteIdxs
+                                     21 	.globl _spriteFlips
+                                     22 	.globl _spriteDatas
+                                     23 	.globl _spriteDestroyFuncs
+                                     24 	.globl _spriteUpdateFuncs
+                                     25 	.globl _spriteStartFuncs
+                                     26 	.globl _spriteDataBanks
+                                     27 	.globl _spriteBanks
+                                     28 	.globl _destroyFuncs
+                                     29 	.globl _updateFuncs
+                                     30 	.globl _startFuncs
+                                     31 	.globl _stateBanks
+                                     32 ;--------------------------------------------------------
+                                     33 ; special function registers
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _HRAM
+                                     36 ;--------------------------------------------------------
+                                     37 ; ram data
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _DATA
+    00000000                         40 _stateBanks::
+    00000000                         41 	.ds 1
+    00000001                         42 _startFuncs::
+    00000001                         43 	.ds 2
+    00000003                         44 _updateFuncs::
+    00000003                         45 	.ds 2
+    00000005                         46 _destroyFuncs::
+    00000005                         47 	.ds 2
+    00000007                         48 _spriteBanks::
+    00000007                         49 	.ds 1
+    00000008                         50 _spriteDataBanks::
+    00000008                         51 	.ds 1
+    00000009                         52 _spriteStartFuncs::
+    00000009                         53 	.ds 2
+    0000000B                         54 _spriteUpdateFuncs::
+    0000000B                         55 	.ds 2
+    0000000D                         56 _spriteDestroyFuncs::
+    0000000D                         57 	.ds 2
+    0000000F                         58 _spriteDatas::
+    0000000F                         59 	.ds 2
+    00000011                         60 _spriteFlips::
+    00000011                         61 	.ds 1
+    00000012                         62 _spriteIdxs::
+    00000012                         63 	.ds 1
+    00000013                         64 _spriteIdxsH::
+    00000013                         65 	.ds 1
+    00000014                         66 _spriteIdxsV::
+    00000014                         67 	.ds 1
+    00000015                         68 _spriteIdxsHV::
+    00000015                         69 	.ds 1
+    00000016                         70 _spritePalsOffset::
+    00000016                         71 	.ds 1
+                                     72 ;--------------------------------------------------------
+                                     73 ; ram data
+                                     74 ;--------------------------------------------------------
+                                     75 	.area _INITIALIZED
+    00000000                         76 ___CRASH_HANDLER_INIT:
+    00000000                         77 	.ds 2
+                                     78 ;--------------------------------------------------------
+                                     79 ; absolute external ram data
+                                     80 ;--------------------------------------------------------
+                                     81 	.area _DABS (ABS)
+                                     82 ;--------------------------------------------------------
+                                     83 ; global & static initialisations
+                                     84 ;--------------------------------------------------------
+                                     85 	.area _HOME
+                                     86 	.area _GSINIT
+                                     87 	.area _GSFINAL
+                                     88 	.area _GSINIT
+                                     89 ;--------------------------------------------------------
+                                     90 ; Home
+                                     91 ;--------------------------------------------------------
+                                     92 	.area _HOME
+                                     93 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:14: void StateDestroyDefault(void) NONBANKED {
+                                     94 ;	---------------------------------
+                                     95 ; Function StateDestroyDefault
+                                     96 ; ---------------------------------
+    00000000                         97 _StateDestroyDefault::
+                                     98 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:15: }
+    00000000 C9               [16]   99 	ret
+                                    100 	.area _HOME
+                                    101 ;--------------------------------------------------------
+                                    102 ; code
+                                    103 ;--------------------------------------------------------
+                                    104 	.area _CODE_255
+                                    105 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:37: void InitStates(void) BANKED {
+                                    106 ;	---------------------------------
+                                    107 ; Function InitStates
+                                    108 ; ---------------------------------
+                         000000FF   109 	b_InitStates	= 255
+    00000000                        110 _InitStates::
+                                    111 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:38: memcpy(stateBanks, __stateBanks, sizeof(stateBanks));
+    00000000 11 01 00         [12]  112 	ld	de, #0x0001
+    00000003 D5               [16]  113 	push	de
+    00000004 01r35r00         [12]  114 	ld	bc, #___stateBanks
+    00000007 11r00r00         [12]  115 	ld	de, #_stateBanks
+    0000000A CDr00r00         [24]  116 	call	_memcpy
+                                    117 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:39: memcpy(startFuncs, __startFuncs, sizeof(startFuncs));
+    0000000D 11 02 00         [12]  118 	ld	de, #0x0002
+    00000010 D5               [16]  119 	push	de
+    00000011 01r36r00         [12]  120 	ld	bc, #___startFuncs
+    00000014 11r01r00         [12]  121 	ld	de, #_startFuncs
+    00000017 CDr00r00         [24]  122 	call	_memcpy
+                                    123 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:40: memcpy(updateFuncs, __updateFuncs, sizeof(updateFuncs));
+    0000001A 11 02 00         [12]  124 	ld	de, #0x0002
+    0000001D D5               [16]  125 	push	de
+    0000001E 01r38r00         [12]  126 	ld	bc, #___updateFuncs
+    00000021 11r03r00         [12]  127 	ld	de, #_updateFuncs
+    00000024 CDr00r00         [24]  128 	call	_memcpy
+                                    129 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:41: memcpy(destroyFuncs, __destroyFuncs, sizeof(destroyFuncs));
+    00000027 11 02 00         [12]  130 	ld	de, #0x0002
+    0000002A D5               [16]  131 	push	de
+    0000002B 01r3Ar00         [12]  132 	ld	bc, #___destroyFuncs
+    0000002E 11r05r00         [12]  133 	ld	de, #_destroyFuncs
+    00000031 CDr00r00         [24]  134 	call	_memcpy
+                                    135 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:42: }
+    00000034 C9               [16]  136 	ret
+    00000035                        137 ___stateBanks:
+    00000035r00                     138 	.byte ___bank_StateGame
+    00000036                        139 ___startFuncs:
+    00000036r00r00                  140 	.dw _Start_StateGame
+    00000038                        141 ___updateFuncs:
+    00000038r00r00                  142 	.dw _Update_StateGame
+    0000003A                        143 ___destroyFuncs:
+    0000003Ar00r00                  144 	.dw _StateDestroyDefault
+                                    145 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:113: void InitSprites(void) BANKED {
+                                    146 ;	---------------------------------
+                                    147 ; Function InitSprites
+                                    148 ; ---------------------------------
+                         000000FF   149 	b_InitSprites	= 255
+    0000003C                        150 _InitSprites::
+                                    151 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:114: memcpy(spriteBanks, __spriteBanks, sizeof(spriteBanks));
+    0000003C 11 01 00         [12]  152 	ld	de, #0x0001
+    0000003F D5               [16]  153 	push	de
+    00000040 01r98r00         [12]  154 	ld	bc, #___spriteBanks
+    00000043 11r07r00         [12]  155 	ld	de, #_spriteBanks
+    00000046 CDr00r00         [24]  156 	call	_memcpy
+                                    157 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:115: memcpy(spriteDataBanks, __spriteDataBanks, sizeof(spriteDataBanks));
+    00000049 11 01 00         [12]  158 	ld	de, #0x0001
+    0000004C D5               [16]  159 	push	de
+    0000004D 01r9Ar00         [12]  160 	ld	bc, #___spriteDataBanks
+    00000050 11r08r00         [12]  161 	ld	de, #_spriteDataBanks
+    00000053 CDr00r00         [24]  162 	call	_memcpy
+                                    163 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:116: memcpy(spriteStartFuncs, __spriteStartFuncs, sizeof(spriteStartFuncs));
+    00000056 11 02 00         [12]  164 	ld	de, #0x0002
+    00000059 D5               [16]  165 	push	de
+    0000005A 01r9Cr00         [12]  166 	ld	bc, #___spriteStartFuncs
+    0000005D 11r09r00         [12]  167 	ld	de, #_spriteStartFuncs
+    00000060 CDr00r00         [24]  168 	call	_memcpy
+                                    169 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:117: memcpy(spriteUpdateFuncs, __spriteUpdateFuncs, sizeof(spriteUpdateFuncs));
+    00000063 11 02 00         [12]  170 	ld	de, #0x0002
+    00000066 D5               [16]  171 	push	de
+    00000067 01rA0r00         [12]  172 	ld	bc, #___spriteUpdateFuncs
+    0000006A 11r0Br00         [12]  173 	ld	de, #_spriteUpdateFuncs
+    0000006D CDr00r00         [24]  174 	call	_memcpy
+                                    175 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:118: memcpy(spriteDestroyFuncs, __spriteDestroyFuncs, sizeof(spriteDestroyFuncs));
+    00000070 11 02 00         [12]  176 	ld	de, #0x0002
+    00000073 D5               [16]  177 	push	de
+    00000074 01rA4r00         [12]  178 	ld	bc, #___spriteDestroyFuncs
+    00000077 11r0Dr00         [12]  179 	ld	de, #_spriteDestroyFuncs
+    0000007A CDr00r00         [24]  180 	call	_memcpy
+                                    181 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:119: memcpy(spriteDatas, __spriteDatas, sizeof(spriteDatas));
+    0000007D 11 02 00         [12]  182 	ld	de, #0x0002
+    00000080 D5               [16]  183 	push	de
+    00000081 01rA8r00         [12]  184 	ld	bc, #___spriteDatas
+    00000084 11r0Fr00         [12]  185 	ld	de, #_spriteDatas
+    00000087 CDr00r00         [24]  186 	call	_memcpy
+                                    187 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:120: memcpy(spriteFlips, __spriteFlips, sizeof(spriteFlips));
+    0000008A 11 01 00         [12]  188 	ld	de, #0x0001
+    0000008D D5               [16]  189 	push	de
+    0000008E 01rACr00         [12]  190 	ld	bc, #___spriteFlips
+    00000091 11r11r00         [12]  191 	ld	de, #_spriteFlips
+    00000094 CDr00r00         [24]  192 	call	_memcpy
+                                    193 ;C:/CrossZGB/ZGB/common/src/init/ZGBMain_Init.c:121: }
+    00000097 C9               [16]  194 	ret
+    00000098                        195 ___spriteBanks:
+    00000098r00                     196 	.byte ___bank_SpritePlayer
+    00000099 00                     197 	.db #0x00	; 0
+    0000009A                        198 ___spriteDataBanks:
+    0000009Ar00                     199 	.byte ___bank_player
+    0000009B 00                     200 	.db #0x00	; 0
+    0000009C                        201 ___spriteStartFuncs:
+    0000009Cr00r00                  202 	.dw _Start_SpritePlayer
+    0000009E 00 00                  203 	.dw #0x0000
+    000000A0                        204 ___spriteUpdateFuncs:
+    000000A0r00r00                  205 	.dw _Update_SpritePlayer
+    000000A2 00 00                  206 	.dw #0x0000
+    000000A4                        207 ___spriteDestroyFuncs:
+    000000A4r00r00                  208 	.dw _Destroy_SpritePlayer
+    000000A6 00 00                  209 	.dw #0x0000
+    000000A8                        210 ___spriteDatas:
+    000000A8r00r00                  211 	.dw _player
+    000000AA 00 00                  212 	.dw #0x0000
+    000000AC                        213 ___spriteFlips:
+    000000AC 00                     214 	.db #0x00	; 0
+    000000AD 00                     215 	.db #0x00	; 0
+                                    216 	.area _CODE_255
+                                    217 	.area _INITIALIZER
+    00000000                        218 __xinit____CRASH_HANDLER_INIT:
+    00000000r00r00                  219 	.dw ___HandleCrash
+                                    220 	.area _CABS (ABS)

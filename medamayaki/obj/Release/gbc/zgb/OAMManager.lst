@@ -1,0 +1,160 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module OAMManager
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _memset
+                                     11 	.globl _hide_sprites_range
+                                     12 	.globl _oam1
+                                     13 	.globl _oam0
+                                     14 	.globl _oam
+                                     15 	.globl _next_oam_idx
+                                     16 	.globl _SwapOAMs
+                                     17 	.globl _ClearOAMs
+                                     18 	.globl _InitOAMs
+                                     19 ;--------------------------------------------------------
+                                     20 ; special function registers
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _HRAM
+                                     23 ;--------------------------------------------------------
+                                     24 ; ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _DATA
+                                     27 ;--------------------------------------------------------
+                                     28 ; ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _INITIALIZED
+    00000000                         31 _next_oam_idx::
+    00000000                         32 	.ds 1
+    00000001                         33 _oam::
+    00000001                         34 	.ds 2
+    00000003                         35 _oam0::
+    00000003                         36 	.ds 2
+    00000005                         37 _oam1::
+    00000005                         38 	.ds 2
+                                     39 ;--------------------------------------------------------
+                                     40 ; absolute external ram data
+                                     41 ;--------------------------------------------------------
+                                     42 	.area _DABS (ABS)
+                                     43 ;--------------------------------------------------------
+                                     44 ; global & static initialisations
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _HOME
+                                     47 	.area _GSINIT
+                                     48 	.area _GSFINAL
+                                     49 	.area _GSINIT
+                                     50 ;--------------------------------------------------------
+                                     51 ; Home
+                                     52 ;--------------------------------------------------------
+                                     53 	.area _HOME
+                                     54 	.area _HOME
+                                     55 ;--------------------------------------------------------
+                                     56 ; code
+                                     57 ;--------------------------------------------------------
+                                     58 	.area _CODE
+                                     59 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:28: void SwapOAMs(void) {
+                                     60 ;	---------------------------------
+                                     61 ; Function SwapOAMs
+                                     62 ; ---------------------------------
+    00000000                         63 _SwapOAMs::
+                                     64 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:32: hide_sprites_range(next_oam_idx, MAX_HARDWARE_SPRITES);
+    00000000 1E 28            [ 8]   65 	ld	e, #0x28
+    00000002 FAr00r00         [16]   66 	ld	a, (_next_oam_idx)
+    00000005 CDr00r00         [24]   67 	call	_hide_sprites_range
+                                     68 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:35: if ((_shadow_OAM_base = __render_shadow_OAM) == (UINT8)((UINT16)mirror_OAM >> 8)) {
+    00000008 21r00r00         [12]   69 	ld	hl, #___render_shadow_OAM
+    0000000B 7E               [ 8]   70 	ld	a, (hl)
+    0000000C E0r00            [12]   71 	ldh	(__shadow_OAM_base + 0), a
+    0000000E 3Es00            [ 8]   72 	ld	a, #>(_mirror_OAM)
+    00000010 96               [ 8]   73 	sub	a, (hl)
+    00000011 20 0F            [12]   74 	jr	NZ, 00102$
+                                     75 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:36: __render_shadow_OAM = (UINT8)((UINT16)(oam = (UINT8*)shadow_OAM) >> 8);
+    00000013 21r01r00         [12]   76 	ld	hl, #_oam
+    00000016 36r00            [12]   77 	ld	(hl), #<(_shadow_OAM)
+    00000018 23               [ 8]   78 	inc	hl
+    00000019 36s00            [12]   79 	ld	(hl), #>(_shadow_OAM)
+    0000001B 21r00r00         [12]   80 	ld	hl, #___render_shadow_OAM
+    0000001E 36s00            [12]   81 	ld	(hl), #>(_shadow_OAM)
+    00000020 18 0D            [12]   82 	jr	00103$
+    00000022                         83 00102$:
+                                     84 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:38: __render_shadow_OAM = (UINT8)((UINT16)(oam = (UINT8*)mirror_OAM) >> 8);
+    00000022 21r01r00         [12]   85 	ld	hl, #_oam
+    00000025 3Er00            [ 8]   86 	ld	a, #<(_mirror_OAM)
+    00000027 22               [ 8]   87 	ld	(hl+), a
+    00000028 36s00            [12]   88 	ld	(hl), #>(_mirror_OAM)
+    0000002A 21r00r00         [12]   89 	ld	hl, #___render_shadow_OAM
+    0000002D 36s00            [12]   90 	ld	(hl), #>(_mirror_OAM)
+    0000002F                         91 00103$:
+                                     92 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:40: next_oam_idx = 0;
+    0000002F AF               [ 4]   93 	xor	a, a
+    00000030 EAr00r00         [16]   94 	ld	(#_next_oam_idx),a
+                                     95 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:42: scroll_x_vblank = scroll_x, scroll_y_vblank = scroll_y;
+    00000033 FAr00r00         [16]   96 	ld	a, (#_scroll_x)
+    00000036 EAr00r00         [16]   97 	ld	(#_scroll_x_vblank),a
+    00000039 FAr01r00         [16]   98 	ld	a, (#_scroll_x + 1)
+    0000003C EAr01r00         [16]   99 	ld	(#_scroll_x_vblank + 1),a
+    0000003F FAr00r00         [16]  100 	ld	a, (#_scroll_y)
+    00000042 EAr00r00         [16]  101 	ld	(#_scroll_y_vblank),a
+    00000045 FAr01r00         [16]  102 	ld	a, (#_scroll_y + 1)
+    00000048 EAr01r00         [16]  103 	ld	(#_scroll_y_vblank + 1),a
+                                    104 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:43: }
+    0000004B C9               [16]  105 	ret
+                                    106 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:45: void ClearOAMs(void) {
+                                    107 ;	---------------------------------
+                                    108 ; Function ClearOAMs
+                                    109 ; ---------------------------------
+    0000004C                        110 _ClearOAMs::
+                                    111 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:46: __render_shadow_OAM = (UINT8)((UINT16)shadow_OAM >> 8);
+    0000004C 21r00r00         [12]  112 	ld	hl, #___render_shadow_OAM
+    0000004F 36s00            [12]  113 	ld	(hl), #>(_shadow_OAM)
+                                    114 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:47: hide_sprites_range(0, MAX_HARDWARE_SPRITES);
+    00000051 1E 28            [ 8]  115 	ld	e, #0x28
+    00000053 AF               [ 4]  116 	xor	a, a
+    00000054 CDr00r00         [24]  117 	call	_hide_sprites_range
+                                    118 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:48: _shadow_OAM_base = __render_shadow_OAM; // emulate SwapOAMs()
+    00000057 21r00r00         [12]  119 	ld	hl, #___render_shadow_OAM
+    0000005A 7E               [ 8]  120 	ld	a, (hl)
+    0000005B E0r00            [12]  121 	ldh	(__shadow_OAM_base + 0), a
+                                    122 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:49: __render_shadow_OAM = (UINT8)((UINT16)mirror_OAM >> 8);
+    0000005D 36s00            [12]  123 	ld	(hl), #>(_mirror_OAM)
+                                    124 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:50: hide_sprites_range(0, MAX_HARDWARE_SPRITES);
+    0000005F 1E 28            [ 8]  125 	ld	e, #0x28
+    00000061 AF               [ 4]  126 	xor	a, a
+    00000062 CDr00r00         [24]  127 	call	_hide_sprites_range
+                                    128 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:51: next_oam_idx = 0;
+    00000065 AF               [ 4]  129 	xor	a, a
+    00000066 EAr00r00         [16]  130 	ld	(#_next_oam_idx),a
+                                    131 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:52: }
+    00000069 C9               [16]  132 	ret
+                                    133 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:54: void InitOAMs(void) {
+                                    134 ;	---------------------------------
+                                    135 ; Function InitOAMs
+                                    136 ; ---------------------------------
+    0000006A                        137 _InitOAMs::
+                                    138 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:55: memset(mirror_OAM, 0, sizeof(mirror_OAM));
+    0000006A AF               [ 4]  139 	xor	a, a
+    0000006B A7               [ 4]  140 	and	a
+    0000006C F5               [16]  141 	push	af
+    0000006D 11 00 00         [12]  142 	ld	de, #0x0000
+    00000070 D5               [16]  143 	push	de
+    00000071 11r00r00         [12]  144 	ld	de, #_mirror_OAM
+    00000074 D5               [16]  145 	push	de
+    00000075 CDr00r00         [24]  146 	call	_memset
+    00000078 E8 06            [16]  147 	add	sp, #6
+                                    148 ;C:/CrossZGB/ZGB/common/src/OAMManager.c:56: }
+    0000007A C9               [16]  149 	ret
+                                    150 	.area _CODE
+                                    151 	.area _INITIALIZER
+    00000000                        152 __xinit__next_oam_idx:
+    00000000 00                     153 	.db #0x00	; 0
+    00000001                        154 __xinit__oam:
+    00000001r00r00                  155 	.dw _shadow_OAM
+    00000003                        156 __xinit__oam0:
+    00000003r00r00                  157 	.dw _shadow_OAM
+    00000005                        158 __xinit__oam1:
+    00000005r00r00                  159 	.dw _mirror_OAM
+                                    160 	.area _CABS (ABS)

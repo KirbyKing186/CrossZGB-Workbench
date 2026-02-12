@@ -1,0 +1,16 @@
+../obj/Release/gbc/res/sprites/player.png.o
+../obj/Release/gbc/res/medamayaki.png.o
+../obj/Release/gbc/res/medamayaki_tileset.png.o
+../obj/Release/gbc/crash_handler.o
+../obj/Release/gbc/BufferDataA.o
+../obj/Release/gbc/BufferDataB.o
+../obj/Release/gbc/Camera.o
+../obj/Release/gbc/Collision.o
+../obj/Release/gbc/Interrupts.o
+../obj/Release/gbc/MapManager.o
+../obj/Release/gbc/Platformer.o
+../obj/Release/gbc/savegame.o
+../obj/Release/gbc/SpritePlayer.o
+../obj/Release/gbc/StateGame.o
+../obj/Release/gbc/ZGBMain.o
+../obj/Release/gbc/ZGBMain_Init.o

@@ -1,0 +1,46 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _RevertSRAM                                                     ******** GX
+    __current_bank                                                  ******** GX
+    __mulint                                                        ******** GX
+  2 __save                                                          00000000 R
+  8 __xinit__tile_hit_x                                             00000000 R
+  8 __xinit__tile_hit_y                                             00000002 R
+    _dynamic_map_active                                             ******** GX
+    _rRAMB                                                          ******** GX
+    _rRAMG                                                          ******** GX
+    _rROMB0                                                         ******** GX
+    _scroll_bank                                                    ******** GX
+    _scroll_collisions                                              ******** GX
+    _scroll_map                                                     ******** GX
+    _scroll_tiles_h                                                 ******** GX
+    _scroll_tiles_w                                                 ******** GX
+  5 _tile_col_test_range_x                                          000001A3 GR
+  5 _tile_col_test_range_y                                          00000000 GR
+  3 _tile_hit_x                                                     00000000 GR
+  3 _tile_hit_y                                                     00000002 GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size        0   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        1   flags    0
+   3 _INITIALIZED                               size        4   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size      32B   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _INITIALIZER                               size        4   flags    0
+   9 _CABS                                      size        0   flags    8
+

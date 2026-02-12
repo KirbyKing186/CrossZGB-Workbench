@@ -1,0 +1,59 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+  8 _InitDefaultRecode                                              00000000 GR
+  5 _InitRecodeTable                                                00000000 GR
+  5 _Printf                                                         00000027 GR
+  2 _Printf_old_x_10000_268                                         0000000F R
+  2 _Printf_tmp_10000_268                                           00000005 R
+    _UpdateMapTile                                                  ******** GX
+    __current_bank                                                  ******** GX
+  9 __xinit__font_offset                                            00000004 R
+  9 __xinit__print_render                                           00000000 R
+  9 __xinit__print_target                                           00000003 R
+  9 __xinit__print_x                                                00000001 R
+  9 __xinit__print_y                                                00000002 R
+  8 _default_recode_table                                           0000000E GR
+  2 _font_current_offset                                            00000000 GR
+  3 _font_offset                                                    00000004 GR
+    _font_recode_table                                              ******** GX
+  2 _font_tiledata                                                  00000002 GR
+  2 _font_tiledata_bank                                             00000004 GR
+    _itoa                                                           ******** GX
+    _memcpy                                                         ******** GX
+  3 _print_render                                                   00000000 GR
+  3 _print_target                                                   00000003 GR
+  3 _print_x                                                        00000001 GR
+  3 _print_y                                                        00000002 GR
+    _rROMB0                                                         ******** GX
+    _scroll_offset_x                                                ******** GX
+    _scroll_offset_y                                                ******** GX
+    _set_bkg_data                                                   ******** GX
+    _set_sprite_data                                                ******** GX
+    _uitoa                                                          ******** GX
+    b_InitDefaultRecode                                         =   00000001 G
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size        0   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size       10   flags    0
+   3 _INITIALIZED                               size        6   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size      204   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _CODE_1                                    size       6E   flags    0
+   9 _INITIALIZER                               size        6   flags    0
+   A _CABS                                      size        0   flags    8
+

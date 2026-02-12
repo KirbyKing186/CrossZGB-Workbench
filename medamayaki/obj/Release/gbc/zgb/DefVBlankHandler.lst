@@ -1,0 +1,76 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module DefVBlankHandler
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _VBL_isr
+                                     11 ;--------------------------------------------------------
+                                     12 ; special function registers
+                                     13 ;--------------------------------------------------------
+                                     14 	.area _HRAM
+                                     15 ;--------------------------------------------------------
+                                     16 ; ram data
+                                     17 ;--------------------------------------------------------
+                                     18 	.area _DATA
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _INITIALIZED
+                                     23 ;--------------------------------------------------------
+                                     24 ; absolute external ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _DABS (ABS)
+                                     27 ;--------------------------------------------------------
+                                     28 ; global & static initialisations
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _HOME
+                                     31 	.area _GSINIT
+                                     32 	.area _GSFINAL
+                                     33 	.area _GSINIT
+                                     34 ;--------------------------------------------------------
+                                     35 ; Home
+                                     36 ;--------------------------------------------------------
+                                     37 	.area _HOME
+                                     38 ;C:/CrossZGB/ZGB/common/src/DefVBlankHandler.c:7: void VBL_isr(void) NONBANKED {
+                                     39 ;	---------------------------------
+                                     40 ; Function VBL_isr
+                                     41 ; ---------------------------------
+    00000000                         42 _VBL_isr::
+                                     43 ;C:/CrossZGB/ZGB/common/src/DefVBlankHandler.c:8: vbl_count ++;
+    00000000 21r00r00         [12]   44 	ld	hl, #_vbl_count
+    00000003 34               [12]   45 	inc	(hl)
+                                     46 ;C:/CrossZGB/ZGB/common/src/DefVBlankHandler.c:10: move_bkg(scroll_x_vblank + TILE_TO_PX(scroll_offset_x), scroll_y_vblank + TILE_TO_PX(scroll_offset_y));
+    00000004 FAr00r00         [16]   47 	ld	a, (_scroll_y_vblank)
+    00000007 4F               [ 4]   48 	ld	c, a
+    00000008 FAr00r00         [16]   49 	ld	a, (#_scroll_offset_y)
+    0000000B 87               [ 4]   50 	add	a, a
+    0000000C 87               [ 4]   51 	add	a, a
+    0000000D 87               [ 4]   52 	add	a, a
+    0000000E 81               [ 4]   53 	add	a, c
+    0000000F 4F               [ 4]   54 	ld	c, a
+    00000010 FAr00r00         [16]   55 	ld	a, (_scroll_x_vblank)
+    00000013 47               [ 4]   56 	ld	b, a
+    00000014 FAr00r00         [16]   57 	ld	a, (#_scroll_offset_x)
+    00000017 87               [ 4]   58 	add	a, a
+    00000018 87               [ 4]   59 	add	a, a
+    00000019 87               [ 4]   60 	add	a, a
+    0000001A 80               [ 4]   61 	add	a, b
+    0000001B E0r00            [12]   62 	ldh	(_SCX_REG + 0), a
+                                     63 ;c:\crosszgb\gbdk\include\gb\gb.h:1461: SCX_REG=x, SCY_REG=y;
+    0000001D 79               [ 4]   64 	ld	a, c
+    0000001E E0r00            [12]   65 	ldh	(_SCY_REG + 0), a
+                                     66 ;C:/CrossZGB/ZGB/common/src/DefVBlankHandler.c:10: move_bkg(scroll_x_vblank + TILE_TO_PX(scroll_offset_x), scroll_y_vblank + TILE_TO_PX(scroll_offset_y));
+                                     67 ;C:/CrossZGB/ZGB/common/src/DefVBlankHandler.c:17: }
+    00000020 C9               [16]   68 	ret
+                                     69 	.area _HOME
+                                     70 ;--------------------------------------------------------
+                                     71 ; code
+                                     72 ;--------------------------------------------------------
+                                     73 	.area _CODE
+                                     74 	.area _CODE
+                                     75 	.area _INITIALIZER
+                                     76 	.area _CABS (ABS)

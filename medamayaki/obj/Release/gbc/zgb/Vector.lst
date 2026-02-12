@@ -1,0 +1,138 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module Vector
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _memcpy
+                                     11 	.globl _BufferExchange
+                                     12 	.globl _BufferRotate
+                                     13 	.globl _VectorRemovePos
+                                     14 ;--------------------------------------------------------
+                                     15 ; special function registers
+                                     16 ;--------------------------------------------------------
+                                     17 	.area _HRAM
+                                     18 ;--------------------------------------------------------
+                                     19 ; ram data
+                                     20 ;--------------------------------------------------------
+                                     21 	.area _DATA
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area _INITIALIZED
+                                     26 ;--------------------------------------------------------
+                                     27 ; absolute external ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area _DABS (ABS)
+                                     30 ;--------------------------------------------------------
+                                     31 ; global & static initialisations
+                                     32 ;--------------------------------------------------------
+                                     33 	.area _HOME
+                                     34 	.area _GSINIT
+                                     35 	.area _GSFINAL
+                                     36 	.area _GSINIT
+                                     37 ;--------------------------------------------------------
+                                     38 ; Home
+                                     39 ;--------------------------------------------------------
+                                     40 	.area _HOME
+                                     41 	.area _HOME
+                                     42 ;--------------------------------------------------------
+                                     43 ; code
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _CODE
+                                     46 ;C:/CrossZGB/ZGB/common/src/Vector.c:5: void BufferExchange(UINT8* v, UINT16 xy) NAKED {
+                                     47 ;	---------------------------------
+                                     48 ; Function BufferExchange
+                                     49 ; ---------------------------------
+    00000000                         50 _BufferExchange::
+                                     51 ;C:/CrossZGB/ZGB/common/src/Vector.c:63: __endasm;
+    00000000 7B               [ 4]   52 	ld	a, e
+    00000001 81               [ 4]   53 	add	c
+    00000002 6F               [ 4]   54 	ld	l, a
+    00000003 8A               [ 4]   55 	adc	d
+    00000004 95               [ 4]   56 	sub	l
+    00000005 67               [ 4]   57 	ld	h, a
+    00000006 4E               [ 8]   58 	ld	c, (hl)
+    00000007 E5               [16]   59 	push	hl
+    00000008 7B               [ 4]   60 	ld	a, e
+    00000009 80               [ 4]   61 	add	b
+    0000000A 6F               [ 4]   62 	ld	l, a
+    0000000B 8A               [ 4]   63 	adc	d
+    0000000C 95               [ 4]   64 	sub	l
+    0000000D 67               [ 4]   65 	ld	h, a
+    0000000E 7E               [ 8]   66 	ld	a, (hl)
+    0000000F 71               [ 8]   67 	ld	(hl), c
+    00000010 E1               [12]   68 	pop	hl
+    00000011 77               [ 8]   69 	ld	(hl), a
+    00000012 C9               [16]   70 	ret
+                                     71 ;C:/CrossZGB/ZGB/common/src/Vector.c:64: }
+                                     72 ;C:/CrossZGB/ZGB/common/src/Vector.c:66: void BufferRotate(UINT8* v, UINT8 len) NAKED {
+                                     73 ;	---------------------------------
+                                     74 ; Function BufferRotate
+                                     75 ; ---------------------------------
+    00000013                         76 _BufferRotate::
+                                     77 ;C:/CrossZGB/ZGB/common/src/Vector.c:116: __endasm;
+    00000013 D6 01            [ 8]   78 	sub	#1
+    00000015 D8               [20]   79 	ret	c
+    00000016 C8               [20]   80 	ret	z
+    00000017 4F               [ 4]   81 	ld	c, a
+    00000018 62               [ 4]   82 	ld	h, d
+    00000019 6B               [ 4]   83 	ld	l, e
+    0000001A 13               [ 8]   84 	inc	de
+    0000001B 46               [ 8]   85 	ld	b, (hl)
+    0000001C                         86 1$:
+    0000001C 1A               [ 8]   87 	ld	a, (de)
+    0000001D 22               [ 8]   88 	ld	(hl+), a
+    0000001E 13               [ 8]   89 	inc	de
+    0000001F 0D               [ 4]   90 	dec	c
+    00000020 20 FA            [12]   91 	jr	nz, 1$
+    00000022 70               [ 8]   92 	ld	(hl), b
+    00000023 C9               [16]   93 	ret
+                                     94 ;C:/CrossZGB/ZGB/common/src/Vector.c:117: }
+                                     95 ;C:/CrossZGB/ZGB/common/src/Vector.c:119: void VectorRemovePos(UINT8* v, UINT8 pos) {
+                                     96 ;	---------------------------------
+                                     97 ; Function VectorRemovePos
+                                     98 ; ---------------------------------
+    00000024                         99 _VectorRemovePos::
+    00000024 3B               [ 8]  100 	dec	sp
+    00000025 3B               [ 8]  101 	dec	sp
+    00000026 4F               [ 4]  102 	ld	c, a
+                                    103 ;C:/CrossZGB/ZGB/common/src/Vector.c:120: memcpy(&v[pos + 1], &v[pos + 2], (UINT8)((UINT8)(v[0]--) - pos));
+    00000027 1A               [ 8]  104 	ld	a, (de)
+    00000028 47               [ 4]  105 	ld	b, a
+    00000029 3D               [ 4]  106 	dec	a
+    0000002A 12               [ 8]  107 	ld	(de), a
+    0000002B 78               [ 4]  108 	ld	a, b
+    0000002C 91               [ 4]  109 	sub	a, c
+    0000002D F8 00            [12]  110 	ldhl	sp,	#0
+    0000002F 22               [ 8]  111 	ld	(hl+), a
+    00000030 36 00            [12]  112 	ld	(hl), #0x00
+    00000032 69               [ 4]  113 	ld	l, c
+    00000033 26 00            [ 8]  114 	ld	h, #0x00
+    00000035 4D               [ 4]  115 	ld	c, l
+    00000036 44               [ 4]  116 	ld	b, h
+    00000037 23               [ 8]  117 	inc	hl
+    00000038 03               [ 8]  118 	inc	bc
+    00000039 03               [ 8]  119 	inc	bc
+    0000003A 79               [ 4]  120 	ld	a, c
+    0000003B 83               [ 4]  121 	add	a, e
+    0000003C 4F               [ 4]  122 	ld	c, a
+    0000003D 78               [ 4]  123 	ld	a, b
+    0000003E 8A               [ 4]  124 	adc	a, d
+    0000003F 47               [ 4]  125 	ld	b, a
+    00000040 19               [ 8]  126 	add	hl, de
+    00000041 5D               [ 4]  127 	ld	e, l
+    00000042 54               [ 4]  128 	ld	d, h
+    00000043 E1               [12]  129 	pop	hl
+    00000044 E5               [16]  130 	push	hl
+    00000045 E5               [16]  131 	push	hl
+                                    132 ;C:/CrossZGB/ZGB/common/src/Vector.c:121: }
+    00000046 CDr00r00         [24]  133 	call	_memcpy
+    00000049 E1               [12]  134 	pop	hl
+    0000004A C9               [16]  135 	ret
+                                    136 	.area _CODE
+                                    137 	.area _INITIALIZER
+                                    138 	.area _CABS (ABS)

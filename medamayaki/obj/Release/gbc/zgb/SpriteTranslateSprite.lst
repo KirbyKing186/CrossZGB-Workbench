@@ -1,0 +1,971 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module SpriteTranslateSprite
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _TranslateSprite
+                                     11 ;--------------------------------------------------------
+                                     12 ; special function registers
+                                     13 ;--------------------------------------------------------
+                                     14 	.area _HRAM
+                                     15 ;--------------------------------------------------------
+                                     16 ; ram data
+                                     17 ;--------------------------------------------------------
+                                     18 	.area _DATA
+    00000000                         19 _tile_coll:
+    00000000                         20 	.ds 2
+                                     21 ;--------------------------------------------------------
+                                     22 ; ram data
+                                     23 ;--------------------------------------------------------
+                                     24 	.area _INITIALIZED
+                                     25 ;--------------------------------------------------------
+                                     26 ; absolute external ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area _DABS (ABS)
+                                     29 ;--------------------------------------------------------
+                                     30 ; global & static initialisations
+                                     31 ;--------------------------------------------------------
+                                     32 	.area _HOME
+                                     33 	.area _GSINIT
+                                     34 	.area _GSFINAL
+                                     35 	.area _GSINIT
+                                     36 ;--------------------------------------------------------
+                                     37 ; Home
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
+                                     40 	.area _HOME
+                                     41 ;--------------------------------------------------------
+                                     42 ; code
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _CODE
+                                     45 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:8: UINT8 TranslateSprite(Sprite* sprite, INT8 x, INT8 y) {
+                                     46 ;	---------------------------------
+                                     47 ; Function TranslateSprite
+                                     48 ; ---------------------------------
+    00000000                         49 _TranslateSprite::
+    00000000 E8 F2            [16]   50 	add	sp, #-14
+    00000002 F8 0C            [12]   51 	ldhl	sp,	#12
+    00000004 73               [ 8]   52 	ld	(hl), e
+    00000005 23               [ 8]   53 	inc	hl
+    00000006 72               [ 8]   54 	ld	(hl), d
+    00000007 2B               [ 8]   55 	dec	hl
+    00000008 2B               [ 8]   56 	dec	hl
+    00000009 77               [ 8]   57 	ld	(hl), a
+                                     58 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:9: UINT8 ret = 0;
+    0000000A F8 04            [12]   59 	ldhl	sp,	#4
+    0000000C 36 00            [12]   60 	ld	(hl), #0x00
+                                     61 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:17: pivot_x = sprite->x + (UINT8)(sprite->coll_w - 1u);
+    0000000E F8 0C            [12]   62 	ldhl	sp,	#12
+    00000010 7E               [ 8]   63 	ld	a, (hl)
+    00000011 F8 07            [12]   64 	ldhl	sp,	#7
+    00000013 77               [ 8]   65 	ld	(hl), a
+    00000014 F8 0D            [12]   66 	ldhl	sp,	#13
+    00000016 7E               [ 8]   67 	ld	a, (hl)
+    00000017 F8 08            [12]   68 	ldhl	sp,	#8
+    00000019 77               [ 8]   69 	ld	(hl), a
+    0000001A F8 0C            [12]   70 	ldhl	sp,#12
+    0000001C 2A               [ 8]   71 	ld	a, (hl+)
+    0000001D 5F               [ 4]   72 	ld	e, a
+    0000001E 56               [ 8]   73 	ld	d, (hl)
+    0000001F 21 04 00         [12]   74 	ld	hl, #0x0004
+    00000022 19               [ 8]   75 	add	hl, de
+    00000023 E5               [16]   76 	push	hl
+    00000024 7D               [ 4]   77 	ld	a, l
+    00000025 F8 0B            [12]   78 	ldhl	sp,	#11
+    00000027 77               [ 8]   79 	ld	(hl), a
+    00000028 E1               [12]   80 	pop	hl
+    00000029 7C               [ 4]   81 	ld	a, h
+    0000002A F8 0A            [12]   82 	ldhl	sp,	#10
+                                     83 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:15: if (x) {
+    0000002C 22               [ 8]   84 	ld	(hl+), a
+    0000002D 7E               [ 8]   85 	ld	a, (hl)
+    0000002E B7               [ 4]   86 	or	a, a
+    0000002F CAr1Dr02         [16]   87 	jp	Z, 00128$
+                                     88 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:16: if (x > 0) {
+    00000032 5E               [ 8]   89 	ld	e, (hl)
+    00000033 AF               [ 4]   90 	xor	a, a
+    00000034 57               [ 4]   91 	ld	d, a
+    00000035 96               [ 8]   92 	sub	a, (hl)
+    00000036 CB 7B            [ 8]   93 	bit	7, e
+    00000038 28 07            [12]   94 	jr	Z, 00344$
+    0000003A CB 7A            [ 8]   95 	bit	7, d
+    0000003C 20 08            [12]   96 	jr	NZ, 00345$
+    0000003E BF               [ 4]   97 	cp	a, a
+    0000003F 18 05            [12]   98 	jr	00345$
+    00000041                         99 00344$:
+    00000041 CB 7A            [ 8]  100 	bit	7, d
+    00000043 28 01            [12]  101 	jr	Z, 00345$
+    00000045 37               [ 4]  102 	scf
+    00000046                        103 00345$:
+    00000046 3E 00            [ 8]  104 	ld	a, #0x00
+    00000048 17               [ 4]  105 	rla
+    00000049 F8 02            [12]  106 	ldhl	sp,	#2
+    0000004B 77               [ 8]  107 	ld	(hl), a
+                                    108 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:17: pivot_x = sprite->x + (UINT8)(sprite->coll_w - 1u);
+    0000004C F8 07            [12]  109 	ldhl	sp,#7
+    0000004E 2A               [ 8]  110 	ld	a, (hl+)
+    0000004F 5F               [ 4]  111 	ld	e, a
+    00000050 56               [ 8]  112 	ld	d, (hl)
+    00000051 1A               [ 8]  113 	ld	a, (de)
+    00000052 4F               [ 4]  114 	ld	c, a
+    00000053 13               [ 8]  115 	inc	de
+    00000054 1A               [ 8]  116 	ld	a, (de)
+    00000055 47               [ 4]  117 	ld	b, a
+                                    118 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:16: if (x > 0) {
+    00000056 F8 02            [12]  119 	ldhl	sp,	#2
+    00000058 7E               [ 8]  120 	ld	a, (hl)
+    00000059 B7               [ 4]  121 	or	a, a
+    0000005A 28 0D            [12]  122 	jr	Z, 00102$
+                                    123 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:17: pivot_x = sprite->x + (UINT8)(sprite->coll_w - 1u);
+    0000005C F8 09            [12]  124 	ldhl	sp,#9
+    0000005E 2A               [ 8]  125 	ld	a, (hl+)
+    0000005F 5F               [ 4]  126 	ld	e, a
+    00000060 56               [ 8]  127 	ld	d, (hl)
+    00000061 1A               [ 8]  128 	ld	a, (de)
+    00000062 3D               [ 4]  129 	dec	a
+    00000063 6F               [ 4]  130 	ld	l, a
+    00000064 26 00            [ 8]  131 	ld	h, #0x00
+    00000066 09               [ 8]  132 	add	hl, bc
+    00000067 4D               [ 4]  133 	ld	c, l
+    00000068 44               [ 4]  134 	ld	b, h
+                                    135 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:19: pivot_x = sprite->x;
+    00000069                        136 00102$:
+                                    137 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:23: tmp = PX_TO_TILE(pivot_x);
+    00000069 59               [ 4]  138 	ld	e, c
+    0000006A 50               [ 4]  139 	ld	d, b
+    0000006B CB 2A            [ 8]  140 	sra	d
+    0000006D CB 1B            [ 8]  141 	rr	e
+    0000006F CB 2A            [ 8]  142 	sra	d
+    00000071 CB 1B            [ 8]  143 	rr	e
+    00000073 CB 2A            [ 8]  144 	sra	d
+    00000075 CB 1B            [ 8]  145 	rr	e
+                                    146 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:24: pivot_x += x;
+    00000077 F8 0B            [12]  147 	ldhl	sp,	#11
+    00000079 7E               [ 8]  148 	ld	a, (hl)
+    0000007A F5               [16]  149 	push	af
+    0000007B 07               [ 4]  150 	rlca
+    0000007C 9F               [ 4]  151 	sbc	a, a
+    0000007D 57               [ 4]  152 	ld	d, a
+    0000007E F1               [12]  153 	pop	af
+    0000007F 81               [ 4]  154 	add	a, c
+    00000080 4F               [ 4]  155 	ld	c, a
+    00000081 7A               [ 4]  156 	ld	a, d
+    00000082 88               [ 4]  157 	adc	a, b
+    00000083 47               [ 4]  158 	ld	b, a
+                                    159 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:25: start_tile_x = PX_TO_TILE(pivot_x);
+    00000084 69               [ 4]  160 	ld	l, c
+    00000085 50               [ 4]  161 	ld	d, b
+    00000086 CB 2A            [ 8]  162 	sra	d
+    00000088 CB 1D            [ 8]  163 	rr	l
+    0000008A CB 2A            [ 8]  164 	sra	d
+    0000008C CB 1D            [ 8]  165 	rr	l
+    0000008E CB 2A            [ 8]  166 	sra	d
+    00000090 CB 1D            [ 8]  167 	rr	l
+    00000092 7D               [ 4]  168 	ld	a, l
+    00000093 F8 06            [12]  169 	ldhl	sp,	#6
+    00000095 77               [ 8]  170 	ld	(hl), a
+                                    171 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:26: if(tmp == start_tile_x) {
+    00000096 7B               [ 4]  172 	ld	a, e
+    00000097 96               [ 8]  173 	sub	a, (hl)
+    00000098 CAr1Dr02         [16]  174 	jp	Z, 00128$
+                                    175 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:31: if((UINT16)pivot_x >= scroll_w) { //This checks pivot_x < 0 || pivot_x >= scroll_W
+    0000009B 21r00r00         [12]  176 	ld	hl, #_scroll_w
+    0000009E 79               [ 4]  177 	ld	a, c
+    0000009F 96               [ 8]  178 	sub	a, (hl)
+    000000A0 23               [ 8]  179 	inc	hl
+    000000A1 78               [ 4]  180 	ld	a, b
+    000000A2 9E               [ 8]  181 	sbc	a, (hl)
+    000000A3 D2r1Dr02         [16]  182 	jp	NC, 00128$
+                                    183 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:36: if(sprite->y >= scroll_h) { //This checks sprite->y < 0 || sprite->y >= scroll_h
+    000000A6 F8 0C            [12]  184 	ldhl	sp,	#12
+    000000A8 2A               [ 8]  185 	ld	a, (hl+)
+    000000A9 66               [ 8]  186 	ld	h, (hl)
+    000000AA 6F               [ 4]  187 	ld	l, a
+    000000AB 23               [ 8]  188 	inc	hl
+    000000AC 23               [ 8]  189 	inc	hl
+    000000AD 2A               [ 8]  190 	ld	a, (hl+)
+    000000AE 4F               [ 4]  191 	ld	c, a
+    000000AF 46               [ 8]  192 	ld	b, (hl)
+                                    193 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:40: start_tile_y = scroll_tiles_h - 1;
+    000000B0 FAr00r00         [16]  194 	ld	a, (_scroll_tiles_h)
+    000000B3 3D               [ 4]  195 	dec	a
+    000000B4 F8 09            [12]  196 	ldhl	sp,	#9
+    000000B6 77               [ 8]  197 	ld	(hl), a
+                                    198 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:36: if(sprite->y >= scroll_h) { //This checks sprite->y < 0 || sprite->y >= scroll_h
+    000000B7 21r00r00         [12]  199 	ld	hl, #_scroll_h
+    000000BA 79               [ 4]  200 	ld	a, c
+    000000BB 96               [ 8]  201 	sub	a, (hl)
+    000000BC 23               [ 8]  202 	inc	hl
+    000000BD 78               [ 4]  203 	ld	a, b
+    000000BE 9E               [ 8]  204 	sbc	a, (hl)
+    000000BF 38 11            [12]  205 	jr	C, 00112$
+                                    206 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:37: if((INT16)sprite->y < 0) 
+    000000C1 60               [ 4]  207 	ld	h, b
+    000000C2 CB 7C            [ 8]  208 	bit	7, h
+    000000C4 28 06            [12]  209 	jr	Z, 00109$
+                                    210 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:38: start_tile_y = 0;
+    000000C6 F8 0A            [12]  211 	ldhl	sp,	#10
+    000000C8 36 00            [12]  212 	ld	(hl), #0x00
+    000000CA 18 17            [12]  213 	jr	00113$
+    000000CC                        214 00109$:
+                                    215 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:40: start_tile_y = scroll_tiles_h - 1;
+    000000CC F8 09            [12]  216 	ldhl	sp,	#9
+    000000CE 2A               [ 8]  217 	ld	a, (hl+)
+    000000CF 77               [ 8]  218 	ld	(hl), a
+    000000D0 18 11            [12]  219 	jr	00113$
+    000000D2                        220 00112$:
+                                    221 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:42: start_tile_y = PX_TO_TILE(sprite->y);
+    000000D2 59               [ 4]  222 	ld	e, c
+    000000D3 50               [ 4]  223 	ld	d, b
+    000000D4 CB 3A            [ 8]  224 	srl	d
+    000000D6 CB 1B            [ 8]  225 	rr	e
+    000000D8 CB 3A            [ 8]  226 	srl	d
+    000000DA CB 1B            [ 8]  227 	rr	e
+    000000DC CB 3A            [ 8]  228 	srl	d
+    000000DE CB 1B            [ 8]  229 	rr	e
+    000000E0 F8 0A            [12]  230 	ldhl	sp,	#10
+    000000E2 73               [ 8]  231 	ld	(hl), e
+    000000E3                        232 00113$:
+                                    233 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:46: pivot_y = sprite->y + sprite->coll_h - 1;
+    000000E3 F8 0C            [12]  234 	ldhl	sp,#12
+    000000E5 2A               [ 8]  235 	ld	a, (hl+)
+    000000E6 5F               [ 4]  236 	ld	e, a
+    000000E7 56               [ 8]  237 	ld	d, (hl)
+    000000E8 21 05 00         [12]  238 	ld	hl, #0x0005
+    000000EB 19               [ 8]  239 	add	hl, de
+    000000EC 5D               [ 4]  240 	ld	e, l
+    000000ED 54               [ 4]  241 	ld	d, h
+    000000EE 1A               [ 8]  242 	ld	a, (de)
+    000000EF 6F               [ 4]  243 	ld	l, a
+    000000F0 26 00            [ 8]  244 	ld	h, #0x00
+    000000F2 09               [ 8]  245 	add	hl, bc
+    000000F3 4D               [ 4]  246 	ld	c, l
+    000000F4 44               [ 4]  247 	ld	b, h
+    000000F5 0B               [ 8]  248 	dec	bc
+                                    249 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:47: if((UINT16)pivot_y >= scroll_h) { //This checks pivot_y < 0 || pivot_y >= scroll_h
+    000000F6 59               [ 4]  250 	ld	e, c
+    000000F7 50               [ 4]  251 	ld	d, b
+    000000F8 21r00r00         [12]  252 	ld	hl, #_scroll_h
+    000000FB 7B               [ 4]  253 	ld	a, e
+    000000FC 96               [ 8]  254 	sub	a, (hl)
+    000000FD 23               [ 8]  255 	inc	hl
+    000000FE 7A               [ 4]  256 	ld	a, d
+    000000FF 9E               [ 8]  257 	sbc	a, (hl)
+    00000100 38 0D            [12]  258 	jr	C, 00118$
+                                    259 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:48: if(pivot_y < 0) 
+    00000102 CB 78            [ 8]  260 	bit	7, b
+    00000104 28 04            [12]  261 	jr	Z, 00115$
+                                    262 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:49: end_tile_y = 0;
+    00000106 1E 00            [ 8]  263 	ld	e, #0x00
+    00000108 18 12            [12]  264 	jr	00119$
+    0000010A                        265 00115$:
+                                    266 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:51: end_tile_y = scroll_tiles_h - 1;
+    0000010A F8 09            [12]  267 	ldhl	sp,	#9
+    0000010C 5E               [ 8]  268 	ld	e, (hl)
+    0000010D 18 0D            [12]  269 	jr	00119$
+    0000010F                        270 00118$:
+                                    271 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:53: end_tile_y = PX_TO_TILE(pivot_y);
+    0000010F CB 28            [ 8]  272 	sra	b
+    00000111 CB 19            [ 8]  273 	rr	c
+    00000113 CB 28            [ 8]  274 	sra	b
+    00000115 CB 19            [ 8]  275 	rr	c
+    00000117 CB 28            [ 8]  276 	sra	b
+    00000119 CB 19            [ 8]  277 	rr	c
+    0000011B 59               [ 4]  278 	ld	e, c
+    0000011C                        279 00119$:
+                                    280 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:56: UINT8 __save = CURRENT_BANK;
+    0000011C F0r00            [12]  281 	ldh	a, (__current_bank + 0)
+    0000011E F8 03            [12]  282 	ldhl	sp,	#3
+    00000120 77               [ 8]  283 	ld	(hl), a
+                                    284 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:57: SWITCH_ROM(scroll_bank);
+    00000121 FAr00r00         [16]  285 	ld	a, (_scroll_bank)
+    00000124 E0r00            [12]  286 	ldh	(__current_bank + 0), a
+    00000126 EAr00r00         [16]  287 	ld	(#_rROMB0),a
+                                    288 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:58: tile_coll = scroll_map + (scroll_tiles_w * start_tile_y + start_tile_x);
+    00000129 F8 0A            [12]  289 	ldhl	sp,	#10
+    0000012B 4E               [ 8]  290 	ld	c, (hl)
+    0000012C AF               [ 4]  291 	xor	a, a
+    0000012D D5               [16]  292 	push	de
+    0000012E 47               [ 4]  293 	ld	b, a
+    0000012F FAr00r00         [16]  294 	ld	a, (_scroll_tiles_w)
+    00000132 5F               [ 4]  295 	ld	e, a
+    00000133 21r01r00         [12]  296 	ld	hl, #_scroll_tiles_w + 1
+    00000136 56               [ 8]  297 	ld	d, (hl)
+    00000137 CDr00r00         [24]  298 	call	__mulint
+    0000013A D1               [12]  299 	pop	de
+    0000013B F8 06            [12]  300 	ldhl	sp,	#6
+    0000013D 3A               [ 8]  301 	ld	a, (hl-)
+    0000013E 22               [ 8]  302 	ld	(hl+), a
+    0000013F AF               [ 4]  303 	xor	a, a
+    00000140 32               [ 8]  304 	ld	(hl-), a
+    00000141 7E               [ 8]  305 	ld	a, (hl)
+    00000142 16 00            [ 8]  306 	ld	d, #0x00
+    00000144 81               [ 4]  307 	add	a, c
+    00000145 4F               [ 4]  308 	ld	c, a
+    00000146 7A               [ 4]  309 	ld	a, d
+    00000147 88               [ 4]  310 	adc	a, b
+    00000148 47               [ 4]  311 	ld	b, a
+    00000149 FAr00r00         [16]  312 	ld	a, (#_scroll_map)
+    0000014C 81               [ 4]  313 	add	a, c
+    0000014D EAr00r00         [16]  314 	ld	(#_tile_coll),a
+    00000150 FAr01r00         [16]  315 	ld	a, (#_scroll_map + 1)
+    00000153 88               [ 4]  316 	adc	a, b
+    00000154 EAr01r00         [16]  317 	ld	(#_tile_coll + 1),a
+                                    318 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:59: end_tile_y ++;
+    00000157 4B               [ 4]  319 	ld	c, e
+    00000158 0C               [ 4]  320 	inc	c
+                                    321 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:60: scroll_coll_group = sprite->coll_group;
+    00000159 F8 0C            [12]  322 	ldhl	sp,#12
+    0000015B 2A               [ 8]  323 	ld	a, (hl+)
+    0000015C 5F               [ 4]  324 	ld	e, a
+    0000015D 56               [ 8]  325 	ld	d, (hl)
+    0000015E 21 22 00         [12]  326 	ld	hl, #0x0022
+    00000161 19               [ 8]  327 	add	hl, de
+    00000162 5D               [ 4]  328 	ld	e, l
+    00000163 54               [ 4]  329 	ld	d, h
+    00000164 1A               [ 8]  330 	ld	a, (de)
+    00000165 47               [ 4]  331 	ld	b, a
+                                    332 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:61: for(tmp = start_tile_y; tmp != end_tile_y; tmp ++, tile_coll += scroll_tiles_w) {
+    00000166 F8 0A            [12]  333 	ldhl	sp,	#10
+    00000168 5E               [ 8]  334 	ld	e, (hl)
+    00000169                        335 00160$:
+                                    336 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:17: pivot_x = sprite->x + (UINT8)(sprite->coll_w - 1u);
+    00000169 F8 0C            [12]  337 	ldhl	sp,	#12
+    0000016B 7E               [ 8]  338 	ld	a, (hl)
+    0000016C F8 07            [12]  339 	ldhl	sp,	#7
+    0000016E 77               [ 8]  340 	ld	(hl), a
+    0000016F F8 0D            [12]  341 	ldhl	sp,	#13
+    00000171 7E               [ 8]  342 	ld	a, (hl)
+    00000172 F8 08            [12]  343 	ldhl	sp,	#8
+    00000174 77               [ 8]  344 	ld	(hl), a
+    00000175 D5               [16]  345 	push	de
+    00000176 F8 0E            [12]  346 	ldhl	sp,#14
+    00000178 2A               [ 8]  347 	ld	a, (hl+)
+    00000179 5F               [ 4]  348 	ld	e, a
+    0000017A 56               [ 8]  349 	ld	d, (hl)
+    0000017B 21 04 00         [12]  350 	ld	hl, #0x0004
+    0000017E 19               [ 8]  351 	add	hl, de
+    0000017F D1               [12]  352 	pop	de
+    00000180 E5               [16]  353 	push	hl
+    00000181 7D               [ 4]  354 	ld	a, l
+    00000182 F8 0B            [12]  355 	ldhl	sp,	#11
+    00000184 77               [ 8]  356 	ld	(hl), a
+    00000185 E1               [12]  357 	pop	hl
+    00000186 7C               [ 4]  358 	ld	a, h
+    00000187 F8 0A            [12]  359 	ldhl	sp,	#10
+    00000189 77               [ 8]  360 	ld	(hl), a
+                                    361 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:61: for(tmp = start_tile_y; tmp != end_tile_y; tmp ++, tile_coll += scroll_tiles_w) {
+    0000018A 79               [ 4]  362 	ld	a, c
+    0000018B 93               [ 4]  363 	sub	a, e
+    0000018C CAr14r02         [16]  364 	jp	Z, 00125$
+                                    365 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:62: if(scroll_collisions[*tile_coll] & scroll_coll_group) {
+    0000018F FAr00r00         [16]  366 	ld	a, (_tile_coll)
+    00000192 6F               [ 4]  367 	ld	l, a
+    00000193 FAr01r00         [16]  368 	ld	a, (_tile_coll + 1)
+    00000196 67               [ 4]  369 	ld	h, a
+    00000197 7E               [ 8]  370 	ld	a, (hl)
+    00000198 C6r00            [ 8]  371 	add	a, #<(_scroll_collisions)
+    0000019A 6F               [ 4]  372 	ld	l, a
+    0000019B 3E 00            [ 8]  373 	ld	a, #0x00
+    0000019D CEs00            [ 8]  374 	adc	a, #>(_scroll_collisions)
+    0000019F 67               [ 4]  375 	ld	h, a
+    000001A0 7E               [ 8]  376 	ld	a, (hl)
+    000001A1 A0               [ 4]  377 	and	a, b
+    000001A2 28 59            [12]  378 	jr	Z, 00161$
+                                    379 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:63: if(x > 0) {
+    000001A4 F8 02            [12]  380 	ldhl	sp,	#2
+    000001A6 7E               [ 8]  381 	ld	a, (hl)
+    000001A7 B7               [ 4]  382 	or	a, a
+    000001A8 28 28            [12]  383 	jr	Z, 00121$
+                                    384 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:64: sprite->x = TILE_TO_PX(start_tile_x) - sprite->coll_w;
+    000001AA F8 05            [12]  385 	ldhl	sp,	#5
+    000001AC 7E               [ 8]  386 	ld	a, (hl)
+    000001AD 06 00            [ 8]  387 	ld	b, #0x00
+    000001AF 87               [ 4]  388 	add	a, a
+    000001B0 CB 10            [ 8]  389 	rl	b
+    000001B2 87               [ 4]  390 	add	a, a
+    000001B3 CB 10            [ 8]  391 	rl	b
+    000001B5 87               [ 4]  392 	add	a, a
+    000001B6 CB 10            [ 8]  393 	rl	b
+    000001B8 F8 09            [12]  394 	ldhl	sp,#9
+    000001BA 5E               [ 8]  395 	ld	e, (hl)
+    000001BB 23               [ 8]  396 	inc	hl
+    000001BC 56               [ 8]  397 	ld	d, (hl)
+    000001BD F5               [16]  398 	push	af
+    000001BE 1A               [ 8]  399 	ld	a, (de)
+    000001BF 6F               [ 4]  400 	ld	l, a
+    000001C0 F1               [12]  401 	pop	af
+    000001C1 26 00            [ 8]  402 	ld	h, #0x00
+    000001C3 95               [ 4]  403 	sub	a, l
+    000001C4 4F               [ 4]  404 	ld	c, a
+    000001C5 78               [ 4]  405 	ld	a, b
+    000001C6 9C               [ 4]  406 	sbc	a, h
+    000001C7 47               [ 4]  407 	ld	b, a
+    000001C8 F8 07            [12]  408 	ldhl	sp,	#7
+    000001CA 2A               [ 8]  409 	ld	a, (hl+)
+    000001CB 66               [ 8]  410 	ld	h, (hl)
+    000001CC 6F               [ 4]  411 	ld	l, a
+    000001CD 79               [ 4]  412 	ld	a, c
+    000001CE 22               [ 8]  413 	ld	(hl+), a
+    000001CF 70               [ 8]  414 	ld	(hl), b
+    000001D0 18 14            [12]  415 	jr	00122$
+    000001D2                        416 00121$:
+                                    417 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:66: sprite->x = TILE_TO_PX(start_tile_x + 1);
+    000001D2 F8 05            [12]  418 	ldhl	sp,	#5
+    000001D4 7E               [ 8]  419 	ld	a, (hl)
+    000001D5 26 00            [ 8]  420 	ld	h, #0x00
+    000001D7 6F               [ 4]  421 	ld	l, a
+    000001D8 23               [ 8]  422 	inc	hl
+    000001D9 29               [ 8]  423 	add	hl, hl
+    000001DA 29               [ 8]  424 	add	hl, hl
+    000001DB 29               [ 8]  425 	add	hl, hl
+    000001DC 4D               [ 4]  426 	ld	c, l
+    000001DD 44               [ 4]  427 	ld	b, h
+    000001DE F8 07            [12]  428 	ldhl	sp,	#7
+    000001E0 2A               [ 8]  429 	ld	a, (hl+)
+    000001E1 66               [ 8]  430 	ld	h, (hl)
+    000001E2 6F               [ 4]  431 	ld	l, a
+    000001E3 79               [ 4]  432 	ld	a, c
+    000001E4 22               [ 8]  433 	ld	(hl+), a
+    000001E5 70               [ 8]  434 	ld	(hl), b
+    000001E6                        435 00122$:
+                                    436 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:69: ret = *tile_coll;
+    000001E6 FAr00r00         [16]  437 	ld	a, (_tile_coll)
+    000001E9 21r01r00         [12]  438 	ld	hl, #_tile_coll + 1
+    000001EC 66               [ 8]  439 	ld	h, (hl)
+    000001ED 6F               [ 4]  440 	ld	l, a
+    000001EE 7E               [ 8]  441 	ld	a, (hl)
+    000001EF F8 04            [12]  442 	ldhl	sp,	#4
+    000001F1 77               [ 8]  443 	ld	(hl), a
+                                    444 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:70: SWITCH_ROM(__save);
+    000001F2 F8 03            [12]  445 	ldhl	sp,	#3
+    000001F4 7E               [ 8]  446 	ld	a, (hl)
+    000001F5 E0r00            [12]  447 	ldh	(__current_bank + 0), a
+    000001F7 7E               [ 8]  448 	ld	a, (hl)
+    000001F8 EAr00r00         [16]  449 	ld	(#_rROMB0),a
+                                    450 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:71: goto done_x;
+    000001FB 18 3D            [12]  451 	jr	00129$
+    000001FD                        452 00161$:
+                                    453 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:61: for(tmp = start_tile_y; tmp != end_tile_y; tmp ++, tile_coll += scroll_tiles_w) {
+    000001FD 1C               [ 4]  454 	inc	e
+    000001FE FAr00r00         [16]  455 	ld	a, (#_tile_coll)
+    00000201 21r00r00         [12]  456 	ld	hl, #_scroll_tiles_w
+    00000204 86               [ 8]  457 	add	a, (hl)
+    00000205 21r00r00         [12]  458 	ld	hl, #_tile_coll
+    00000208 22               [ 8]  459 	ld	(hl+), a
+    00000209 7E               [ 8]  460 	ld	a, (hl)
+    0000020A 21r01r00         [12]  461 	ld	hl, #_scroll_tiles_w + 1
+    0000020D 8E               [ 8]  462 	adc	a, (hl)
+    0000020E EAr01r00         [16]  463 	ld	(#_tile_coll + 1),a
+    00000211 C3r69r01         [16]  464 	jp	00160$
+    00000214                        465 00125$:
+                                    466 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:74: SWITCH_ROM(__save);
+    00000214 F8 03            [12]  467 	ldhl	sp,	#3
+    00000216 7E               [ 8]  468 	ld	a, (hl)
+    00000217 E0r00            [12]  469 	ldh	(__current_bank + 0), a
+    00000219 7E               [ 8]  470 	ld	a, (hl)
+    0000021A EAr00r00         [16]  471 	ld	(#_rROMB0),a
+                                    472 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:77: inc_x:
+    0000021D                        473 00128$:
+                                    474 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:78: sprite->x += x;
+    0000021D F8 07            [12]  475 	ldhl	sp,#7
+    0000021F 2A               [ 8]  476 	ld	a, (hl+)
+    00000220 5F               [ 4]  477 	ld	e, a
+    00000221 56               [ 8]  478 	ld	d, (hl)
+    00000222 1A               [ 8]  479 	ld	a, (de)
+    00000223 4F               [ 4]  480 	ld	c, a
+    00000224 13               [ 8]  481 	inc	de
+    00000225 1A               [ 8]  482 	ld	a, (de)
+    00000226 47               [ 4]  483 	ld	b, a
+    00000227 F8 0B            [12]  484 	ldhl	sp,	#11
+    00000229 7E               [ 8]  485 	ld	a, (hl)
+    0000022A 5F               [ 4]  486 	ld	e, a
+    0000022B 07               [ 4]  487 	rlca
+    0000022C 9F               [ 4]  488 	sbc	a, a
+    0000022D 6B               [ 4]  489 	ld	l, e
+    0000022E 67               [ 4]  490 	ld	h, a
+    0000022F 09               [ 8]  491 	add	hl, bc
+    00000230 4D               [ 4]  492 	ld	c, l
+    00000231 44               [ 4]  493 	ld	b, h
+    00000232 F8 07            [12]  494 	ldhl	sp,	#7
+    00000234 2A               [ 8]  495 	ld	a, (hl+)
+    00000235 66               [ 8]  496 	ld	h, (hl)
+    00000236 6F               [ 4]  497 	ld	l, a
+    00000237 79               [ 4]  498 	ld	a, c
+    00000238 22               [ 8]  499 	ld	(hl+), a
+    00000239 70               [ 8]  500 	ld	(hl), b
+                                    501 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:79: done_x:
+    0000023A                        502 00129$:
+                                    503 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:36: if(sprite->y >= scroll_h) { //This checks sprite->y < 0 || sprite->y >= scroll_h
+    0000023A F8 0C            [12]  504 	ldhl	sp,#12
+    0000023C 2A               [ 8]  505 	ld	a, (hl+)
+    0000023D 5F               [ 4]  506 	ld	e, a
+    0000023E 56               [ 8]  507 	ld	d, (hl)
+    0000023F 21 02 00         [12]  508 	ld	hl, #0x0002
+    00000242 19               [ 8]  509 	add	hl, de
+    00000243 E5               [16]  510 	push	hl
+    00000244 7D               [ 4]  511 	ld	a, l
+    00000245 F8 04            [12]  512 	ldhl	sp,	#4
+    00000247 77               [ 8]  513 	ld	(hl), a
+    00000248 E1               [12]  514 	pop	hl
+    00000249 7C               [ 4]  515 	ld	a, h
+    0000024A F8 03            [12]  516 	ldhl	sp,	#3
+    0000024C 77               [ 8]  517 	ld	(hl), a
+                                    518 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:81: if (y) {
+    0000024D F8 10            [12]  519 	ldhl	sp,	#16
+    0000024F 7E               [ 8]  520 	ld	a, (hl)
+    00000250 B7               [ 4]  521 	or	a, a
+    00000251 CAr57r04         [16]  522 	jp	Z, 00157$
+                                    523 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:82: if (y > 0) {
+    00000254 5E               [ 8]  524 	ld	e, (hl)
+    00000255 AF               [ 4]  525 	xor	a, a
+    00000256 57               [ 4]  526 	ld	d, a
+    00000257 96               [ 8]  527 	sub	a, (hl)
+    00000258 CB 7B            [ 8]  528 	bit	7, e
+    0000025A 28 07            [12]  529 	jr	Z, 00349$
+    0000025C CB 7A            [ 8]  530 	bit	7, d
+    0000025E 20 08            [12]  531 	jr	NZ, 00350$
+    00000260 BF               [ 4]  532 	cp	a, a
+    00000261 18 05            [12]  533 	jr	00350$
+    00000263                        534 00349$:
+    00000263 CB 7A            [ 8]  535 	bit	7, d
+    00000265 28 01            [12]  536 	jr	Z, 00350$
+    00000267 37               [ 4]  537 	scf
+    00000268                        538 00350$:
+    00000268 3E 00            [ 8]  539 	ld	a, #0x00
+    0000026A 17               [ 4]  540 	rla
+    0000026B F8 05            [12]  541 	ldhl	sp,	#5
+                                    542 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:83: pivot_y = sprite->y + (UINT8)(sprite->coll_h - 1u);
+    0000026D 32               [ 8]  543 	ld	(hl-), a
+    0000026E 2B               [ 8]  544 	dec	hl
+    0000026F 2B               [ 8]  545 	dec	hl
+    00000270 2A               [ 8]  546 	ld	a, (hl+)
+    00000271 5F               [ 4]  547 	ld	e, a
+                                    548 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:82: if (y > 0) {
+    00000272 2A               [ 8]  549 	ld	a, (hl+)
+    00000273 23               [ 8]  550 	inc	hl
+    00000274 57               [ 4]  551 	ld	d, a
+    00000275 1A               [ 8]  552 	ld	a, (de)
+    00000276 4F               [ 4]  553 	ld	c, a
+    00000277 13               [ 8]  554 	inc	de
+    00000278 1A               [ 8]  555 	ld	a, (de)
+    00000279 47               [ 4]  556 	ld	b, a
+    0000027A 7E               [ 8]  557 	ld	a, (hl)
+    0000027B B7               [ 4]  558 	or	a, a
+    0000027C 28 17            [12]  559 	jr	Z, 00131$
+                                    560 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:83: pivot_y = sprite->y + (UINT8)(sprite->coll_h - 1u);
+    0000027E F8 0C            [12]  561 	ldhl	sp,#12
+    00000280 2A               [ 8]  562 	ld	a, (hl+)
+    00000281 5F               [ 4]  563 	ld	e, a
+    00000282 56               [ 8]  564 	ld	d, (hl)
+    00000283 21 05 00         [12]  565 	ld	hl, #0x0005
+    00000286 19               [ 8]  566 	add	hl, de
+    00000287 5D               [ 4]  567 	ld	e, l
+    00000288 54               [ 4]  568 	ld	d, h
+    00000289 1A               [ 8]  569 	ld	a, (de)
+    0000028A 3D               [ 4]  570 	dec	a
+    0000028B 1E 00            [ 8]  571 	ld	e, #0x00
+    0000028D 6F               [ 4]  572 	ld	l, a
+    0000028E 63               [ 4]  573 	ld	h, e
+    0000028F 09               [ 8]  574 	add	hl, bc
+    00000290 33               [ 8]  575 	inc	sp
+    00000291 33               [ 8]  576 	inc	sp
+    00000292 E5               [16]  577 	push	hl
+    00000293 18 03            [12]  578 	jr	00132$
+    00000295                        579 00131$:
+                                    580 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:85: pivot_y = sprite->y;
+    00000295 33               [ 8]  581 	inc	sp
+    00000296 33               [ 8]  582 	inc	sp
+    00000297 C5               [16]  583 	push	bc
+    00000298                        584 00132$:
+                                    585 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:89: tmp = PX_TO_TILE(pivot_y);
+    00000298 C1               [12]  586 	pop	bc
+    00000299 C5               [16]  587 	push	bc
+    0000029A CB 28            [ 8]  588 	sra	b
+    0000029C CB 19            [ 8]  589 	rr	c
+    0000029E CB 28            [ 8]  590 	sra	b
+    000002A0 CB 19            [ 8]  591 	rr	c
+    000002A2 CB 28            [ 8]  592 	sra	b
+    000002A4 CB 19            [ 8]  593 	rr	c
+                                    594 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:90: pivot_y += y;
+    000002A6 F8 10            [12]  595 	ldhl	sp,	#16
+    000002A8 7E               [ 8]  596 	ld	a, (hl)
+    000002A9 5F               [ 4]  597 	ld	e, a
+    000002AA 07               [ 4]  598 	rlca
+    000002AB 9F               [ 4]  599 	sbc	a, a
+    000002AC 57               [ 4]  600 	ld	d, a
+    000002AD E1               [12]  601 	pop	hl
+    000002AE E5               [16]  602 	push	hl
+    000002AF 19               [ 8]  603 	add	hl, de
+                                    604 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:91: start_tile_y = PX_TO_TILE(pivot_y);
+    000002B0 45               [ 4]  605 	ld	b, l
+    000002B1 5C               [ 4]  606 	ld	e, h
+    000002B2 53               [ 4]  607 	ld	d, e
+    000002B3 CB 2A            [ 8]  608 	sra	d
+    000002B5 CB 1D            [ 8]  609 	rr	l
+    000002B7 CB 2A            [ 8]  610 	sra	d
+    000002B9 CB 1D            [ 8]  611 	rr	l
+    000002BB CB 2A            [ 8]  612 	sra	d
+    000002BD CB 1D            [ 8]  613 	rr	l
+    000002BF 7D               [ 4]  614 	ld	a, l
+    000002C0 F8 06            [12]  615 	ldhl	sp,	#6
+    000002C2 77               [ 8]  616 	ld	(hl), a
+                                    617 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:92: if(tmp == start_tile_y) {
+    000002C3 7E               [ 8]  618 	ld	a, (hl)
+    000002C4 91               [ 4]  619 	sub	a, c
+    000002C5 CAr57r04         [16]  620 	jp	Z, 00157$
+                                    621 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:97: if((UINT16)pivot_y >= scroll_h) {
+    000002C8 21r00r00         [12]  622 	ld	hl, #_scroll_h
+    000002CB 78               [ 4]  623 	ld	a, b
+    000002CC 96               [ 8]  624 	sub	a, (hl)
+    000002CD 23               [ 8]  625 	inc	hl
+    000002CE 7B               [ 4]  626 	ld	a, e
+    000002CF 9E               [ 8]  627 	sbc	a, (hl)
+    000002D0 D2r57r04         [16]  628 	jp	NC, 00157$
+                                    629 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:102: if(sprite->x >= scroll_w){
+    000002D3 F8 07            [12]  630 	ldhl	sp,#7
+    000002D5 2A               [ 8]  631 	ld	a, (hl+)
+    000002D6 5F               [ 4]  632 	ld	e, a
+    000002D7 56               [ 8]  633 	ld	d, (hl)
+    000002D8 1A               [ 8]  634 	ld	a, (de)
+    000002D9 4F               [ 4]  635 	ld	c, a
+    000002DA 13               [ 8]  636 	inc	de
+    000002DB 1A               [ 8]  637 	ld	a, (de)
+    000002DC 47               [ 4]  638 	ld	b, a
+                                    639 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:106: start_tile_x = scroll_tiles_w - 1;
+    000002DD FAr00r00         [16]  640 	ld	a, (_scroll_tiles_w)
+    000002E0 3D               [ 4]  641 	dec	a
+    000002E1 77               [ 8]  642 	ld	(hl), a
+                                    643 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:102: if(sprite->x >= scroll_w){
+    000002E2 21r00r00         [12]  644 	ld	hl, #_scroll_w
+    000002E5 79               [ 4]  645 	ld	a, c
+    000002E6 96               [ 8]  646 	sub	a, (hl)
+    000002E7 23               [ 8]  647 	inc	hl
+    000002E8 78               [ 4]  648 	ld	a, b
+    000002E9 9E               [ 8]  649 	sbc	a, (hl)
+    000002EA 38 11            [12]  650 	jr	C, 00141$
+                                    651 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:103: if((INT16)sprite->x < 0) 
+    000002EC 60               [ 4]  652 	ld	h, b
+    000002ED CB 7C            [ 8]  653 	bit	7, h
+    000002EF 28 06            [12]  654 	jr	Z, 00138$
+                                    655 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:104: start_tile_x = 0;
+    000002F1 F8 07            [12]  656 	ldhl	sp,	#7
+    000002F3 36 00            [12]  657 	ld	(hl), #0x00
+    000002F5 18 17            [12]  658 	jr	00142$
+    000002F7                        659 00138$:
+                                    660 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:106: start_tile_x = scroll_tiles_w - 1;
+    000002F7 F8 08            [12]  661 	ldhl	sp,	#8
+    000002F9 3A               [ 8]  662 	ld	a, (hl-)
+    000002FA 77               [ 8]  663 	ld	(hl), a
+    000002FB 18 11            [12]  664 	jr	00142$
+    000002FD                        665 00141$:
+                                    666 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:108: start_tile_x = PX_TO_TILE(sprite->x);
+    000002FD 59               [ 4]  667 	ld	e, c
+    000002FE 50               [ 4]  668 	ld	d, b
+    000002FF CB 3A            [ 8]  669 	srl	d
+    00000301 CB 1B            [ 8]  670 	rr	e
+    00000303 CB 3A            [ 8]  671 	srl	d
+    00000305 CB 1B            [ 8]  672 	rr	e
+    00000307 CB 3A            [ 8]  673 	srl	d
+    00000309 CB 1B            [ 8]  674 	rr	e
+    0000030B F8 07            [12]  675 	ldhl	sp,	#7
+    0000030D 73               [ 8]  676 	ld	(hl), e
+    0000030E                        677 00142$:
+                                    678 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:112: pivot_x = sprite->x + sprite->coll_w - 1;
+    0000030E F8 09            [12]  679 	ldhl	sp,#9
+    00000310 2A               [ 8]  680 	ld	a, (hl+)
+    00000311 5F               [ 4]  681 	ld	e, a
+    00000312 56               [ 8]  682 	ld	d, (hl)
+    00000313 1A               [ 8]  683 	ld	a, (de)
+    00000314 6F               [ 4]  684 	ld	l, a
+    00000315 26 00            [ 8]  685 	ld	h, #0x00
+    00000317 09               [ 8]  686 	add	hl, bc
+    00000318 4D               [ 4]  687 	ld	c, l
+    00000319 44               [ 4]  688 	ld	b, h
+    0000031A 11 01 00         [12]  689 	ld	de, #0x0001
+    0000031D 79               [ 4]  690 	ld	a, c
+    0000031E 93               [ 4]  691 	sub	a, e
+    0000031F 5F               [ 4]  692 	ld	e, a
+    00000320 78               [ 4]  693 	ld	a, b
+    00000321 9A               [ 4]  694 	sbc	a, d
+    00000322 F8 0A            [12]  695 	ldhl	sp,	#10
+    00000324 32               [ 8]  696 	ld	(hl-), a
+    00000325 73               [ 8]  697 	ld	(hl), e
+                                    698 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:113: if((UINT16)pivot_x >= scroll_w) {
+    00000326 2A               [ 8]  699 	ld	a, (hl+)
+    00000327 4F               [ 4]  700 	ld	c, a
+    00000328 46               [ 8]  701 	ld	b, (hl)
+    00000329 21r00r00         [12]  702 	ld	hl, #_scroll_w
+    0000032C 79               [ 4]  703 	ld	a, c
+    0000032D 96               [ 8]  704 	sub	a, (hl)
+    0000032E 23               [ 8]  705 	inc	hl
+    0000032F 78               [ 4]  706 	ld	a, b
+    00000330 9E               [ 8]  707 	sbc	a, (hl)
+    00000331 38 10            [12]  708 	jr	C, 00147$
+                                    709 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:114: if(pivot_x < 0) 
+    00000333 F8 0A            [12]  710 	ldhl	sp,	#10
+    00000335 7E               [ 8]  711 	ld	a, (hl)
+    00000336 CB 7F            [ 8]  712 	bit	7, a
+    00000338 28 04            [12]  713 	jr	Z, 00144$
+                                    714 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:115: end_tile_x = 0;
+    0000033A 1E 00            [ 8]  715 	ld	e, #0x00
+    0000033C 18 16            [12]  716 	jr	00148$
+    0000033E                        717 00144$:
+                                    718 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:117: end_tile_x = scroll_tiles_w - 1;
+    0000033E F8 08            [12]  719 	ldhl	sp,	#8
+    00000340 5E               [ 8]  720 	ld	e, (hl)
+    00000341 18 11            [12]  721 	jr	00148$
+    00000343                        722 00147$:
+                                    723 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:119: end_tile_x = PX_TO_TILE(pivot_x);
+    00000343 F8 09            [12]  724 	ldhl	sp,	#9
+    00000345 5E               [ 8]  725 	ld	e, (hl)
+    00000346 23               [ 8]  726 	inc	hl
+    00000347 4E               [ 8]  727 	ld	c, (hl)
+    00000348 CB 29            [ 8]  728 	sra	c
+    0000034A CB 1B            [ 8]  729 	rr	e
+    0000034C CB 29            [ 8]  730 	sra	c
+    0000034E CB 1B            [ 8]  731 	rr	e
+    00000350 CB 29            [ 8]  732 	sra	c
+    00000352 CB 1B            [ 8]  733 	rr	e
+    00000354                        734 00148$:
+                                    735 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:122: UINT8 __save = CURRENT_BANK;
+    00000354 F0r00            [12]  736 	ldh	a, (__current_bank + 0)
+    00000356 F8 08            [12]  737 	ldhl	sp,	#8
+    00000358 77               [ 8]  738 	ld	(hl), a
+                                    739 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:57: SWITCH_ROM(scroll_bank);
+    00000359 FAr00r00         [16]  740 	ld	a, (_scroll_bank)
+                                    741 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:123: SWITCH_ROM(scroll_bank);
+    0000035C E0r00            [12]  742 	ldh	(__current_bank + 0), a
+    0000035E EAr00r00         [16]  743 	ld	(#_rROMB0),a
+                                    744 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:124: tile_coll = scroll_map + (scroll_tiles_w * start_tile_y + start_tile_x);
+    00000361 F8 06            [12]  745 	ldhl	sp,	#6
+    00000363 4E               [ 8]  746 	ld	c, (hl)
+    00000364 AF               [ 4]  747 	xor	a, a
+    00000365 D5               [16]  748 	push	de
+    00000366 47               [ 4]  749 	ld	b, a
+    00000367 FAr00r00         [16]  750 	ld	a, (_scroll_tiles_w)
+    0000036A 5F               [ 4]  751 	ld	e, a
+    0000036B 21r01r00         [12]  752 	ld	hl, #_scroll_tiles_w + 1
+    0000036E 56               [ 8]  753 	ld	d, (hl)
+    0000036F CDr00r00         [24]  754 	call	__mulint
+    00000372 D1               [12]  755 	pop	de
+    00000373 F8 07            [12]  756 	ldhl	sp,	#7
+    00000375 6E               [ 8]  757 	ld	l, (hl)
+    00000376 26 00            [ 8]  758 	ld	h, #0x00
+    00000378 09               [ 8]  759 	add	hl, bc
+    00000379 4D               [ 4]  760 	ld	c, l
+    0000037A 44               [ 4]  761 	ld	b, h
+    0000037B FAr00r00         [16]  762 	ld	a, (#_scroll_map)
+    0000037E 81               [ 4]  763 	add	a, c
+    0000037F EAr00r00         [16]  764 	ld	(#_tile_coll),a
+    00000382 FAr01r00         [16]  765 	ld	a, (#_scroll_map + 1)
+    00000385 88               [ 4]  766 	adc	a, b
+    00000386 EAr01r00         [16]  767 	ld	(#_tile_coll + 1),a
+                                    768 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:125: end_tile_x ++;
+    00000389 7B               [ 4]  769 	ld	a, e
+    0000038A 3C               [ 4]  770 	inc	a
+    0000038B F8 09            [12]  771 	ldhl	sp,	#9
+    0000038D 77               [ 8]  772 	ld	(hl), a
+                                    773 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:126: scroll_coll_group = y < 0 ? sprite->coll_group : sprite->coll_group_down;
+    0000038E F8 10            [12]  774 	ldhl	sp,	#16
+    00000390 CB 7E            [12]  775 	bit	7, (hl)
+    00000392 28 0E            [12]  776 	jr	Z, 00167$
+    00000394 F8 0C            [12]  777 	ldhl	sp,#12
+    00000396 2A               [ 8]  778 	ld	a, (hl+)
+    00000397 5F               [ 4]  779 	ld	e, a
+    00000398 56               [ 8]  780 	ld	d, (hl)
+    00000399 21 22 00         [12]  781 	ld	hl, #0x0022
+    0000039C 19               [ 8]  782 	add	hl, de
+    0000039D 4D               [ 4]  783 	ld	c, l
+    0000039E 44               [ 4]  784 	ld	b, h
+    0000039F 0A               [ 8]  785 	ld	a, (bc)
+    000003A0 18 0C            [12]  786 	jr	00168$
+    000003A2                        787 00167$:
+    000003A2 F8 0C            [12]  788 	ldhl	sp,#12
+    000003A4 2A               [ 8]  789 	ld	a, (hl+)
+    000003A5 5F               [ 4]  790 	ld	e, a
+    000003A6 56               [ 8]  791 	ld	d, (hl)
+    000003A7 21 23 00         [12]  792 	ld	hl, #0x0023
+    000003AA 19               [ 8]  793 	add	hl, de
+    000003AB 4D               [ 4]  794 	ld	c, l
+    000003AC 44               [ 4]  795 	ld	b, h
+    000003AD 0A               [ 8]  796 	ld	a, (bc)
+    000003AE                        797 00168$:
+    000003AE F8 0A            [12]  798 	ldhl	sp,	#10
+    000003B0 77               [ 8]  799 	ld	(hl), a
+                                    800 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:127: for(tmp = start_tile_x; tmp != end_tile_x; tmp ++, tile_coll += 1) {
+    000003B1 F8 07            [12]  801 	ldhl	sp,	#7
+    000003B3 4E               [ 8]  802 	ld	c, (hl)
+    000003B4                        803 00163$:
+                                    804 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:36: if(sprite->y >= scroll_h) { //This checks sprite->y < 0 || sprite->y >= scroll_h
+    000003B4 F8 0C            [12]  805 	ldhl	sp,#12
+    000003B6 2A               [ 8]  806 	ld	a, (hl+)
+    000003B7 5F               [ 4]  807 	ld	e, a
+    000003B8 56               [ 8]  808 	ld	d, (hl)
+    000003B9 21 02 00         [12]  809 	ld	hl, #0x0002
+    000003BC 19               [ 8]  810 	add	hl, de
+    000003BD E5               [16]  811 	push	hl
+    000003BE 7D               [ 4]  812 	ld	a, l
+    000003BF F8 04            [12]  813 	ldhl	sp,	#4
+    000003C1 77               [ 8]  814 	ld	(hl), a
+    000003C2 E1               [12]  815 	pop	hl
+    000003C3 7C               [ 4]  816 	ld	a, h
+    000003C4 F8 03            [12]  817 	ldhl	sp,	#3
+    000003C6 77               [ 8]  818 	ld	(hl), a
+                                    819 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:127: for(tmp = start_tile_x; tmp != end_tile_x; tmp ++, tile_coll += 1) {
+    000003C7 F8 09            [12]  820 	ldhl	sp,	#9
+    000003C9 7E               [ 8]  821 	ld	a, (hl)
+    000003CA 91               [ 4]  822 	sub	a, c
+    000003CB CAr4Er04         [16]  823 	jp	Z, 00154$
+                                    824 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:128: if(scroll_collisions[*tile_coll] & scroll_coll_group) {
+    000003CE FAr00r00         [16]  825 	ld	a, (_tile_coll)
+    000003D1 21r01r00         [12]  826 	ld	hl, #_tile_coll + 1
+    000003D4 66               [ 8]  827 	ld	h, (hl)
+    000003D5 6F               [ 4]  828 	ld	l, a
+    000003D6 6E               [ 8]  829 	ld	l, (hl)
+    000003D7 26 00            [ 8]  830 	ld	h, #0x00
+    000003D9 11r00r00         [12]  831 	ld	de, #_scroll_collisions
+    000003DC 19               [ 8]  832 	add	hl, de
+    000003DD 7E               [ 8]  833 	ld	a, (hl)
+    000003DE F8 0A            [12]  834 	ldhl	sp,	#10
+    000003E0 A6               [ 8]  835 	and	a, (hl)
+    000003E1 28 5E            [12]  836 	jr	Z, 00164$
+                                    837 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:130: sprite->y = TILE_TO_PX(start_tile_y) - sprite->coll_h;
+    000003E3 F8 06            [12]  838 	ldhl	sp,	#6
+                                    839 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:129: if(y > 0) {
+    000003E5 3A               [ 8]  840 	ld	a, (hl-)
+    000003E6 5F               [ 4]  841 	ld	e, a
+    000003E7 16 00            [ 8]  842 	ld	d, #0x00
+    000003E9 7E               [ 8]  843 	ld	a, (hl)
+    000003EA B7               [ 4]  844 	or	a, a
+    000003EB 28 2D            [12]  845 	jr	Z, 00150$
+                                    846 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:130: sprite->y = TILE_TO_PX(start_tile_y) - sprite->coll_h;
+    000003ED 4B               [ 4]  847 	ld	c, e
+    000003EE 42               [ 4]  848 	ld	b, d
+    000003EF CB 21            [ 8]  849 	sla	c
+    000003F1 CB 10            [ 8]  850 	rl	b
+    000003F3 CB 21            [ 8]  851 	sla	c
+    000003F5 CB 10            [ 8]  852 	rl	b
+    000003F7 CB 21            [ 8]  853 	sla	c
+    000003F9 CB 10            [ 8]  854 	rl	b
+    000003FB F8 0C            [12]  855 	ldhl	sp,#12
+    000003FD 2A               [ 8]  856 	ld	a, (hl+)
+    000003FE 5F               [ 4]  857 	ld	e, a
+    000003FF 56               [ 8]  858 	ld	d, (hl)
+    00000400 21 05 00         [12]  859 	ld	hl, #0x0005
+    00000403 19               [ 8]  860 	add	hl, de
+    00000404 5D               [ 4]  861 	ld	e, l
+    00000405 54               [ 4]  862 	ld	d, h
+    00000406 1A               [ 8]  863 	ld	a, (de)
+    00000407 5F               [ 4]  864 	ld	e, a
+    00000408 16 00            [ 8]  865 	ld	d, #0x00
+    0000040A 79               [ 4]  866 	ld	a, c
+    0000040B 93               [ 4]  867 	sub	a, e
+    0000040C 4F               [ 4]  868 	ld	c, a
+    0000040D 78               [ 4]  869 	ld	a, b
+    0000040E 9A               [ 4]  870 	sbc	a, d
+    0000040F 47               [ 4]  871 	ld	b, a
+    00000410 F8 02            [12]  872 	ldhl	sp,	#2
+    00000412 2A               [ 8]  873 	ld	a, (hl+)
+    00000413 66               [ 8]  874 	ld	h, (hl)
+    00000414 6F               [ 4]  875 	ld	l, a
+    00000415 79               [ 4]  876 	ld	a, c
+    00000416 22               [ 8]  877 	ld	(hl+), a
+    00000417 70               [ 8]  878 	ld	(hl), b
+    00000418 18 10            [12]  879 	jr	00151$
+    0000041A                        880 00150$:
+                                    881 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:132: sprite->y = TILE_TO_PX(start_tile_y + 1);
+    0000041A 6B               [ 4]  882 	ld	l, e
+    0000041B 62               [ 4]  883 	ld	h, d
+    0000041C 23               [ 8]  884 	inc	hl
+    0000041D 29               [ 8]  885 	add	hl, hl
+    0000041E 29               [ 8]  886 	add	hl, hl
+    0000041F 29               [ 8]  887 	add	hl, hl
+    00000420 4D               [ 4]  888 	ld	c, l
+    00000421 44               [ 4]  889 	ld	b, h
+    00000422 F8 02            [12]  890 	ldhl	sp,	#2
+    00000424 2A               [ 8]  891 	ld	a, (hl+)
+    00000425 66               [ 8]  892 	ld	h, (hl)
+    00000426 6F               [ 4]  893 	ld	l, a
+    00000427 79               [ 4]  894 	ld	a, c
+    00000428 22               [ 8]  895 	ld	(hl+), a
+    00000429 70               [ 8]  896 	ld	(hl), b
+    0000042A                        897 00151$:
+                                    898 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:135: ret = *tile_coll;
+    0000042A FAr00r00         [16]  899 	ld	a, (_tile_coll)
+    0000042D 21r01r00         [12]  900 	ld	hl, #_tile_coll + 1
+    00000430 66               [ 8]  901 	ld	h, (hl)
+    00000431 6F               [ 4]  902 	ld	l, a
+    00000432 7E               [ 8]  903 	ld	a, (hl)
+    00000433 F8 04            [12]  904 	ldhl	sp,	#4
+    00000435 77               [ 8]  905 	ld	(hl), a
+                                    906 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:136: SWITCH_ROM(__save);
+    00000436 F8 08            [12]  907 	ldhl	sp,	#8
+    00000438 7E               [ 8]  908 	ld	a, (hl)
+    00000439 E0r00            [12]  909 	ldh	(__current_bank + 0), a
+    0000043B 7E               [ 8]  910 	ld	a, (hl)
+    0000043C EAr00r00         [16]  911 	ld	(#_rROMB0),a
+                                    912 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:137: goto done_y;
+    0000043F 18 33            [12]  913 	jr	00158$
+    00000441                        914 00164$:
+                                    915 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:127: for(tmp = start_tile_x; tmp != end_tile_x; tmp ++, tile_coll += 1) {
+    00000441 0C               [ 4]  916 	inc	c
+    00000442 21r00r00         [12]  917 	ld	hl, #_tile_coll
+    00000445 34               [12]  918 	inc	(hl)
+    00000446 C2rB4r03         [16]  919 	jp	NZ, 00163$
+    00000449 23               [ 8]  920 	inc	hl
+    0000044A 34               [12]  921 	inc	(hl)
+    0000044B C3rB4r03         [16]  922 	jp	00163$
+    0000044E                        923 00154$:
+                                    924 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:140: SWITCH_ROM(__save);
+    0000044E F8 08            [12]  925 	ldhl	sp,	#8
+    00000450 7E               [ 8]  926 	ld	a, (hl)
+    00000451 E0r00            [12]  927 	ldh	(__current_bank + 0), a
+    00000453 7E               [ 8]  928 	ld	a, (hl)
+    00000454 EAr00r00         [16]  929 	ld	(#_rROMB0),a
+                                    930 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:143: inc_y:
+    00000457                        931 00157$:
+                                    932 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:144: sprite->y += y;
+    00000457 F8 02            [12]  933 	ldhl	sp,#2
+    00000459 2A               [ 8]  934 	ld	a, (hl+)
+    0000045A 5F               [ 4]  935 	ld	e, a
+    0000045B 56               [ 8]  936 	ld	d, (hl)
+    0000045C 1A               [ 8]  937 	ld	a, (de)
+    0000045D 4F               [ 4]  938 	ld	c, a
+    0000045E 13               [ 8]  939 	inc	de
+    0000045F 1A               [ 8]  940 	ld	a, (de)
+    00000460 47               [ 4]  941 	ld	b, a
+    00000461 F8 10            [12]  942 	ldhl	sp,	#16
+    00000463 7E               [ 8]  943 	ld	a, (hl)
+    00000464 5F               [ 4]  944 	ld	e, a
+    00000465 07               [ 4]  945 	rlca
+    00000466 9F               [ 4]  946 	sbc	a, a
+    00000467 6B               [ 4]  947 	ld	l, e
+    00000468 67               [ 4]  948 	ld	h, a
+    00000469 09               [ 8]  949 	add	hl, bc
+    0000046A 4D               [ 4]  950 	ld	c, l
+    0000046B 44               [ 4]  951 	ld	b, h
+    0000046C F8 02            [12]  952 	ldhl	sp,	#2
+    0000046E 2A               [ 8]  953 	ld	a, (hl+)
+    0000046F 66               [ 8]  954 	ld	h, (hl)
+    00000470 6F               [ 4]  955 	ld	l, a
+    00000471 79               [ 4]  956 	ld	a, c
+    00000472 22               [ 8]  957 	ld	(hl+), a
+    00000473 70               [ 8]  958 	ld	(hl), b
+                                    959 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:145: done_y:
+    00000474                        960 00158$:
+                                    961 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:147: return ret;
+    00000474 F8 04            [12]  962 	ldhl	sp,	#4
+    00000476 7E               [ 8]  963 	ld	a, (hl)
+                                    964 ;C:/CrossZGB/ZGB/common/src/SpriteTranslateSprite.c:148: }
+    00000477 E8 0E            [16]  965 	add	sp, #14
+    00000479 E1               [12]  966 	pop	hl
+    0000047A 33               [ 8]  967 	inc	sp
+    0000047B E9               [ 4]  968 	jp	(hl)
+                                    969 	.area _CODE
+                                    970 	.area _INITIALIZER
+                                    971 	.area _CABS (ABS)

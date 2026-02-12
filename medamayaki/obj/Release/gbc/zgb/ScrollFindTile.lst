@@ -1,0 +1,313 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module ScrollFindTile
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _ScrollFindTile
+                                     11 ;--------------------------------------------------------
+                                     12 ; special function registers
+                                     13 ;--------------------------------------------------------
+                                     14 	.area _HRAM
+                                     15 ;--------------------------------------------------------
+                                     16 ; ram data
+                                     17 ;--------------------------------------------------------
+                                     18 	.area _DATA
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _INITIALIZED
+                                     23 ;--------------------------------------------------------
+                                     24 ; absolute external ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _DABS (ABS)
+                                     27 ;--------------------------------------------------------
+                                     28 ; global & static initialisations
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _HOME
+                                     31 	.area _GSINIT
+                                     32 	.area _GSFINAL
+                                     33 	.area _GSINIT
+                                     34 ;--------------------------------------------------------
+                                     35 ; Home
+                                     36 ;--------------------------------------------------------
+                                     37 	.area _HOME
+                                     38 	.area _HOME
+                                     39 ;--------------------------------------------------------
+                                     40 ; code
+                                     41 ;--------------------------------------------------------
+                                     42 	.area _CODE
+                                     43 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:3: UINT8 ScrollFindTile(UINT8 map_bank, const struct MapInfo* map, UINT8 tile, UINT16 start_x, UINT16 start_y, UINT16 w, UINT16 h, UINT16* x, UINT16* y) {
+                                     44 ;	---------------------------------
+                                     45 ; Function ScrollFindTile
+                                     46 ; ---------------------------------
+    00000000                         47 _ScrollFindTile::
+    00000000 E8 EB            [16]   48 	add	sp, #-21
+    00000002 4F               [ 4]   49 	ld	c, a
+    00000003 F8 11            [12]   50 	ldhl	sp,	#17
+    00000005 73               [ 8]   51 	ld	(hl), e
+    00000006 23               [ 8]   52 	inc	hl
+    00000007 72               [ 8]   53 	ld	(hl), d
+                                     54 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:4: UINT8 __save = CURRENT_BANK;
+    00000008 F0r00            [12]   55 	ldh	a, (__current_bank + 0)
+    0000000A F8 00            [12]   56 	ldhl	sp,	#0
+    0000000C 77               [ 8]   57 	ld	(hl), a
+                                     58 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:5: SWITCH_ROM(map_bank);
+    0000000D 79               [ 4]   59 	ld	a, c
+    0000000E E0r00            [12]   60 	ldh	(__current_bank + 0), a
+    00000010 21r00r00         [12]   61 	ld	hl, #_rROMB0
+    00000013 71               [ 8]   62 	ld	(hl), c
+                                     63 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:6: for (UINT16 xt = start_x; xt != start_x + w; ++ xt) {
+    00000014 F8 11            [12]   64 	ldhl	sp,#17
+    00000016 2A               [ 8]   65 	ld	a, (hl+)
+    00000017 5F               [ 4]   66 	ld	e, a
+    00000018 56               [ 8]   67 	ld	d, (hl)
+    00000019 21 02 00         [12]   68 	ld	hl, #0x0002
+    0000001C 19               [ 8]   69 	add	hl, de
+    0000001D E5               [16]   70 	push	hl
+    0000001E 7D               [ 4]   71 	ld	a, l
+    0000001F F8 03            [12]   72 	ldhl	sp,	#3
+    00000021 77               [ 8]   73 	ld	(hl), a
+    00000022 E1               [12]   74 	pop	hl
+    00000023 7C               [ 4]   75 	ld	a, h
+    00000024 F8 02            [12]   76 	ldhl	sp,	#2
+    00000026 77               [ 8]   77 	ld	(hl), a
+    00000027 F8 18            [12]   78 	ldhl	sp,#24
+    00000029 2A               [ 8]   79 	ld	a, (hl+)
+    0000002A 5F               [ 4]   80 	ld	e, a
+    0000002B 56               [ 8]   81 	ld	d, (hl)
+    0000002C F8 1C            [12]   82 	ldhl	sp,	#28
+    0000002E 2A               [ 8]   83 	ld	a,	(hl+)
+    0000002F 66               [ 8]   84 	ld	h, (hl)
+    00000030 6F               [ 4]   85 	ld	l, a
+    00000031 19               [ 8]   86 	add	hl, de
+    00000032 E5               [16]   87 	push	hl
+    00000033 7D               [ 4]   88 	ld	a, l
+    00000034 F8 05            [12]   89 	ldhl	sp,	#5
+    00000036 77               [ 8]   90 	ld	(hl), a
+    00000037 E1               [12]   91 	pop	hl
+    00000038 7C               [ 4]   92 	ld	a, h
+    00000039 F8 04            [12]   93 	ldhl	sp,	#4
+    0000003B 77               [ 8]   94 	ld	(hl), a
+    0000003C F8 18            [12]   95 	ldhl	sp,	#24
+    0000003E 7E               [ 8]   96 	ld	a, (hl)
+    0000003F F8 13            [12]   97 	ldhl	sp,	#19
+    00000041 77               [ 8]   98 	ld	(hl), a
+    00000042 F8 19            [12]   99 	ldhl	sp,	#25
+    00000044 7E               [ 8]  100 	ld	a, (hl)
+    00000045 F8 14            [12]  101 	ldhl	sp,	#20
+    00000047 77               [ 8]  102 	ld	(hl), a
+    00000048                        103 00109$:
+                                    104 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:9: *x = xt;
+    00000048 F8 20            [12]  105 	ldhl	sp,	#32
+    0000004A 7E               [ 8]  106 	ld	a, (hl)
+    0000004B F8 05            [12]  107 	ldhl	sp,	#5
+    0000004D 77               [ 8]  108 	ld	(hl), a
+    0000004E F8 21            [12]  109 	ldhl	sp,	#33
+    00000050 7E               [ 8]  110 	ld	a, (hl)
+    00000051 F8 06            [12]  111 	ldhl	sp,	#6
+    00000053 77               [ 8]  112 	ld	(hl), a
+                                    113 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:10: *y = yt;
+    00000054 F8 22            [12]  114 	ldhl	sp,	#34
+    00000056 7E               [ 8]  115 	ld	a, (hl)
+    00000057 F8 07            [12]  116 	ldhl	sp,	#7
+    00000059 77               [ 8]  117 	ld	(hl), a
+    0000005A F8 23            [12]  118 	ldhl	sp,	#35
+    0000005C 7E               [ 8]  119 	ld	a, (hl)
+    0000005D F8 08            [12]  120 	ldhl	sp,	#8
+    0000005F 77               [ 8]  121 	ld	(hl), a
+                                    122 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:6: for (UINT16 xt = start_x; xt != start_x + w; ++ xt) {
+    00000060 F8 03            [12]  123 	ldhl	sp,	#3
+    00000062 7E               [ 8]  124 	ld	a, (hl)
+    00000063 F8 13            [12]  125 	ldhl	sp,	#19
+    00000065 96               [ 8]  126 	sub	a, (hl)
+    00000066 20 09            [12]  127 	jr	NZ, 00148$
+    00000068 F8 04            [12]  128 	ldhl	sp,	#4
+    0000006A 7E               [ 8]  129 	ld	a, (hl)
+    0000006B F8 14            [12]  130 	ldhl	sp,	#20
+    0000006D 96               [ 8]  131 	sub	a, (hl)
+    0000006E CAr20r01         [16]  132 	jp	Z, 00104$
+    00000071                        133 00148$:
+                                    134 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:7: for (UINT16 yt = start_y; yt != start_y + h; ++ yt) {
+    00000071 F8 1A            [12]  135 	ldhl	sp,	#26
+    00000073 7E               [ 8]  136 	ld	a, (hl)
+    00000074 F8 09            [12]  137 	ldhl	sp,	#9
+    00000076 77               [ 8]  138 	ld	(hl), a
+    00000077 F8 1B            [12]  139 	ldhl	sp,	#27
+    00000079 7E               [ 8]  140 	ld	a, (hl)
+    0000007A F8 0A            [12]  141 	ldhl	sp,	#10
+    0000007C 77               [ 8]  142 	ld	(hl), a
+    0000007D F8 01            [12]  143 	ldhl	sp,#1
+    0000007F 2A               [ 8]  144 	ld	a, (hl+)
+    00000080 5F               [ 4]  145 	ld	e, a
+    00000081 56               [ 8]  146 	ld	d, (hl)
+    00000082 1A               [ 8]  147 	ld	a, (de)
+    00000083 F8 0B            [12]  148 	ldhl	sp,	#11
+    00000085 22               [ 8]  149 	ld	(hl+), a
+    00000086 13               [ 8]  150 	inc	de
+    00000087 1A               [ 8]  151 	ld	a, (de)
+    00000088 32               [ 8]  152 	ld	(hl-), a
+    00000089 2B               [ 8]  153 	dec	hl
+    0000008A 2B               [ 8]  154 	dec	hl
+    0000008B 2A               [ 8]  155 	ld	a, (hl+)
+    0000008C 5F               [ 4]  156 	ld	e, a
+    0000008D 56               [ 8]  157 	ld	d, (hl)
+    0000008E F8 1E            [12]  158 	ldhl	sp,	#30
+    00000090 2A               [ 8]  159 	ld	a,	(hl+)
+    00000091 66               [ 8]  160 	ld	h, (hl)
+    00000092 6F               [ 4]  161 	ld	l, a
+    00000093 19               [ 8]  162 	add	hl, de
+    00000094 E5               [16]  163 	push	hl
+    00000095 7D               [ 4]  164 	ld	a, l
+    00000096 F8 0F            [12]  165 	ldhl	sp,	#15
+    00000098 77               [ 8]  166 	ld	(hl), a
+    00000099 E1               [12]  167 	pop	hl
+    0000009A 7C               [ 4]  168 	ld	a, h
+    0000009B F8 0E            [12]  169 	ldhl	sp,	#14
+    0000009D 77               [ 8]  170 	ld	(hl), a
+    0000009E F8 09            [12]  171 	ldhl	sp,	#9
+    000000A0 2A               [ 8]  172 	ld	a, (hl+)
+    000000A1 4F               [ 4]  173 	ld	c, a
+    000000A2 46               [ 8]  174 	ld	b, (hl)
+    000000A3                        175 00106$:
+    000000A3 F8 0D            [12]  176 	ldhl	sp,	#13
+    000000A5 7E               [ 8]  177 	ld	a, (hl)
+    000000A6 91               [ 4]  178 	sub	a, c
+    000000A7 20 05            [12]  179 	jr	NZ, 00149$
+    000000A9 23               [ 8]  180 	inc	hl
+    000000AA 7E               [ 8]  181 	ld	a, (hl)
+    000000AB 90               [ 4]  182 	sub	a, b
+    000000AC 28 5C            [12]  183 	jr	Z, 00110$
+    000000AE                        184 00149$:
+                                    185 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:8: if (map->data[map->width * yt + xt] == tile) {
+    000000AE F8 11            [12]  186 	ldhl	sp,#17
+    000000B0 2A               [ 8]  187 	ld	a, (hl+)
+    000000B1 5F               [ 4]  188 	ld	e, a
+    000000B2 56               [ 8]  189 	ld	d, (hl)
+    000000B3 1A               [ 8]  190 	ld	a, (de)
+    000000B4 F8 0F            [12]  191 	ldhl	sp,	#15
+    000000B6 22               [ 8]  192 	ld	(hl+), a
+    000000B7 13               [ 8]  193 	inc	de
+    000000B8 1A               [ 8]  194 	ld	a, (de)
+    000000B9 77               [ 8]  195 	ld	(hl), a
+    000000BA C5               [16]  196 	push	bc
+    000000BB F8 0D            [12]  197 	ldhl	sp,	#13
+    000000BD 2A               [ 8]  198 	ld	a, (hl+)
+    000000BE 5F               [ 4]  199 	ld	e, a
+    000000BF 56               [ 8]  200 	ld	d, (hl)
+    000000C0 CDr00r00         [24]  201 	call	__mulint
+    000000C3 59               [ 4]  202 	ld	e, c
+    000000C4 50               [ 4]  203 	ld	d, b
+    000000C5 C1               [12]  204 	pop	bc
+    000000C6 F8 13            [12]  205 	ldhl	sp,	#19
+    000000C8 2A               [ 8]  206 	ld	a,	(hl+)
+    000000C9 66               [ 8]  207 	ld	h, (hl)
+    000000CA 6F               [ 4]  208 	ld	l, a
+    000000CB 19               [ 8]  209 	add	hl, de
+    000000CC 5D               [ 4]  210 	ld	e, l
+    000000CD 54               [ 4]  211 	ld	d, h
+    000000CE F8 0F            [12]  212 	ldhl	sp,	#15
+    000000D0 2A               [ 8]  213 	ld	a,	(hl+)
+    000000D1 66               [ 8]  214 	ld	h, (hl)
+    000000D2 6F               [ 4]  215 	ld	l, a
+    000000D3 19               [ 8]  216 	add	hl, de
+    000000D4 5D               [ 4]  217 	ld	e, l
+    000000D5 54               [ 4]  218 	ld	d, h
+    000000D6 1A               [ 8]  219 	ld	a, (de)
+    000000D7 5F               [ 4]  220 	ld	e, a
+    000000D8 F8 17            [12]  221 	ldhl	sp,	#23
+    000000DA 7E               [ 8]  222 	ld	a, (hl)
+    000000DB 93               [ 4]  223 	sub	a, e
+    000000DC 20 24            [12]  224 	jr	NZ, 00107$
+                                    225 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:9: *x = xt;
+    000000DE F8 05            [12]  226 	ldhl	sp,	#5
+    000000E0 2A               [ 8]  227 	ld	a, (hl+)
+    000000E1 5F               [ 4]  228 	ld	e, a
+    000000E2 56               [ 8]  229 	ld	d, (hl)
+    000000E3 F8 18            [12]  230 	ldhl	sp,	#24
+    000000E5 2A               [ 8]  231 	ld	a, (hl+)
+    000000E6 12               [ 8]  232 	ld	(de), a
+    000000E7 13               [ 8]  233 	inc	de
+    000000E8 7E               [ 8]  234 	ld	a, (hl)
+    000000E9 12               [ 8]  235 	ld	(de), a
+                                    236 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:10: *y = yt;
+    000000EA F8 07            [12]  237 	ldhl	sp,	#7
+    000000EC 2A               [ 8]  238 	ld	a, (hl+)
+    000000ED 5F               [ 4]  239 	ld	e, a
+    000000EE 2A               [ 8]  240 	ld	a, (hl+)
+    000000EF 57               [ 4]  241 	ld	d, a
+    000000F0 2A               [ 8]  242 	ld	a, (hl+)
+    000000F1 12               [ 8]  243 	ld	(de), a
+    000000F2 13               [ 8]  244 	inc	de
+    000000F3 7E               [ 8]  245 	ld	a, (hl)
+    000000F4 12               [ 8]  246 	ld	(de), a
+                                    247 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:11: SWITCH_ROM(__save);
+    000000F5 F8 00            [12]  248 	ldhl	sp,	#0
+    000000F7 7E               [ 8]  249 	ld	a, (hl)
+    000000F8 E0r00            [12]  250 	ldh	(__current_bank + 0), a
+    000000FA 7E               [ 8]  251 	ld	a, (hl)
+    000000FB EAr00r00         [16]  252 	ld	(#_rROMB0),a
+                                    253 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:12: return 1;
+    000000FE 3E 01            [ 8]  254 	ld	a, #0x01
+    00000100 18 38            [12]  255 	jr	00111$
+    00000102                        256 00107$:
+                                    257 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:7: for (UINT16 yt = start_y; yt != start_y + h; ++ yt) {
+    00000102 03               [ 8]  258 	inc	bc
+    00000103 F8 09            [12]  259 	ldhl	sp,	#9
+    00000105 79               [ 4]  260 	ld	a, c
+    00000106 22               [ 8]  261 	ld	(hl+), a
+    00000107 70               [ 8]  262 	ld	(hl), b
+    00000108 18 99            [12]  263 	jr	00106$
+    0000010A                        264 00110$:
+                                    265 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:6: for (UINT16 xt = start_x; xt != start_x + w; ++ xt) {
+    0000010A F8 13            [12]  266 	ldhl	sp,	#19
+    0000010C 34               [12]  267 	inc	(hl)
+    0000010D 20 02            [12]  268 	jr	NZ, 00152$
+    0000010F 23               [ 8]  269 	inc	hl
+    00000110 34               [12]  270 	inc	(hl)
+    00000111                        271 00152$:
+    00000111 F8 13            [12]  272 	ldhl	sp,	#19
+    00000113 7E               [ 8]  273 	ld	a, (hl)
+    00000114 F8 18            [12]  274 	ldhl	sp,	#24
+    00000116 77               [ 8]  275 	ld	(hl), a
+    00000117 F8 14            [12]  276 	ldhl	sp,	#20
+    00000119 7E               [ 8]  277 	ld	a, (hl)
+    0000011A F8 19            [12]  278 	ldhl	sp,	#25
+    0000011C 77               [ 8]  279 	ld	(hl), a
+    0000011D C3r48r00         [16]  280 	jp	00109$
+    00000120                        281 00104$:
+                                    282 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:16: SWITCH_ROM(__save);
+    00000120 F8 00            [12]  283 	ldhl	sp,	#0
+    00000122 7E               [ 8]  284 	ld	a, (hl)
+    00000123 E0r00            [12]  285 	ldh	(__current_bank + 0), a
+    00000125 7E               [ 8]  286 	ld	a, (hl)
+    00000126 EAr00r00         [16]  287 	ld	(#_rROMB0),a
+                                    288 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:18: *x = *y = 0;
+    00000129 F8 07            [12]  289 	ldhl	sp,	#7
+    0000012B 2A               [ 8]  290 	ld	a, (hl+)
+    0000012C 66               [ 8]  291 	ld	h, (hl)
+    0000012D 6F               [ 4]  292 	ld	l, a
+    0000012E AF               [ 4]  293 	xor	a, a
+    0000012F 22               [ 8]  294 	ld	(hl+), a
+    00000130 77               [ 8]  295 	ld	(hl), a
+    00000131 F8 05            [12]  296 	ldhl	sp,	#5
+    00000133 2A               [ 8]  297 	ld	a, (hl+)
+    00000134 66               [ 8]  298 	ld	h, (hl)
+    00000135 6F               [ 4]  299 	ld	l, a
+    00000136 AF               [ 4]  300 	xor	a, a
+    00000137 22               [ 8]  301 	ld	(hl+), a
+    00000138 77               [ 8]  302 	ld	(hl), a
+                                    303 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:19: return 0;
+    00000139 AF               [ 4]  304 	xor	a, a
+    0000013A                        305 00111$:
+                                    306 ;C:/CrossZGB/ZGB/common/src/ScrollFindTile.c:20: }
+    0000013A E8 15            [16]  307 	add	sp, #21
+    0000013C E1               [12]  308 	pop	hl
+    0000013D E8 0D            [16]  309 	add	sp, #13
+    0000013F E9               [ 4]  310 	jp	(hl)
+                                    311 	.area _CODE
+                                    312 	.area _INITIALIZER
+                                    313 	.area _CABS (ABS)

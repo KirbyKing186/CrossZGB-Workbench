@@ -1,0 +1,226 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module Coroutines
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _coro_finalize
+                                     11 	.globl _coro_current_context
+                                     12 	.globl _coro_main_context
+                                     13 	.globl _coro_yield
+                                     14 	.globl _coro_init
+                                     15 	.globl _coro_continue
+                                     16 ;--------------------------------------------------------
+                                     17 ; special function registers
+                                     18 ;--------------------------------------------------------
+                                     19 	.area _HRAM
+                                     20 ;--------------------------------------------------------
+                                     21 ; ram data
+                                     22 ;--------------------------------------------------------
+                                     23 	.area _DATA
+    00000000                         24 _coro_main_context::
+    00000000                         25 	.ds 2
+                                     26 ;--------------------------------------------------------
+                                     27 ; ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area _INITIALIZED
+    00000000                         30 _coro_current_context::
+    00000000                         31 	.ds 2
+                                     32 ;--------------------------------------------------------
+                                     33 ; absolute external ram data
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _DABS (ABS)
+                                     36 ;--------------------------------------------------------
+                                     37 ; global & static initialisations
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
+                                     40 	.area _GSINIT
+                                     41 	.area _GSFINAL
+                                     42 	.area _GSINIT
+                                     43 ;--------------------------------------------------------
+                                     44 ; Home
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _HOME
+                                     47 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:10: bool coro_yield(void) NONBANKED NAKED {
+                                     48 ;	---------------------------------
+                                     49 ; Function coro_yield
+                                     50 ; ---------------------------------
+    00000000                         51 _coro_yield::
+                                     52 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:86: __endasm;
+    00000000 F8 FE            [12]   53 	ldhl	sp, #-2
+    00000002 54               [ 4]   54 	ld	d, h
+    00000003 5D               [ 4]   55 	ld	e, l
+    00000004 21r00r00         [12]   56 	ld	hl, #_coro_current_context
+    00000007 2A               [ 8]   57 	ld	a, (hl+)
+    00000008 66               [ 8]   58 	ld	h, (hl)
+    00000009 6F               [ 4]   59 	ld	l, a
+    0000000A B4               [ 4]   60 	or	h
+    0000000B C8               [20]   61 	ret	z
+    0000000C 7B               [ 4]   62 	ld	a, e
+    0000000D 22               [ 8]   63 	ld	(hl+), a
+    0000000E 72               [ 8]   64 	ld	(hl), d
+    0000000F F0r00            [12]   65 	ldh	a, (__current_bank)
+    00000011 F5               [16]   66 	push	af
+    00000012 21r00r00         [12]   67 	ld	hl, #_coro_main_context
+    00000015 2A               [ 8]   68 	ld	a, (hl+)
+    00000016 66               [ 8]   69 	ld	h, (hl)
+    00000017 6F               [ 4]   70 	ld	l, a
+    00000018 F9               [ 8]   71 	ld	sp, hl
+    00000019 F1               [12]   72 	pop	af
+    0000001A E0r00            [12]   73 	ldh	(__current_bank), a
+    0000001C EAr00r00         [16]   74 	ld	(_rROMB0), a
+    0000001F AF               [ 4]   75 	xor	a
+    00000020 21r00r00         [12]   76 	ld	hl, #_coro_current_context
+    00000023 22               [ 8]   77 	ld	(hl+), a
+    00000024 77               [ 8]   78 	ld	(hl), a
+    00000025 3C               [ 4]   79 	inc	a
+    00000026 C9               [16]   80 	ret
+                                     81 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:87: }
+                                     82 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:89: bool coro_finalize(void) NONBANKED NAKED {
+                                     83 ;	---------------------------------
+                                     84 ; Function coro_finalize
+                                     85 ; ---------------------------------
+    00000027                         86 _coro_finalize::
+                                     87 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:125: __endasm;
+    00000027 21r00r00         [12]   88 	ld	hl, #_coro_main_context
+    0000002A 2A               [ 8]   89 	ld	a, (hl+)
+    0000002B 66               [ 8]   90 	ld	h, (hl)
+    0000002C 6F               [ 4]   91 	ld	l, a
+    0000002D F9               [ 8]   92 	ld	sp, hl
+    0000002E F1               [12]   93 	pop	af
+    0000002F E0r00            [12]   94 	ldh	(__current_bank), a
+    00000031 EAr00r00         [16]   95 	ld	(_rROMB0), a
+    00000034 AF               [ 4]   96 	xor	a
+    00000035 21r00r00         [12]   97 	ld	hl, #_coro_current_context
+    00000038 22               [ 8]   98 	ld	(hl+), a
+    00000039 77               [ 8]   99 	ld	(hl), a
+    0000003A C9               [16]  100 	ret
+                                    101 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:126: }
+                                    102 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:128: void coro_init(coro_context_t * context, coro_t coro, uint8_t coro_bank, void * user_data, uint16_t stack_size) NONBANKED {
+                                    103 ;	---------------------------------
+                                    104 ; Function coro_init
+                                    105 ; ---------------------------------
+    0000003B                        106 _coro_init::
+    0000003B E8 FC            [16]  107 	add	sp, #-4
+    0000003D F8 02            [12]  108 	ldhl	sp,	#2
+    0000003F 7B               [ 4]  109 	ld	a, e
+    00000040 22               [ 8]  110 	ld	(hl+), a
+                                    111 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:129: uint16_t * stack = context->stack + ((stack_size >> 1) - 1);
+    00000041 7A               [ 4]  112 	ld	a, d
+    00000042 32               [ 8]  113 	ld	(hl-), a
+    00000043 33               [ 8]  114 	inc	sp
+    00000044 33               [ 8]  115 	inc	sp
+    00000045 C5               [16]  116 	push	bc
+    00000046 2A               [ 8]  117 	ld	a, (hl+)
+    00000047 4F               [ 4]  118 	ld	c, a
+    00000048 46               [ 8]  119 	ld	b, (hl)
+    00000049 03               [ 8]  120 	inc	bc
+    0000004A 03               [ 8]  121 	inc	bc
+    0000004B F8 09            [12]  122 	ldhl	sp,#9
+    0000004D 2A               [ 8]  123 	ld	a, (hl+)
+    0000004E 5F               [ 4]  124 	ld	e, a
+    0000004F 56               [ 8]  125 	ld	d, (hl)
+    00000050 CB 3A            [ 8]  126 	srl	d
+    00000052 CB 1B            [ 8]  127 	rr	e
+    00000054 1B               [ 8]  128 	dec	de
+    00000055 6B               [ 4]  129 	ld	l, e
+    00000056 62               [ 4]  130 	ld	h, d
+    00000057 29               [ 8]  131 	add	hl, hl
+    00000058 09               [ 8]  132 	add	hl, bc
+    00000059 4D               [ 4]  133 	ld	c, l
+    0000005A 44               [ 4]  134 	ld	b, h
+                                    135 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:130: *stack = (uint16_t)user_data;
+    0000005B F8 07            [12]  136 	ldhl	sp,	#7
+    0000005D 2A               [ 8]  137 	ld	a, (hl+)
+    0000005E 5F               [ 4]  138 	ld	e, a
+    0000005F 56               [ 8]  139 	ld	d, (hl)
+    00000060 69               [ 4]  140 	ld	l, c
+    00000061 60               [ 4]  141 	ld	h, b
+    00000062 7B               [ 4]  142 	ld	a, e
+    00000063 22               [ 8]  143 	ld	(hl+), a
+    00000064 72               [ 8]  144 	ld	(hl), d
+                                    145 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:132: stack = (uint16_t *)((uint8_t *)stack - 6); // match SM83 banked call convention
+    00000065 79               [ 4]  146 	ld	a, c
+    00000066 C6 FA            [ 8]  147 	add	a, #0xfa
+    00000068 4F               [ 4]  148 	ld	c, a
+    00000069 78               [ 4]  149 	ld	a, b
+    0000006A CE FF            [ 8]  150 	adc	a, #0xff
+    0000006C 47               [ 4]  151 	ld	b, a
+                                    152 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:138: *stack-- = (uint16_t *)coro_finalize;
+    0000006D 11r27r00         [12]  153 	ld	de, #_coro_finalize
+    00000070 69               [ 4]  154 	ld	l, c
+    00000071 60               [ 4]  155 	ld	h, b
+    00000072 7B               [ 4]  156 	ld	a, e
+    00000073 22               [ 8]  157 	ld	(hl+), a
+    00000074 72               [ 8]  158 	ld	(hl), d
+    00000075 0B               [ 8]  159 	dec	bc
+    00000076 0B               [ 8]  160 	dec	bc
+                                    161 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:139: *stack = (uint16_t *)coro;
+    00000077 D1               [12]  162 	pop	de
+    00000078 D5               [16]  163 	push	de
+    00000079 69               [ 4]  164 	ld	l, c
+    0000007A 60               [ 4]  165 	ld	h, b
+    0000007B 7B               [ 4]  166 	ld	a, e
+    0000007C 22               [ 8]  167 	ld	(hl+), a
+    0000007D 72               [ 8]  168 	ld	(hl), d
+                                    169 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:141: *--stack = coro_bank << 8;                  // coroutine bank
+    0000007E 0B               [ 8]  170 	dec	bc
+    0000007F 0B               [ 8]  171 	dec	bc
+    00000080 F8 06            [12]  172 	ldhl	sp,	#6
+    00000082 56               [ 8]  173 	ld	d, (hl)
+    00000083 1E 00            [ 8]  174 	ld	e, #0x00
+    00000085 69               [ 4]  175 	ld	l, c
+    00000086 60               [ 4]  176 	ld	h, b
+    00000087 7B               [ 4]  177 	ld	a, e
+    00000088 22               [ 8]  178 	ld	(hl+), a
+    00000089 72               [ 8]  179 	ld	(hl), d
+                                    180 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:148: context->SP = stack;
+    0000008A F8 02            [12]  181 	ldhl	sp,	#2
+    0000008C 2A               [ 8]  182 	ld	a, (hl+)
+    0000008D 66               [ 8]  183 	ld	h, (hl)
+    0000008E 6F               [ 4]  184 	ld	l, a
+    0000008F 71               [ 8]  185 	ld	(hl), c
+    00000090 23               [ 8]  186 	inc	hl
+    00000091 70               [ 8]  187 	ld	(hl), b
+                                    188 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:149: }
+    00000092 E8 04            [16]  189 	add	sp, #4
+    00000094 E1               [12]  190 	pop	hl
+    00000095 E8 05            [16]  191 	add	sp, #5
+    00000097 E9               [ 4]  192 	jp	(hl)
+                                    193 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:151: bool coro_continue(coro_context_t * context) NONBANKED NAKED {
+                                    194 ;	---------------------------------
+                                    195 ; Function coro_continue
+                                    196 ; ---------------------------------
+    00000098                        197 _coro_continue::
+                                    198 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:199: __endasm;
+    00000098 F0r00            [12]  199 	ldh	a, (__current_bank)
+    0000009A F5               [16]  200 	push	af
+    0000009B 08r00r00         [20]  201 	ld	(_coro_main_context), sp
+    0000009E 21r00r00         [12]  202 	ld	hl, #_coro_current_context
+    000000A1 73               [ 8]  203 	ld	(hl), e
+    000000A2 23               [ 8]  204 	inc	hl
+    000000A3 72               [ 8]  205 	ld	(hl), d
+    000000A4 62               [ 4]  206 	ld	h, d
+    000000A5 6B               [ 4]  207 	ld	l, e
+    000000A6 2A               [ 8]  208 	ld	a, (hl+)
+    000000A7 66               [ 8]  209 	ld	h, (hl)
+    000000A8 6F               [ 4]  210 	ld	l, a
+    000000A9 F9               [ 8]  211 	ld	sp, hl
+    000000AA F1               [12]  212 	pop	af
+    000000AB E0r00            [12]  213 	ldh	(__current_bank), a
+    000000AD EAr00r00         [16]  214 	ld	(_rROMB0), a
+    000000B0 C9               [16]  215 	ret
+                                    216 ;C:/CrossZGB/ZGB/common/src/Coroutines.c:200: }
+                                    217 	.area _HOME
+                                    218 ;--------------------------------------------------------
+                                    219 ; code
+                                    220 ;--------------------------------------------------------
+                                    221 	.area _CODE
+                                    222 	.area _CODE
+                                    223 	.area _INITIALIZER
+    00000000                        224 __xinit__coro_current_context:
+    00000000 00 00                  225 	.dw #0x0000
+                                    226 	.area _CABS (ABS)

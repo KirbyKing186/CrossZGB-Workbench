@@ -1,0 +1,222 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module StateGame
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _Destroy_StateGame
+                                     11 	.globl _Update_StateGame
+                                     12 	.globl _Start_StateGame
+                                     13 	.globl _RestoreDefaultScroll
+                                     14 	.globl _InitDynaStage
+                                     15 	.globl _RestoreDefaultInterrupts
+                                     16 	.globl _InitSpecialInterrupts
+                                     17 	.globl _SpriteManagerAdd
+                                     18 	.globl _ScrollInitCollisionGroupVector
+                                     19 	.globl ___bank_StateGame
+                                     20 ;--------------------------------------------------------
+                                     21 ; special function registers
+                                     22 ;--------------------------------------------------------
+                                     23 	.area _HRAM
+                                     24 ;--------------------------------------------------------
+                                     25 ; ram data
+                                     26 ;--------------------------------------------------------
+                                     27 	.area _DATA
+                                     28 ;--------------------------------------------------------
+                                     29 ; ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area _INITIALIZED
+    00000000                         32 ___CRASH_HANDLER_INIT:
+    00000000                         33 	.ds 2
+                                     34 ;--------------------------------------------------------
+                                     35 ; absolute external ram data
+                                     36 ;--------------------------------------------------------
+                                     37 	.area _DABS (ABS)
+                                     38 ;--------------------------------------------------------
+                                     39 ; global & static initialisations
+                                     40 ;--------------------------------------------------------
+                                     41 	.area _HOME
+                                     42 	.area _GSINIT
+                                     43 	.area _GSFINAL
+                                     44 	.area _GSINIT
+                                     45 ;--------------------------------------------------------
+                                     46 ; Home
+                                     47 ;--------------------------------------------------------
+                                     48 	.area _HOME
+                                     49 	.area _HOME
+                                     50 ;--------------------------------------------------------
+                                     51 ; code
+                                     52 ;--------------------------------------------------------
+                                     53 	.area _CODE_255
+                                     54 ;StateGame.c:27: void START(void) {
+                                     55 ;	---------------------------------
+                                     56 ; Function Start_StateGame
+                                     57 ; ---------------------------------
+    00000000                         58 _Start_StateGame::
+                                     59 ;StateGame.c:43: InitDynaStage(0);
+    00000000 AF               [ 4]   60 	xor	a, a
+    00000001 CDr00r00         [24]   61 	call	_InitDynaStage
+                                     62 ;StateGame.c:46: ScrollInitCollisionGroupVector(COLLISION_ALL,      collision_all);
+    00000004 11r81r00         [12]   63 	ld	de, #_collision_all
+    00000007 3E 0F            [ 8]   64 	ld	a, #0x0f
+    00000009 CDr00r00         [24]   65 	call	_ScrollInitCollisionGroupVector
+                                     66 ;StateGame.c:47: ScrollInitCollisionGroupVector(COLLISION_TOP,      collision_top);
+    0000000C 11rA6r00         [12]   67 	ld	de, #_collision_top
+    0000000F 3E 01            [ 8]   68 	ld	a, #0x01
+    00000011 CDr00r00         [24]   69 	call	_ScrollInitCollisionGroupVector
+                                     70 ;StateGame.c:48: ScrollInitCollisionGroupVector(COLLISION_PLATFORM, collision_platform);
+    00000014 11rA7r00         [12]   71 	ld	de, #_collision_platform
+    00000017 3E 81            [ 8]   72 	ld	a, #0x81
+    00000019 CDr00r00         [24]   73 	call	_ScrollInitCollisionGroupVector
+                                     74 ;StateGame.c:49: ScrollInitCollisionGroupVector(COLLISION_BOTTOM,   collision_bottom);
+    0000001C 11rAAr00         [12]   75 	ld	de, #_collision_bottom
+    0000001F 3E 02            [ 8]   76 	ld	a, #0x02
+    00000021 CDr00r00         [24]   77 	call	_ScrollInitCollisionGroupVector
+                                     78 ;StateGame.c:50: ScrollInitCollisionGroupVector(COLLISION_LEFT,     collision_left);
+    00000024 11rABr00         [12]   79 	ld	de, #_collision_left
+    00000027 3E 04            [ 8]   80 	ld	a, #0x04
+    00000029 CDr00r00         [24]   81 	call	_ScrollInitCollisionGroupVector
+                                     82 ;StateGame.c:51: ScrollInitCollisionGroupVector(COLLISION_RIGHT,    collision_right);
+    0000002C 11rACr00         [12]   83 	ld	de, #_collision_right
+    0000002F 3E 08            [ 8]   84 	ld	a, #0x08
+    00000031 CDr00r00         [24]   85 	call	_ScrollInitCollisionGroupVector
+                                     86 ;StateGame.c:52: ScrollInitCollisionGroupVector(COLLISION_SLOPE_45_RIGHT,      collision_slope_45_right);
+    00000034 11rADr00         [12]   87 	ld	de, #_collision_slope_45_right
+    00000037 3E 20            [ 8]   88 	ld	a, #0x20
+    00000039 CDr00r00         [24]   89 	call	_ScrollInitCollisionGroupVector
+                                     90 ;StateGame.c:53: ScrollInitCollisionGroupVector(COLLISION_SLOPE_225_RIGHT_BOT, collision_slope_225_right_bottom);
+    0000003C 11rB0r00         [12]   91 	ld	de, #_collision_slope_225_right_bottom
+    0000003F 3E 40            [ 8]   92 	ld	a, #0x40
+    00000041 CDr00r00         [24]   93 	call	_ScrollInitCollisionGroupVector
+                                     94 ;StateGame.c:54: ScrollInitCollisionGroupVector(COLLISION_SLOPE_225_RIGHT_TOP, collision_slope_225_right_top);
+    00000044 11rB3r00         [12]   95 	ld	de, #_collision_slope_225_right_top
+    00000047 3E 60            [ 8]   96 	ld	a, #0x60
+    00000049 CDr00r00         [24]   97 	call	_ScrollInitCollisionGroupVector
+                                     98 ;StateGame.c:55: ScrollInitCollisionGroupVector(COLLISION_SLOPE_45_LEFT,       collision_slope_45_left);
+    0000004C 11rB5r00         [12]   99 	ld	de, #_collision_slope_45_left
+    0000004F 3E 30            [ 8]  100 	ld	a, #0x30
+    00000051 CDr00r00         [24]  101 	call	_ScrollInitCollisionGroupVector
+                                    102 ;StateGame.c:56: ScrollInitCollisionGroupVector(COLLISION_SLOPE_225_LEFT_BOT,  collision_slope_225_left_bottom);
+    00000054 11rB8r00         [12]  103 	ld	de, #_collision_slope_225_left_bottom
+    00000057 3E 50            [ 8]  104 	ld	a, #0x50
+    00000059 CDr00r00         [24]  105 	call	_ScrollInitCollisionGroupVector
+                                    106 ;StateGame.c:57: ScrollInitCollisionGroupVector(COLLISION_SLOPE_225_LEFT_TOP,  collision_slope_225_left_top);
+    0000005C 11rBBr00         [12]  107 	ld	de, #_collision_slope_225_left_top
+    0000005F 3E 70            [ 8]  108 	ld	a, #0x70
+    00000061 CDr00r00         [24]  109 	call	_ScrollInitCollisionGroupVector
+                                    110 ;StateGame.c:63: InitSpecialInterrupts(RGB8(0x10, 0x90, 0xF8), RGB_WHITE, 8);
+    00000064 3E 08            [ 8]  111 	ld	a, #0x08
+    00000066 F5               [16]  112 	push	af
+    00000067 33               [ 8]  113 	inc	sp
+    00000068 01 FF 7F         [12]  114 	ld	bc, #0x7fff
+    0000006B 11 42 7E         [12]  115 	ld	de, #0x7e42
+    0000006E CDr00r00         [24]  116 	call	_InitSpecialInterrupts
+                                    117 ;StateGame.c:65: fade_mode = FADE_OFF;
+    00000071 AF               [ 4]  118 	xor	a, a
+    00000072 EAr00r00         [16]  119 	ld	(#_fade_mode),a
+                                    120 ;StateGame.c:70: SpriteManagerAdd(SpritePlayer, TILE_TO_PX(6), TILE_TO_PX(17));
+    00000075 11 88 00         [12]  121 	ld	de, #0x0088
+    00000078 D5               [16]  122 	push	de
+    00000079 11 30 00         [12]  123 	ld	de, #0x0030
+    0000007C AF               [ 4]  124 	xor	a, a
+    0000007D CDr00r00         [24]  125 	call	_SpriteManagerAdd
+                                    126 ;StateGame.c:72: }
+    00000080 C9               [16]  127 	ret
+                         000000FF   128 ___bank_StateGame	=	0x00ff
+    00000081                        129 _collision_all:
+    00000081 24                     130 	.db #0x24	; 36
+    00000082 0D                     131 	.db #0x0d	; 13
+    00000083 0E                     132 	.db #0x0e	; 14
+    00000084 0F                     133 	.db #0x0f	; 15
+    00000085 10                     134 	.db #0x10	; 16
+    00000086 11                     135 	.db #0x11	; 17
+    00000087 12                     136 	.db #0x12	; 18
+    00000088 13                     137 	.db #0x13	; 19
+    00000089 14                     138 	.db #0x14	; 20
+    0000008A 15                     139 	.db #0x15	; 21
+    0000008B 16                     140 	.db #0x16	; 22
+    0000008C 17                     141 	.db #0x17	; 23
+    0000008D 18                     142 	.db #0x18	; 24
+    0000008E 19                     143 	.db #0x19	; 25
+    0000008F 1A                     144 	.db #0x1a	; 26
+    00000090 1B                     145 	.db #0x1b	; 27
+    00000091 1C                     146 	.db #0x1c	; 28
+    00000092 1D                     147 	.db #0x1d	; 29
+    00000093 1E                     148 	.db #0x1e	; 30
+    00000094 1F                     149 	.db #0x1f	; 31
+    00000095 20                     150 	.db #0x20	; 32
+    00000096 21                     151 	.db #0x21	; 33
+    00000097 22                     152 	.db #0x22	; 34
+    00000098 23                     153 	.db #0x23	; 35
+    00000099 24                     154 	.db #0x24	; 36
+    0000009A 25                     155 	.db #0x25	; 37
+    0000009B 26                     156 	.db #0x26	; 38
+    0000009C 27                     157 	.db #0x27	; 39
+    0000009D 28                     158 	.db #0x28	; 40
+    0000009E 29                     159 	.db #0x29	; 41
+    0000009F 2A                     160 	.db #0x2a	; 42
+    000000A0 2B                     161 	.db #0x2b	; 43
+    000000A1 2C                     162 	.db #0x2c	; 44
+    000000A2 2D                     163 	.db #0x2d	; 45
+    000000A3 2E                     164 	.db #0x2e	; 46
+    000000A4 2F                     165 	.db #0x2f	; 47
+    000000A5 30                     166 	.db #0x30	; 48	'0'
+    000000A6                        167 _collision_top:
+    000000A6 00                     168 	.db #0x00	; 0
+    000000A7                        169 _collision_platform:
+    000000A7 02                     170 	.db #0x02	; 2
+    000000A8 31                     171 	.db #0x31	; 49	'1'
+    000000A9 32                     172 	.db #0x32	; 50	'2'
+    000000AA                        173 _collision_bottom:
+    000000AA 00                     174 	.db #0x00	; 0
+    000000AB                        175 _collision_left:
+    000000AB 00                     176 	.db #0x00	; 0
+    000000AC                        177 _collision_right:
+    000000AC 00                     178 	.db #0x00	; 0
+    000000AD                        179 _collision_slope_45_right:
+    000000AD 02                     180 	.db #0x02	; 2
+    000000AE 33                     181 	.db #0x33	; 51	'3'
+    000000AF 34                     182 	.db #0x34	; 52	'4'
+    000000B0                        183 _collision_slope_225_right_bottom:
+    000000B0 02                     184 	.db #0x02	; 2
+    000000B1 37                     185 	.db #0x37	; 55	'7'
+    000000B2 39                     186 	.db #0x39	; 57	'9'
+    000000B3                        187 _collision_slope_225_right_top:
+    000000B3 01                     188 	.db #0x01	; 1
+    000000B4 38                     189 	.db #0x38	; 56	'8'
+    000000B5                        190 _collision_slope_45_left:
+    000000B5 02                     191 	.db #0x02	; 2
+    000000B6 35                     192 	.db #0x35	; 53	'5'
+    000000B7 36                     193 	.db #0x36	; 54	'6'
+    000000B8                        194 _collision_slope_225_left_bottom:
+    000000B8 02                     195 	.db #0x02	; 2
+    000000B9 3A                     196 	.db #0x3a	; 58
+    000000BA 3B                     197 	.db #0x3b	; 59
+    000000BB                        198 _collision_slope_225_left_top:
+    000000BB 01                     199 	.db #0x01	; 1
+    000000BC 3C                     200 	.db #0x3c	; 60
+                                    201 ;StateGame.c:74: void UPDATE(void) {
+                                    202 ;	---------------------------------
+                                    203 ; Function Update_StateGame
+                                    204 ; ---------------------------------
+    000000BD                        205 _Update_StateGame::
+                                    206 ;StateGame.c:75: }
+    000000BD C9               [16]  207 	ret
+                                    208 ;StateGame.c:77: void DESTROY(void) {
+                                    209 ;	---------------------------------
+                                    210 ; Function Destroy_StateGame
+                                    211 ; ---------------------------------
+    000000BE                        212 _Destroy_StateGame::
+                                    213 ;StateGame.c:79: RestoreDefaultScroll();
+    000000BE CDr00r00         [24]  214 	call	_RestoreDefaultScroll
+                                    215 ;StateGame.c:81: RestoreDefaultInterrupts();
+                                    216 ;StateGame.c:82: }
+    000000C1 C3r00r00         [16]  217 	jp	_RestoreDefaultInterrupts
+                                    218 	.area _CODE_255
+                                    219 	.area _INITIALIZER
+    00000000                        220 __xinit____CRASH_HANDLER_INIT:
+    00000000r00r00                  221 	.dw ___HandleCrash
+                                    222 	.area _CABS (ABS)

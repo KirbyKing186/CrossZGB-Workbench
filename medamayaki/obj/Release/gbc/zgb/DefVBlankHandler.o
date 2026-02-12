@@ -1,0 +1,32 @@
+XL4
+H A areas 9 global symbols
+M DefVBlankHandler
+S _SCX_REG Ref00000000
+S _SCY_REG Ref00000000
+S .__.ABS. Def00000000
+S _scroll_x_vblank Ref00000000
+S _scroll_y_vblank Ref00000000
+S _scroll_offset_x Ref00000000
+S _vbl_count Ref00000000
+S _scroll_offset_y Ref00000000
+A _CODE size 0 flags 0 addr 0
+A _HRAM size 0 flags 0 addr 0
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 21 flags 0 addr 0
+S _VBL_isr Def00000000
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00 00
+R 00 00 05 00
+T 00 00 00 00 21 00 00 34 FA 00 00 4F FA 00 00 87
+R 00 00 05 00 02 05 06 00 02 09 04 00 02 0D 07 00
+T 0C 00 00 00 87 87 81 4F FA 00 00 47 FA 00 00 87
+R 00 00 05 00 02 09 03 00 02 0D 05 00
+T 18 00 00 00 87 87 80 E0 00 00 00 00 79 E0
+R 00 00 05 00 0B 08 00 00
+T 1F 00 00 00 00 00 00 00 C9
+R 00 00 05 00 0B 04 01 00

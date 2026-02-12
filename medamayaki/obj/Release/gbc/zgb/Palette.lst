@@ -1,0 +1,326 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module Palette
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _memcpy
+                                     11 	.globl _set_sprite_palette
+                                     12 	.globl _set_bkg_palette
+                                     13 	.globl _last_bg_pal_loaded
+                                     14 	.globl _default_palette
+                                     15 	.globl b_SetDefaultColorPalettes
+                                     16 	.globl _SetDefaultColorPalettes
+                                     17 	.globl _SetPalette
+                                     18 ;--------------------------------------------------------
+                                     19 ; special function registers
+                                     20 ;--------------------------------------------------------
+                                     21 	.area _HRAM
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area _DATA
+                                     26 ;--------------------------------------------------------
+                                     27 ; ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area _INITIALIZED
+    00000000                         30 _last_bg_pal_loaded::
+    00000000                         31 	.ds 1
+                                     32 ;--------------------------------------------------------
+                                     33 ; absolute external ram data
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _DABS (ABS)
+                                     36 ;--------------------------------------------------------
+                                     37 ; global & static initialisations
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
+                                     40 	.area _GSINIT
+                                     41 	.area _GSFINAL
+                                     42 	.area _GSINIT
+                                     43 ;--------------------------------------------------------
+                                     44 ; Home
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _HOME
+                                     47 ;C:/CrossZGB/ZGB/common/src/Palette.c:27: INT8 SetPalette(PALETTE_TYPE t, UINT8 first_palette, UINT8 nb_palettes, const palette_color_t *rgb_data, UINT8 bank) NONBANKED {
+                                     48 ;	---------------------------------
+                                     49 ; Function SetPalette
+                                     50 ; ---------------------------------
+    00000000                         51 _SetPalette::
+    00000000 E8 F7            [16]   52 	add	sp, #-9
+    00000002 F8 08            [12]   53 	ldhl	sp,	#8
+    00000004 32               [ 8]   54 	ld	(hl-), a
+    00000005 73               [ 8]   55 	ld	(hl), e
+                                     56 ;C:/CrossZGB/ZGB/common/src/Palette.c:32: if (!nb_palettes)
+    00000006 F8 0B            [12]   57 	ldhl	sp,	#11
+    00000008 7E               [ 8]   58 	ld	a, (hl)
+    00000009 B7               [ 4]   59 	or	a, a
+    0000000A 20 04            [12]   60 	jr	NZ, 00102$
+                                     61 ;C:/CrossZGB/ZGB/common/src/Palette.c:33: return 0;
+    0000000C AF               [ 4]   62 	xor	a, a
+    0000000D C3rD6r00         [16]   63 	jp	00108$
+    00000010                         64 00102$:
+                                     65 ;C:/CrossZGB/ZGB/common/src/Palette.c:34: if ((first_palette + nb_palettes) > MAX_PALETTES)
+    00000010 F8 07            [12]   66 	ldhl	sp,	#7
+    00000012 7E               [ 8]   67 	ld	a, (hl)
+    00000013 F8 00            [12]   68 	ldhl	sp,	#0
+    00000015 22               [ 8]   69 	ld	(hl+), a
+    00000016 36 00            [12]   70 	ld	(hl), #0x00
+    00000018 F8 0B            [12]   71 	ldhl	sp,	#11
+    0000001A 4E               [ 8]   72 	ld	c, (hl)
+    0000001B 06 00            [ 8]   73 	ld	b, #0x00
+    0000001D E1               [12]   74 	pop	hl
+    0000001E E5               [16]   75 	push	hl
+    0000001F 09               [ 8]   76 	add	hl, bc
+    00000020 E5               [16]   77 	push	hl
+    00000021 7D               [ 4]   78 	ld	a, l
+    00000022 F8 07            [12]   79 	ldhl	sp,	#7
+    00000024 77               [ 8]   80 	ld	(hl), a
+    00000025 E1               [12]   81 	pop	hl
+    00000026 7C               [ 4]   82 	ld	a, h
+    00000027 F8 06            [12]   83 	ldhl	sp,	#6
+    00000029 32               [ 8]   84 	ld	(hl-), a
+    0000002A 3E 08            [ 8]   85 	ld	a, #0x08
+    0000002C 96               [ 8]   86 	sub	a, (hl)
+    0000002D 23               [ 8]   87 	inc	hl
+    0000002E 3E 00            [ 8]   88 	ld	a, #0x00
+    00000030 9E               [ 8]   89 	sbc	a, (hl)
+    00000031 30 04            [12]   90 	jr	NC, 00104$
+                                     91 ;C:/CrossZGB/ZGB/common/src/Palette.c:35: return 0; // Adding more palettes than supported
+    00000033 AF               [ 4]   92 	xor	a, a
+    00000034 C3rD6r00         [16]   93 	jp	00108$
+    00000037                         94 00104$:
+                                     95 ;C:/CrossZGB/ZGB/common/src/Palette.c:37: UINT8 __save = CURRENT_BANK;
+    00000037 F0r00            [12]   96 	ldh	a, (__current_bank + 0)
+    00000039 F8 02            [12]   97 	ldhl	sp,	#2
+    0000003B 77               [ 8]   98 	ld	(hl), a
+                                     99 ;C:/CrossZGB/ZGB/common/src/Palette.c:38: SWITCH_ROM(bank);
+    0000003C F8 0E            [12]  100 	ldhl	sp,	#14
+    0000003E 7E               [ 8]  101 	ld	a, (hl)
+    0000003F E0r00            [12]  102 	ldh	(__current_bank + 0), a
+    00000041 EAr00r00         [16]  103 	ld	(#_rROMB0),a
+                                    104 ;C:/CrossZGB/ZGB/common/src/Palette.c:40: if (t == BG_PALETTE) {
+    00000044 F8 08            [12]  105 	ldhl	sp,	#8
+    00000046 CB 46            [12]  106 	bit	0, (hl)
+    00000048 20 19            [12]  107 	jr	NZ, 00106$
+                                    108 ;C:/CrossZGB/ZGB/common/src/Palette.c:41: set_bkg_palette(first_palette, nb_palettes, rgb_data);
+    0000004A C5               [16]  109 	push	bc
+    0000004B F8 0E            [12]  110 	ldhl	sp,	#14
+    0000004D 2A               [ 8]  111 	ld	a, (hl+)
+    0000004E 5F               [ 4]  112 	ld	e, a
+    0000004F 3A               [ 8]  113 	ld	a, (hl-)
+    00000050 2B               [ 8]  114 	dec	hl
+    00000051 57               [ 4]  115 	ld	d, a
+    00000052 D5               [16]  116 	push	de
+    00000053 7E               [ 8]  117 	ld	a, (hl)
+    00000054 F5               [16]  118 	push	af
+    00000055 33               [ 8]  119 	inc	sp
+    00000056 F8 0C            [12]  120 	ldhl	sp,	#12
+    00000058 7E               [ 8]  121 	ld	a, (hl)
+    00000059 F5               [16]  122 	push	af
+    0000005A 33               [ 8]  123 	inc	sp
+    0000005B CDr00r00         [24]  124 	call	_set_bkg_palette
+    0000005E E8 04            [16]  125 	add	sp, #4
+    00000060 C1               [12]  126 	pop	bc
+    00000061 18 17            [12]  127 	jr	00107$
+    00000063                        128 00106$:
+                                    129 ;C:/CrossZGB/ZGB/common/src/Palette.c:43: set_sprite_palette(first_palette, nb_palettes, rgb_data);
+    00000063 C5               [16]  130 	push	bc
+    00000064 F8 0E            [12]  131 	ldhl	sp,	#14
+    00000066 2A               [ 8]  132 	ld	a, (hl+)
+    00000067 5F               [ 4]  133 	ld	e, a
+    00000068 3A               [ 8]  134 	ld	a, (hl-)
+    00000069 2B               [ 8]  135 	dec	hl
+    0000006A 57               [ 4]  136 	ld	d, a
+    0000006B D5               [16]  137 	push	de
+    0000006C 7E               [ 8]  138 	ld	a, (hl)
+    0000006D F5               [16]  139 	push	af
+    0000006E 33               [ 8]  140 	inc	sp
+    0000006F F8 0C            [12]  141 	ldhl	sp,	#12
+    00000071 7E               [ 8]  142 	ld	a, (hl)
+    00000072 F5               [16]  143 	push	af
+    00000073 33               [ 8]  144 	inc	sp
+    00000074 CDr00r00         [24]  145 	call	_set_sprite_palette
+    00000077 E8 04            [16]  146 	add	sp, #4
+    00000079 C1               [12]  147 	pop	bc
+    0000007A                        148 00107$:
+                                    149 ;C:/CrossZGB/ZGB/common/src/Palette.c:45: memcpy(((t == BG_PALETTE) ? ZGB_Fading_BPal : ZGB_Fading_SPal) + (first_palette * N_PALETTE_COLORS), rgb_data, nb_palettes * PALETTE_SIZE);
+    0000007A CB 21            [ 8]  150 	sla	c
+    0000007C CB 10            [ 8]  151 	rl	b
+    0000007E CB 21            [ 8]  152 	sla	c
+    00000080 CB 10            [ 8]  153 	rl	b
+    00000082 CB 21            [ 8]  154 	sla	c
+    00000084 CB 10            [ 8]  155 	rl	b
+    00000086 F8 0C            [12]  156 	ldhl	sp,	#12
+    00000088 7E               [ 8]  157 	ld	a, (hl)
+    00000089 F8 03            [12]  158 	ldhl	sp,	#3
+    0000008B 77               [ 8]  159 	ld	(hl), a
+    0000008C F8 0D            [12]  160 	ldhl	sp,	#13
+    0000008E 7E               [ 8]  161 	ld	a, (hl)
+    0000008F F8 04            [12]  162 	ldhl	sp,	#4
+    00000091 77               [ 8]  163 	ld	(hl), a
+    00000092 F8 08            [12]  164 	ldhl	sp,	#8
+    00000094 CB 46            [12]  165 	bit	0, (hl)
+    00000096 20 0A            [12]  166 	jr	NZ, 00110$
+    00000098 11r00r00         [12]  167 	ld	de, #_ZGB_Fading_BPal+0
+    0000009B F8 05            [12]  168 	ldhl	sp,	#5
+    0000009D 7B               [ 4]  169 	ld	a, e
+    0000009E 22               [ 8]  170 	ld	(hl+), a
+    0000009F 72               [ 8]  171 	ld	(hl), d
+    000000A0 18 08            [12]  172 	jr	00111$
+    000000A2                        173 00110$:
+    000000A2 11r00r00         [12]  174 	ld	de, #_ZGB_Fading_SPal+0
+    000000A5 F8 05            [12]  175 	ldhl	sp,	#5
+    000000A7 7B               [ 4]  176 	ld	a, e
+    000000A8 22               [ 8]  177 	ld	(hl+), a
+    000000A9 72               [ 8]  178 	ld	(hl), d
+    000000AA                        179 00111$:
+    000000AA F8 00            [12]  180 	ldhl	sp,	#0
+    000000AC 7E               [ 8]  181 	ld	a, (hl)
+    000000AD 16 00            [ 8]  182 	ld	d, #0x00
+    000000AF 87               [ 4]  183 	add	a, a
+    000000B0 CB 12            [ 8]  184 	rl	d
+    000000B2 87               [ 4]  185 	add	a, a
+    000000B3 CB 12            [ 8]  186 	rl	d
+    000000B5 87               [ 4]  187 	add	a, a
+    000000B6 CB 12            [ 8]  188 	rl	d
+    000000B8 5F               [ 4]  189 	ld	e, a
+    000000B9 F8 05            [12]  190 	ldhl	sp,	#5
+    000000BB 2A               [ 8]  191 	ld	a,	(hl+)
+    000000BC 66               [ 8]  192 	ld	h, (hl)
+    000000BD 6F               [ 4]  193 	ld	l, a
+    000000BE 19               [ 8]  194 	add	hl, de
+    000000BF 5D               [ 4]  195 	ld	e, l
+    000000C0 54               [ 4]  196 	ld	d, h
+    000000C1 C5               [16]  197 	push	bc
+    000000C2 F8 05            [12]  198 	ldhl	sp,	#5
+    000000C4 2A               [ 8]  199 	ld	a, (hl+)
+    000000C5 4F               [ 4]  200 	ld	c, a
+    000000C6 46               [ 8]  201 	ld	b, (hl)
+    000000C7 CDr00r00         [24]  202 	call	_memcpy
+                                    203 ;C:/CrossZGB/ZGB/common/src/Palette.c:46: SWITCH_ROM(__save);
+    000000CA F8 02            [12]  204 	ldhl	sp,	#2
+    000000CC 7E               [ 8]  205 	ld	a, (hl)
+    000000CD E0r00            [12]  206 	ldh	(__current_bank + 0), a
+    000000CF 7E               [ 8]  207 	ld	a, (hl)
+    000000D0 EAr00r00         [16]  208 	ld	(#_rROMB0),a
+                                    209 ;C:/CrossZGB/ZGB/common/src/Palette.c:48: return nb_palettes;
+    000000D3 F8 0B            [12]  210 	ldhl	sp,	#11
+    000000D5 7E               [ 8]  211 	ld	a, (hl)
+    000000D6                        212 00108$:
+                                    213 ;C:/CrossZGB/ZGB/common/src/Palette.c:50: }
+    000000D6 E8 09            [16]  214 	add	sp, #9
+    000000D8 E1               [12]  215 	pop	hl
+    000000D9 E8 04            [16]  216 	add	sp, #4
+    000000DB E9               [ 4]  217 	jp	(hl)
+                                    218 	.area _HOME
+                                    219 ;--------------------------------------------------------
+                                    220 ; code
+                                    221 ;--------------------------------------------------------
+                                    222 	.area _CODE_1
+                                    223 ;C:/CrossZGB/ZGB/common/src/Palette.c:14: void SetDefaultColorPalettes(void) BANKED {
+                                    224 ;	---------------------------------
+                                    225 ; Function SetDefaultColorPalettes
+                                    226 ; ---------------------------------
+                         00000001   227 	b_SetDefaultColorPalettes	= 1
+    00000000                        228 _SetDefaultColorPalettes::
+                                    229 ;C:/CrossZGB/ZGB/common/src/Palette.c:16: if (_cpu == CGB_TYPE) {
+    00000000 FAr00r00         [16]  230 	ld	a, (#__cpu)
+    00000003 D6 11            [ 8]  231 	sub	a, #0x11
+    00000005 C0               [20]  232 	ret	NZ
+                                    233 ;C:/CrossZGB/ZGB/common/src/Palette.c:18: set_bkg_palette(0, MAX_PALETTES, default_palette);
+    00000006 11r3Br00         [12]  234 	ld	de, #_default_palette
+    00000009 D5               [16]  235 	push	de
+    0000000A 21 00 08         [12]  236 	ld	hl, #0x800
+    0000000D E5               [16]  237 	push	hl
+    0000000E CDr00r00         [24]  238 	call	_set_bkg_palette
+    00000011 E8 04            [16]  239 	add	sp, #4
+                                    240 ;C:/CrossZGB/ZGB/common/src/Palette.c:19: memcpy(ZGB_Fading_BPal, default_palette, MAX_PALETTES * PALETTE_SIZE);
+    00000013 11 40 00         [12]  241 	ld	de, #0x0040
+    00000016 D5               [16]  242 	push	de
+    00000017 01r3Br00         [12]  243 	ld	bc, #_default_palette
+    0000001A 11r00r00         [12]  244 	ld	de, #_ZGB_Fading_BPal
+    0000001D CDr00r00         [24]  245 	call	_memcpy
+                                    246 ;C:/CrossZGB/ZGB/common/src/Palette.c:20: set_sprite_palette(0, MAX_PALETTES, default_palette);
+    00000020 11r3Br00         [12]  247 	ld	de, #_default_palette
+    00000023 D5               [16]  248 	push	de
+    00000024 21 00 08         [12]  249 	ld	hl, #0x800
+    00000027 E5               [16]  250 	push	hl
+    00000028 CDr00r00         [24]  251 	call	_set_sprite_palette
+    0000002B E8 04            [16]  252 	add	sp, #4
+                                    253 ;C:/CrossZGB/ZGB/common/src/Palette.c:21: memcpy(ZGB_Fading_SPal, default_palette, MAX_PALETTES * PALETTE_SIZE);
+    0000002D 11 40 00         [12]  254 	ld	de, #0x0040
+    00000030 D5               [16]  255 	push	de
+    00000031 01r3Br00         [12]  256 	ld	bc, #_default_palette
+    00000034 11r00r00         [12]  257 	ld	de, #_ZGB_Fading_SPal
+    00000037 CDr00r00         [24]  258 	call	_memcpy
+                                    259 ;C:/CrossZGB/ZGB/common/src/Palette.c:25: }
+    0000003A C9               [16]  260 	ret
+    0000003B                        261 _default_palette:
+    0000003B FF 7F                  262 	.dw #0x7fff
+    0000003D 94 52                  263 	.dw #0x5294
+    0000003F 4A 29                  264 	.dw #0x294a
+    00000041 00 00                  265 	.dw #0x0000
+    00000043 00                     266 	.db 0x00
+    00000044 00                     267 	.db 0x00
+    00000045 00                     268 	.db 0x00
+    00000046 00                     269 	.db 0x00
+    00000047 00                     270 	.db 0x00
+    00000048 00                     271 	.db 0x00
+    00000049 00                     272 	.db 0x00
+    0000004A 00                     273 	.db 0x00
+    0000004B 00                     274 	.db 0x00
+    0000004C 00                     275 	.db 0x00
+    0000004D 00                     276 	.db 0x00
+    0000004E 00                     277 	.db 0x00
+    0000004F 00                     278 	.db 0x00
+    00000050 00                     279 	.db 0x00
+    00000051 00                     280 	.db 0x00
+    00000052 00                     281 	.db 0x00
+    00000053 00                     282 	.db 0x00
+    00000054 00                     283 	.db 0x00
+    00000055 00                     284 	.db 0x00
+    00000056 00                     285 	.db 0x00
+    00000057 00                     286 	.db 0x00
+    00000058 00                     287 	.db 0x00
+    00000059 00                     288 	.db 0x00
+    0000005A 00                     289 	.db 0x00
+    0000005B 00                     290 	.db 0x00
+    0000005C 00                     291 	.db 0x00
+    0000005D 00                     292 	.db 0x00
+    0000005E 00                     293 	.db 0x00
+    0000005F 00                     294 	.db 0x00
+    00000060 00                     295 	.db 0x00
+    00000061 00                     296 	.db 0x00
+    00000062 00                     297 	.db 0x00
+    00000063 00                     298 	.db 0x00
+    00000064 00                     299 	.db 0x00
+    00000065 00                     300 	.db 0x00
+    00000066 00                     301 	.db 0x00
+    00000067 00                     302 	.db 0x00
+    00000068 00                     303 	.db 0x00
+    00000069 00                     304 	.db 0x00
+    0000006A 00                     305 	.db 0x00
+    0000006B 00                     306 	.db 0x00
+    0000006C 00                     307 	.db 0x00
+    0000006D 00                     308 	.db 0x00
+    0000006E 00                     309 	.db 0x00
+    0000006F 00                     310 	.db 0x00
+    00000070 00                     311 	.db 0x00
+    00000071 00                     312 	.db 0x00
+    00000072 00                     313 	.db 0x00
+    00000073 00                     314 	.db 0x00
+    00000074 00                     315 	.db 0x00
+    00000075 00                     316 	.db 0x00
+    00000076 00                     317 	.db 0x00
+    00000077 00                     318 	.db 0x00
+    00000078 00                     319 	.db 0x00
+    00000079 00                     320 	.db 0x00
+    0000007A 00                     321 	.db 0x00
+                                    322 	.area _CODE_1
+                                    323 	.area _INITIALIZER
+    00000000                        324 __xinit__last_bg_pal_loaded:
+    00000000 00                     325 	.db #0x00	; 0
+                                    326 	.area _CABS (ABS)

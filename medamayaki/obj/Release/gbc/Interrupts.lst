@@ -1,0 +1,462 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module Interrupts
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _LCD_isr
+                                     11 	.globl _display_off
+                                     12 	.globl _add_LCD
+                                     13 	.globl _remove_LCD
+                                     14 	.globl _lcd_step
+                                     15 	.globl _gradient_colors
+                                     16 	.globl _isrColor
+                                     17 	.globl _effect_isr
+                                     18 	.globl _build_gradient
+                                     19 	.globl _InitSpecialInterrupts
+                                     20 	.globl _RestoreDefaultInterrupts
+                                     21 ;--------------------------------------------------------
+                                     22 ; special function registers
+                                     23 ;--------------------------------------------------------
+                                     24 	.area _HRAM
+                                     25 ;--------------------------------------------------------
+                                     26 ; ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area _DATA
+    00000000                         29 _isrColor::
+    00000000                         30 	.ds 2
+    00000002                         31 _gradient_colors::
+    00000002                         32 	.ds 288
+                                     33 ;--------------------------------------------------------
+                                     34 ; ram data
+                                     35 ;--------------------------------------------------------
+                                     36 	.area _INITIALIZED
+    00000000                         37 ___CRASH_HANDLER_INIT:
+    00000000                         38 	.ds 2
+    00000002                         39 _lcd_step::
+    00000002                         40 	.ds 1
+                                     41 ;--------------------------------------------------------
+                                     42 ; absolute external ram data
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _DABS (ABS)
+                                     45 ;--------------------------------------------------------
+                                     46 ; global & static initialisations
+                                     47 ;--------------------------------------------------------
+                                     48 	.area _HOME
+                                     49 	.area _GSINIT
+                                     50 	.area _GSFINAL
+                                     51 	.area _GSINIT
+                                     52 ;--------------------------------------------------------
+                                     53 ; Home
+                                     54 ;--------------------------------------------------------
+                                     55 	.area _HOME
+                                     56 ;Interrupts.c:13: void effect_isr(void) NONBANKED {
+                                     57 ;	---------------------------------
+                                     58 ; Function effect_isr
+                                     59 ; ---------------------------------
+    00000000                         60 _effect_isr::
+                                     61 ;Interrupts.c:15: isrColor = gradient_colors[LY_REG];
+    00000000 F0r00            [12]   62 	ldh	a, (_LY_REG + 0)
+    00000002 26 00            [ 8]   63 	ld	h, #0x00
+    00000004 6F               [ 4]   64 	ld	l, a
+    00000005 29               [ 8]   65 	add	hl, hl
+    00000006 11r02r00         [12]   66 	ld	de, #_gradient_colors
+    00000009 19               [ 8]   67 	add	hl, de
+    0000000A 5D               [ 4]   68 	ld	e, l
+    0000000B 54               [ 4]   69 	ld	d, h
+    0000000C 1A               [ 8]   70 	ld	a, (de)
+    0000000D 21r00r00         [12]   71 	ld	hl, #_isrColor
+    00000010 22               [ 8]   72 	ld	(hl+), a
+    00000011 13               [ 8]   73 	inc	de
+    00000012 1A               [ 8]   74 	ld	a, (de)
+    00000013 77               [ 8]   75 	ld	(hl), a
+                                     76 ;Interrupts.c:17: while (STAT_REG & STATF_BUSY);
+    00000014                         77 00101$:
+    00000014 F0r00            [12]   78 	ldh	a, (_STAT_REG + 0)
+    00000016 CB 4F            [ 8]   79 	bit	1, a
+    00000018 20 FA            [12]   80 	jr	NZ, 00101$
+                                     81 ;Interrupts.c:37: BCPS_REG = (0x02 << 1) | 0x80; 
+    0000001A 3E 84            [ 8]   82 	ld	a, #0x84
+    0000001C E0r00            [12]   83 	ldh	(_BCPS_REG + 0), a
+                                     84 ;Interrupts.c:38: BCPD_REG = isrColor & 0xFF;
+    0000001E FAr00r00         [16]   85 	ld	a, (_isrColor)
+    00000021 4F               [ 4]   86 	ld	c, a
+    00000022 E0r00            [12]   87 	ldh	(_BCPD_REG + 0), a
+                                     88 ;Interrupts.c:39: BCPD_REG = isrColor >> 8;
+    00000024 FAr01r00         [16]   89 	ld	a, (_isrColor + 1)
+    00000027 47               [ 4]   90 	ld	b, a
+    00000028 E0r00            [12]   91 	ldh	(_BCPD_REG + 0), a
+                                     92 ;Interrupts.c:40: BCPS_REG = (0x06 << 1) | 0x80; 
+    0000002A 3E 8C            [ 8]   93 	ld	a, #0x8c
+    0000002C E0r00            [12]   94 	ldh	(_BCPS_REG + 0), a
+                                     95 ;Interrupts.c:41: BCPD_REG = isrColor & 0xFF;
+    0000002E 79               [ 4]   96 	ld	a, c
+    0000002F E0r00            [12]   97 	ldh	(_BCPD_REG + 0), a
+                                     98 ;Interrupts.c:42: BCPD_REG = isrColor >> 8;
+    00000031 78               [ 4]   99 	ld	a, b
+    00000032 E0r00            [12]  100 	ldh	(_BCPD_REG + 0), a
+                                    101 ;Interrupts.c:43: BCPS_REG = (0x0B << 1) | 0x80; 
+    00000034 3E 96            [ 8]  102 	ld	a, #0x96
+    00000036 E0r00            [12]  103 	ldh	(_BCPS_REG + 0), a
+                                    104 ;Interrupts.c:44: BCPD_REG = isrColor & 0xFF;
+    00000038 79               [ 4]  105 	ld	a, c
+    00000039 E0r00            [12]  106 	ldh	(_BCPD_REG + 0), a
+                                    107 ;Interrupts.c:45: BCPD_REG = isrColor >> 8;
+    0000003B 78               [ 4]  108 	ld	a, b
+    0000003C E0r00            [12]  109 	ldh	(_BCPD_REG + 0), a
+                                    110 ;Interrupts.c:46: BCPS_REG = (0x0E << 1) | 0x80; 
+    0000003E 3E 9C            [ 8]  111 	ld	a, #0x9c
+    00000040 E0r00            [12]  112 	ldh	(_BCPS_REG + 0), a
+                                    113 ;Interrupts.c:47: BCPD_REG = isrColor & 0xFF;
+    00000042 79               [ 4]  114 	ld	a, c
+    00000043 E0r00            [12]  115 	ldh	(_BCPD_REG + 0), a
+                                    116 ;Interrupts.c:48: BCPD_REG = isrColor >> 8;
+    00000045 78               [ 4]  117 	ld	a, b
+    00000046 E0r00            [12]  118 	ldh	(_BCPD_REG + 0), a
+                                    119 ;Interrupts.c:49: BCPS_REG = (0x11 << 1) | 0x80; 
+    00000048 3E A2            [ 8]  120 	ld	a, #0xa2
+    0000004A E0r00            [12]  121 	ldh	(_BCPS_REG + 0), a
+                                    122 ;Interrupts.c:50: BCPD_REG = isrColor & 0xFF;
+    0000004C 79               [ 4]  123 	ld	a, c
+    0000004D E0r00            [12]  124 	ldh	(_BCPD_REG + 0), a
+                                    125 ;Interrupts.c:51: BCPD_REG = isrColor >> 8;
+    0000004F 78               [ 4]  126 	ld	a, b
+    00000050 E0r00            [12]  127 	ldh	(_BCPD_REG + 0), a
+                                    128 ;Interrupts.c:52: BCPS_REG = (0x17 << 1) | 0x80; 
+    00000052 3E AE            [ 8]  129 	ld	a, #0xae
+    00000054 E0r00            [12]  130 	ldh	(_BCPS_REG + 0), a
+                                    131 ;Interrupts.c:53: BCPD_REG = isrColor & 0xFF;
+    00000056 79               [ 4]  132 	ld	a, c
+    00000057 E0r00            [12]  133 	ldh	(_BCPD_REG + 0), a
+                                    134 ;Interrupts.c:54: BCPD_REG = isrColor >> 8;
+    00000059 78               [ 4]  135 	ld	a, b
+    0000005A E0r00            [12]  136 	ldh	(_BCPD_REG + 0), a
+                                    137 ;Interrupts.c:57: LYC_REG += lcd_step;
+    0000005C F0r00            [12]  138 	ldh	a, (_LYC_REG + 0)
+    0000005E 21r02r00         [12]  139 	ld	hl, #_lcd_step
+    00000061 86               [ 8]  140 	add	a, (hl)
+    00000062 E0r00            [12]  141 	ldh	(_LYC_REG + 0), a
+                                    142 ;Interrupts.c:59: if (LYC_REG > 143u) LYC_REG = 0;
+    00000064 F0r00            [12]  143 	ldh	a, (_LYC_REG + 0)
+    00000066 47               [ 4]  144 	ld	b, a
+    00000067 3E 8F            [ 8]  145 	ld	a, #0x8f
+    00000069 90               [ 4]  146 	sub	a, b
+    0000006A D0               [20]  147 	ret	NC
+    0000006B AF               [ 4]  148 	xor	a, a
+    0000006C E0r00            [12]  149 	ldh	(_LYC_REG + 0), a
+                                    150 ;Interrupts.c:61: }
+    0000006E C9               [16]  151 	ret
+                                    152 ;Interrupts.c:82: void InitSpecialInterrupts(palette_color_t start_color, palette_color_t end_color, UINT8 lcd_space) NONBANKED {
+                                    153 ;	---------------------------------
+                                    154 ; Function InitSpecialInterrupts
+                                    155 ; ---------------------------------
+    0000006F                        156 _InitSpecialInterrupts::
+    0000006F 3B               [ 8]  157 	dec	sp
+                                    158 ;Interrupts.c:83: lcd_step = lcd_space;
+    00000070 F8 03            [12]  159 	ldhl	sp,	#3
+    00000072 7E               [ 8]  160 	ld	a, (hl)
+    00000073 EAr02r00         [16]  161 	ld	(#_lcd_step),a
+                                    162 ;Interrupts.c:84: UINT8 is_display_on = LCDC_REG & LCDCF_ON; // If the display was on, turn it off while running interrupt code and turn it back on when done. Otherwise, keep it off.
+    00000076 F0r00            [12]  163 	ldh	a, (_LCDC_REG + 0)
+    00000078 E6 80            [ 8]  164 	and	a, #0x80
+    0000007A F8 00            [12]  165 	ldhl	sp,	#0
+    0000007C 77               [ 8]  166 	ld	(hl), a
+                                    167 ;Interrupts.c:85: if (is_display_on) DISPLAY_OFF;
+    0000007D B7               [ 4]  168 	or	a, a
+    0000007E 28 03            [12]  169 	jr	Z, 00102$
+    00000080 CDr00r00         [24]  170 	call	_display_off
+    00000083                        171 00102$:
+                                    172 ;Interrupts.c:92: }
+    00000083 F3               [ 4]  173 	di
+                                    174 ;Interrupts.c:87: remove_LCD(effect_isr);
+    00000084 C5               [16]  175 	push	bc
+    00000085 D5               [16]  176 	push	de
+    00000086 11r00r00         [12]  177 	ld	de, #_effect_isr
+    00000089 CDr00r00         [24]  178 	call	_remove_LCD
+                                    179 ;Interrupts.c:88: remove_LCD(LCD_isr);
+    0000008C 11r00r00         [12]  180 	ld	de, #_LCD_isr
+    0000008F CDr00r00         [24]  181 	call	_remove_LCD
+    00000092 D1               [12]  182 	pop	de
+    00000093 C1               [12]  183 	pop	bc
+                                    184 ;Interrupts.c:89: LYC_REG = 0;
+    00000094 AF               [ 4]  185 	xor	a, a
+    00000095 E0r00            [12]  186 	ldh	(_LYC_REG + 0), a
+                                    187 ;Interrupts.c:90: build_gradient(start_color, end_color);
+    00000097 CDr00r00         [24]  188 	call	_build_gradient
+                                    189 ;Interrupts.c:91: add_LCD(effect_isr);
+    0000009A 11r00r00         [12]  190 	ld	de, #_effect_isr
+    0000009D CDr00r00         [24]  191 	call	_add_LCD
+    000000A0 FB               [ 4]  192 	ei
+                                    193 ;Interrupts.c:93: if (is_display_on) DISPLAY_ON;
+    000000A1 F8 00            [12]  194 	ldhl	sp,	#0
+    000000A3 7E               [ 8]  195 	ld	a, (hl)
+    000000A4 B7               [ 4]  196 	or	a, a
+    000000A5 28 06            [12]  197 	jr	Z, 00105$
+    000000A7 F0r00            [12]  198 	ldh	a, (_LCDC_REG + 0)
+    000000A9 F6 80            [ 8]  199 	or	a, #0x80
+    000000AB E0r00            [12]  200 	ldh	(_LCDC_REG + 0), a
+    000000AD                        201 00105$:
+                                    202 ;Interrupts.c:94: }
+    000000AD 33               [ 8]  203 	inc	sp
+    000000AE E1               [12]  204 	pop	hl
+    000000AF 33               [ 8]  205 	inc	sp
+    000000B0 E9               [ 4]  206 	jp	(hl)
+                                    207 ;Interrupts.c:96: void RestoreDefaultInterrupts(void) NONBANKED {
+                                    208 ;	---------------------------------
+                                    209 ; Function RestoreDefaultInterrupts
+                                    210 ; ---------------------------------
+    000000B1                        211 _RestoreDefaultInterrupts::
+                                    212 ;Interrupts.c:102: }
+    000000B1 F3               [ 4]  213 	di
+                                    214 ;Interrupts.c:98: STAT_REG = STATF_LYC;
+    000000B2 3E 40            [ 8]  215 	ld	a, #0x40
+    000000B4 E0r00            [12]  216 	ldh	(_STAT_REG + 0), a
+                                    217 ;Interrupts.c:99: remove_LCD(effect_isr);
+    000000B6 11r00r00         [12]  218 	ld	de, #_effect_isr
+    000000B9 CDr00r00         [24]  219 	call	_remove_LCD
+                                    220 ;Interrupts.c:100: remove_LCD(LCD_isr);
+    000000BC 11r00r00         [12]  221 	ld	de, #_LCD_isr
+    000000BF CDr00r00         [24]  222 	call	_remove_LCD
+                                    223 ;Interrupts.c:101: add_LCD(LCD_isr);
+    000000C2 11r00r00         [12]  224 	ld	de, #_LCD_isr
+    000000C5 CDr00r00         [24]  225 	call	_add_LCD
+    000000C8 FB               [ 4]  226 	ei
+                                    227 ;Interrupts.c:103: }
+    000000C9 C9               [16]  228 	ret
+                                    229 	.area _HOME
+                                    230 ;--------------------------------------------------------
+                                    231 ; code
+                                    232 ;--------------------------------------------------------
+                                    233 	.area _CODE
+                                    234 ;Interrupts.c:63: void build_gradient(palette_color_t start_color, palette_color_t end_color) {
+                                    235 ;	---------------------------------
+                                    236 ; Function build_gradient
+                                    237 ; ---------------------------------
+    00000000                        238 _build_gradient::
+    00000000 E8 F3            [16]  239 	add	sp, #-13
+                                    240 ;Interrupts.c:65: UINT8 r0 = PAL_RED(start_color);
+    00000002 7B               [ 4]  241 	ld	a, e
+    00000003 E6 1F            [ 8]  242 	and	a, #0x1f
+    00000005 F8 00            [12]  243 	ldhl	sp,	#0
+    00000007 77               [ 8]  244 	ld	(hl), a
+                                    245 ;Interrupts.c:66: UINT8 g0 = PAL_GREEN(start_color);
+    00000008 6B               [ 4]  246 	ld	l, e
+    00000009 62               [ 4]  247 	ld	h, d
+    0000000A CB 3C            [ 8]  248 	srl	h
+    0000000C CB 1D            [ 8]  249 	rr	l
+    0000000E CB 3C            [ 8]  250 	srl	h
+    00000010 CB 1D            [ 8]  251 	rr	l
+    00000012 CB 3C            [ 8]  252 	srl	h
+    00000014 CB 1D            [ 8]  253 	rr	l
+    00000016 CB 3C            [ 8]  254 	srl	h
+    00000018 CB 1D            [ 8]  255 	rr	l
+    0000001A CB 3C            [ 8]  256 	srl	h
+    0000001C CB 1D            [ 8]  257 	rr	l
+    0000001E 7D               [ 4]  258 	ld	a, l
+    0000001F E6 1F            [ 8]  259 	and	a, #0x1f
+    00000021 F8 01            [12]  260 	ldhl	sp,	#1
+                                    261 ;Interrupts.c:67: UINT8 b0 = PAL_BLUE(start_color);
+    00000023 22               [ 8]  262 	ld	(hl+), a
+    00000024 7A               [ 4]  263 	ld	a, d
+    00000025 0F               [ 4]  264 	rrca
+    00000026 0F               [ 4]  265 	rrca
+    00000027 E6 1F            [ 8]  266 	and	a, #0x1f
+                                    267 ;Interrupts.c:69: UINT8 r1 = PAL_RED(end_color);
+    00000029 22               [ 8]  268 	ld	(hl+), a
+    0000002A 79               [ 4]  269 	ld	a, c
+    0000002B E6 1F            [ 8]  270 	and	a, #0x1f
+                                    271 ;Interrupts.c:70: UINT8 g1 = PAL_GREEN(end_color);
+    0000002D 22               [ 8]  272 	ld	(hl+), a
+    0000002E 59               [ 4]  273 	ld	e, c
+    0000002F 50               [ 4]  274 	ld	d, b
+    00000030 CB 3A            [ 8]  275 	srl	d
+    00000032 CB 1B            [ 8]  276 	rr	e
+    00000034 CB 3A            [ 8]  277 	srl	d
+    00000036 CB 1B            [ 8]  278 	rr	e
+    00000038 CB 3A            [ 8]  279 	srl	d
+    0000003A CB 1B            [ 8]  280 	rr	e
+    0000003C CB 3A            [ 8]  281 	srl	d
+    0000003E CB 1B            [ 8]  282 	rr	e
+    00000040 CB 3A            [ 8]  283 	srl	d
+    00000042 CB 1B            [ 8]  284 	rr	e
+    00000044 7B               [ 4]  285 	ld	a, e
+    00000045 E6 1F            [ 8]  286 	and	a, #0x1f
+                                    287 ;Interrupts.c:71: UINT8 b1 = PAL_BLUE(end_color);
+    00000047 22               [ 8]  288 	ld	(hl+), a
+    00000048 78               [ 4]  289 	ld	a, b
+    00000049 0F               [ 4]  290 	rrca
+    0000004A 0F               [ 4]  291 	rrca
+    0000004B E6 3F            [ 8]  292 	and	a, #0x3f
+    0000004D 4F               [ 4]  293 	ld	c, a
+    0000004E 06 00            [ 8]  294 	ld	b, #0x00
+    00000050 79               [ 4]  295 	ld	a, c
+    00000051 E6 1F            [ 8]  296 	and	a, #0x1f
+    00000053 77               [ 8]  297 	ld	(hl), a
+                                    298 ;Interrupts.c:73: for (UINT8 step = 0; step < DEVICE_SCREEN_PX_HEIGHT; step++) {
+    00000054 F8 0C            [12]  299 	ldhl	sp,	#12
+    00000056 36 00            [12]  300 	ld	(hl), #0x00
+    00000058                        301 00103$:
+    00000058 F8 0C            [12]  302 	ldhl	sp,	#12
+                                    303 ;Interrupts.c:74: gradient_colors[step] = RGB(
+    0000005A 7E               [ 8]  304 	ld	a,(hl)
+    0000005B FE 90            [ 8]  305 	cp	a,#0x90
+    0000005D D2r25r01         [16]  306 	jp	NC,00105$
+    00000060 F8 06            [12]  307 	ldhl	sp,	#6
+    00000062 22               [ 8]  308 	ld	(hl+), a
+    00000063 AF               [ 4]  309 	xor	a, a
+    00000064 32               [ 8]  310 	ld	(hl-), a
+    00000065 7E               [ 8]  311 	ld	a, (hl)
+    00000066 16 00            [ 8]  312 	ld	d, #0x00
+    00000068 87               [ 4]  313 	add	a, a
+    00000069 CB 12            [ 8]  314 	rl	d
+    0000006B 5F               [ 4]  315 	ld	e, a
+    0000006C 21r02r00         [12]  316 	ld	hl, #_gradient_colors
+    0000006F 19               [ 8]  317 	add	hl, de
+    00000070 E5               [16]  318 	push	hl
+    00000071 7D               [ 4]  319 	ld	a, l
+    00000072 F8 0A            [12]  320 	ldhl	sp,	#10
+    00000074 77               [ 8]  321 	ld	(hl), a
+    00000075 E1               [12]  322 	pop	hl
+    00000076 7C               [ 4]  323 	ld	a, h
+    00000077 F8 09            [12]  324 	ldhl	sp,	#9
+    00000079 77               [ 8]  325 	ld	(hl), a
+    0000007A F8 02            [12]  326 	ldhl	sp,	#2
+    0000007C 5E               [ 8]  327 	ld	e, (hl)
+    0000007D 16 00            [ 8]  328 	ld	d, #0x00
+    0000007F F8 05            [12]  329 	ldhl	sp,	#5
+    00000081 7E               [ 8]  330 	ld	a, (hl)
+    00000082 93               [ 4]  331 	sub	a, e
+    00000083 6F               [ 4]  332 	ld	l, a
+    00000084 9F               [ 4]  333 	sbc	a, a
+    00000085 92               [ 4]  334 	sub	a, d
+    00000086 D5               [16]  335 	push	de
+    00000087 E5               [16]  336 	push	hl
+    00000088 F8 0A            [12]  337 	ldhl	sp,	#10
+    0000008A 4E               [ 8]  338 	ld	c, (hl)
+    0000008B 06 00            [ 8]  339 	ld	b, #0x00
+    0000008D E1               [12]  340 	pop	hl
+    0000008E 5D               [ 4]  341 	ld	e, l
+    0000008F 57               [ 4]  342 	ld	d, a
+    00000090 CDr00r00         [24]  343 	call	__mulint
+    00000093 69               [ 4]  344 	ld	l, c
+    00000094 60               [ 4]  345 	ld	h, b
+    00000095 01 8F 00         [12]  346 	ld	bc, #0x008f
+    00000098 5D               [ 4]  347 	ld	e, l
+    00000099 54               [ 4]  348 	ld	d, h
+    0000009A CDr00r00         [24]  349 	call	__divsint
+    0000009D D1               [12]  350 	pop	de
+    0000009E 69               [ 4]  351 	ld	l, c
+    0000009F 60               [ 4]  352 	ld	h, b
+    000000A0 19               [ 8]  353 	add	hl, de
+    000000A1 7D               [ 4]  354 	ld	a, l
+    000000A2 E6 1F            [ 8]  355 	and	a, #0x1f
+    000000A4 87               [ 4]  356 	add	a, a
+    000000A5 87               [ 4]  357 	add	a, a
+    000000A6 F8 0B            [12]  358 	ldhl	sp,	#11
+    000000A8 32               [ 8]  359 	ld	(hl-), a
+    000000A9 36 00            [12]  360 	ld	(hl), #0x00
+    000000AB F8 01            [12]  361 	ldhl	sp,	#1
+    000000AD 5E               [ 8]  362 	ld	e, (hl)
+    000000AE 16 00            [ 8]  363 	ld	d, #0x00
+    000000B0 F8 04            [12]  364 	ldhl	sp,	#4
+    000000B2 7E               [ 8]  365 	ld	a, (hl)
+    000000B3 93               [ 4]  366 	sub	a, e
+    000000B4 6F               [ 4]  367 	ld	l, a
+    000000B5 9F               [ 4]  368 	sbc	a, a
+    000000B6 92               [ 4]  369 	sub	a, d
+    000000B7 D5               [16]  370 	push	de
+    000000B8 E5               [16]  371 	push	hl
+    000000B9 F8 0A            [12]  372 	ldhl	sp,	#10
+    000000BB 4E               [ 8]  373 	ld	c, (hl)
+    000000BC 06 00            [ 8]  374 	ld	b, #0x00
+    000000BE E1               [12]  375 	pop	hl
+    000000BF 5D               [ 4]  376 	ld	e, l
+    000000C0 57               [ 4]  377 	ld	d, a
+    000000C1 CDr00r00         [24]  378 	call	__mulint
+    000000C4 69               [ 4]  379 	ld	l, c
+    000000C5 60               [ 4]  380 	ld	h, b
+    000000C6 01 8F 00         [12]  381 	ld	bc, #0x008f
+    000000C9 5D               [ 4]  382 	ld	e, l
+    000000CA 54               [ 4]  383 	ld	d, h
+    000000CB CDr00r00         [24]  384 	call	__divsint
+    000000CE D1               [12]  385 	pop	de
+    000000CF 69               [ 4]  386 	ld	l, c
+    000000D0 60               [ 4]  387 	ld	h, b
+    000000D1 19               [ 8]  388 	add	hl, de
+    000000D2 7D               [ 4]  389 	ld	a, l
+    000000D3 E6 1F            [ 8]  390 	and	a, #0x1f
+    000000D5 26 00            [ 8]  391 	ld	h, #0x00
+    000000D7 6F               [ 4]  392 	ld	l, a
+    000000D8 29               [ 8]  393 	add	hl, hl
+    000000D9 29               [ 8]  394 	add	hl, hl
+    000000DA 29               [ 8]  395 	add	hl, hl
+    000000DB 29               [ 8]  396 	add	hl, hl
+    000000DC 29               [ 8]  397 	add	hl, hl
+    000000DD 4D               [ 4]  398 	ld	c, l
+    000000DE 44               [ 4]  399 	ld	b, h
+    000000DF F8 0B            [12]  400 	ldhl	sp,	#11
+    000000E1 3A               [ 8]  401 	ld	a, (hl-)
+    000000E2 71               [ 8]  402 	ld	(hl), c
+    000000E3 23               [ 8]  403 	inc	hl
+    000000E4 B0               [ 4]  404 	or	a, b
+    000000E5 77               [ 8]  405 	ld	(hl), a
+    000000E6 F8 00            [12]  406 	ldhl	sp,	#0
+    000000E8 5E               [ 8]  407 	ld	e, (hl)
+    000000E9 16 00            [ 8]  408 	ld	d, #0x00
+    000000EB F8 03            [12]  409 	ldhl	sp,	#3
+    000000ED 7E               [ 8]  410 	ld	a, (hl)
+    000000EE 93               [ 4]  411 	sub	a, e
+    000000EF 6F               [ 4]  412 	ld	l, a
+    000000F0 9F               [ 4]  413 	sbc	a, a
+    000000F1 92               [ 4]  414 	sub	a, d
+    000000F2 D5               [16]  415 	push	de
+    000000F3 E5               [16]  416 	push	hl
+    000000F4 F8 0A            [12]  417 	ldhl	sp,	#10
+    000000F6 4E               [ 8]  418 	ld	c, (hl)
+    000000F7 06 00            [ 8]  419 	ld	b, #0x00
+    000000F9 E1               [12]  420 	pop	hl
+    000000FA 5D               [ 4]  421 	ld	e, l
+    000000FB 57               [ 4]  422 	ld	d, a
+    000000FC CDr00r00         [24]  423 	call	__mulint
+    000000FF 69               [ 4]  424 	ld	l, c
+    00000100 60               [ 4]  425 	ld	h, b
+    00000101 01 8F 00         [12]  426 	ld	bc, #0x008f
+    00000104 5D               [ 4]  427 	ld	e, l
+    00000105 54               [ 4]  428 	ld	d, h
+    00000106 CDr00r00         [24]  429 	call	__divsint
+    00000109 E1               [12]  430 	pop	hl
+    0000010A 09               [ 8]  431 	add	hl, bc
+    0000010B 7D               [ 4]  432 	ld	a, l
+    0000010C E6 1F            [ 8]  433 	and	a, #0x1f
+    0000010E 5F               [ 4]  434 	ld	e, a
+    0000010F 16 00            [ 8]  435 	ld	d, #0x00
+    00000111 F8 0A            [12]  436 	ldhl	sp,	#10
+    00000113 2A               [ 8]  437 	ld	a, (hl+)
+    00000114 46               [ 8]  438 	ld	b, (hl)
+    00000115 B3               [ 4]  439 	or	a, e
+    00000116 4F               [ 4]  440 	ld	c, a
+    00000117 F8 08            [12]  441 	ldhl	sp,	#8
+    00000119 2A               [ 8]  442 	ld	a, (hl+)
+    0000011A 66               [ 8]  443 	ld	h, (hl)
+    0000011B 6F               [ 4]  444 	ld	l, a
+    0000011C 79               [ 4]  445 	ld	a, c
+    0000011D 22               [ 8]  446 	ld	(hl+), a
+    0000011E 70               [ 8]  447 	ld	(hl), b
+                                    448 ;Interrupts.c:73: for (UINT8 step = 0; step < DEVICE_SCREEN_PX_HEIGHT; step++) {
+    0000011F F8 0C            [12]  449 	ldhl	sp,	#12
+    00000121 34               [12]  450 	inc	(hl)
+    00000122 C3r58r00         [16]  451 	jp	00103$
+    00000125                        452 00105$:
+                                    453 ;Interrupts.c:80: }
+    00000125 E8 0D            [16]  454 	add	sp, #13
+    00000127 C9               [16]  455 	ret
+                                    456 	.area _CODE
+                                    457 	.area _INITIALIZER
+    00000000                        458 __xinit____CRASH_HANDLER_INIT:
+    00000000r00r00                  459 	.dw ___HandleCrash
+    00000002                        460 __xinit__lcd_step:
+    00000002 08                     461 	.db #0x08	; 8
+                                    462 	.area _CABS (ABS)

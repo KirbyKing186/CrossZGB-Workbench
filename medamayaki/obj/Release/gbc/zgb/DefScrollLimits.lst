@@ -1,0 +1,158 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module DefScrollLimits
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _ClampScrollLimits
+                                     11 ;--------------------------------------------------------
+                                     12 ; special function registers
+                                     13 ;--------------------------------------------------------
+                                     14 	.area _HRAM
+                                     15 ;--------------------------------------------------------
+                                     16 ; ram data
+                                     17 ;--------------------------------------------------------
+                                     18 	.area _DATA
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _INITIALIZED
+                                     23 ;--------------------------------------------------------
+                                     24 ; absolute external ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _DABS (ABS)
+                                     27 ;--------------------------------------------------------
+                                     28 ; global & static initialisations
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _HOME
+                                     31 	.area _GSINIT
+                                     32 	.area _GSFINAL
+                                     33 	.area _GSINIT
+                                     34 ;--------------------------------------------------------
+                                     35 ; Home
+                                     36 ;--------------------------------------------------------
+                                     37 	.area _HOME
+                                     38 	.area _HOME
+                                     39 ;--------------------------------------------------------
+                                     40 ; code
+                                     41 ;--------------------------------------------------------
+                                     42 	.area _CODE
+                                     43 ;C:/CrossZGB/ZGB/common/src/DefScrollLimits.c:4: void ClampScrollLimits(void) {
+                                     44 ;	---------------------------------
+                                     45 ; Function ClampScrollLimits
+                                     46 ; ---------------------------------
+    00000000                         47 _ClampScrollLimits::
+                                     48 ;C:/CrossZGB/ZGB/common/src/DefScrollLimits.c:5: if (clamp_enabled) {
+    00000000 FAr00r00         [16]   49 	ld	a, (#_clamp_enabled)
+    00000003 B7               [ 4]   50 	or	a, a
+    00000004 C8               [20]   51 	ret	Z
+                                     52 ;C:/CrossZGB/ZGB/common/src/DefScrollLimits.c:6: if (scroll_w < SCREEN_WIDTH) scroll_x = 0u;
+    00000005 21r00r00         [12]   53 	ld	hl, #_scroll_w
+    00000008 2A               [ 8]   54 	ld	a, (hl+)
+    00000009 D6 A0            [ 8]   55 	sub	a, #0xa0
+    0000000B 7E               [ 8]   56 	ld	a, (hl)
+    0000000C DE 00            [ 8]   57 	sbc	a, #0x00
+    0000000E 30 08            [12]   58 	jr	NC, 00104$
+    00000010 AF               [ 4]   59 	xor	a, a
+    00000011 21r00r00         [12]   60 	ld	hl, #_scroll_x
+    00000014 22               [ 8]   61 	ld	(hl+), a
+    00000015 77               [ 8]   62 	ld	(hl), a
+    00000016 18 0B            [12]   63 	jr	00105$
+    00000018                         64 00104$:
+                                     65 ;C:/CrossZGB/ZGB/common/src/DefScrollLimits.c:7: else if (scroll_x < 0) scroll_x = 0u;
+    00000018 21r01r00         [12]   66 	ld	hl, #_scroll_x + 1
+    0000001B CB 7E            [12]   67 	bit	7, (hl)
+    0000001D 28 04            [12]   68 	jr	Z, 00105$
+    0000001F 2B               [ 8]   69 	dec	hl
+    00000020 AF               [ 4]   70 	xor	a, a
+    00000021 22               [ 8]   71 	ld	(hl+), a
+    00000022 77               [ 8]   72 	ld	(hl), a
+    00000023                         73 00105$:
+                                     74 ;C:/CrossZGB/ZGB/common/src/DefScrollLimits.c:9: if (scroll_x > (scroll_w - SCREEN_WIDTH)) scroll_x = (scroll_w - SCREEN_WIDTH);
+    00000023 21r00r00         [12]   75 	ld	hl, #_scroll_w
+    00000026 2A               [ 8]   76 	ld	a, (hl+)
+    00000027 C6 60            [ 8]   77 	add	a, #0x60
+    00000029 4F               [ 4]   78 	ld	c, a
+    0000002A 7E               [ 8]   79 	ld	a, (hl)
+    0000002B CE FF            [ 8]   80 	adc	a, #0xff
+    0000002D 47               [ 4]   81 	ld	b, a
+    0000002E FAr00r00         [16]   82 	ld	a, (_scroll_x)
+    00000031 5F               [ 4]   83 	ld	e, a
+    00000032 21r01r00         [12]   84 	ld	hl, #_scroll_x + 1
+    00000035 56               [ 8]   85 	ld	d, (hl)
+    00000036 79               [ 4]   86 	ld	a, c
+    00000037 93               [ 4]   87 	sub	a, e
+    00000038 78               [ 4]   88 	ld	a, b
+    00000039 9A               [ 4]   89 	sbc	a, d
+    0000003A 30 04            [12]   90 	jr	NC, 00107$
+    0000003C 2B               [ 8]   91 	dec	hl
+    0000003D 79               [ 4]   92 	ld	a, c
+    0000003E 22               [ 8]   93 	ld	(hl+), a
+    0000003F 70               [ 8]   94 	ld	(hl), b
+    00000040                         95 00107$:
+                                     96 ;C:/CrossZGB/ZGB/common/src/DefScrollLimits.c:11: if (scroll_h < (SCREEN_HEIGHT - scroll_h_border)) scroll_y = 0u;
+    00000040 3E 90            [ 8]   97 	ld	a, #0x90
+    00000042 21r00r00         [12]   98 	ld	hl, #_scroll_h_border
+    00000045 96               [ 8]   99 	sub	a, (hl)
+    00000046 23               [ 8]  100 	inc	hl
+    00000047 4F               [ 4]  101 	ld	c, a
+    00000048 9F               [ 4]  102 	sbc	a, a
+    00000049 96               [ 8]  103 	sub	a, (hl)
+    0000004A 47               [ 4]  104 	ld	b, a
+    0000004B 21r00r00         [12]  105 	ld	hl, #_scroll_h
+    0000004E 2A               [ 8]  106 	ld	a, (hl+)
+    0000004F 91               [ 4]  107 	sub	a, c
+    00000050 7E               [ 8]  108 	ld	a, (hl)
+    00000051 98               [ 4]  109 	sbc	a, b
+    00000052 30 08            [12]  110 	jr	NC, 00111$
+    00000054 AF               [ 4]  111 	xor	a, a
+    00000055 21r00r00         [12]  112 	ld	hl, #_scroll_y
+    00000058 22               [ 8]  113 	ld	(hl+), a
+    00000059 77               [ 8]  114 	ld	(hl), a
+    0000005A 18 0B            [12]  115 	jr	00112$
+    0000005C                        116 00111$:
+                                    117 ;C:/CrossZGB/ZGB/common/src/DefScrollLimits.c:12: else if (scroll_y < 0) scroll_y = 0u;
+    0000005C 21r01r00         [12]  118 	ld	hl, #_scroll_y + 1
+    0000005F CB 7E            [12]  119 	bit	7, (hl)
+    00000061 28 04            [12]  120 	jr	Z, 00112$
+    00000063 2B               [ 8]  121 	dec	hl
+    00000064 AF               [ 4]  122 	xor	a, a
+    00000065 22               [ 8]  123 	ld	(hl+), a
+    00000066 77               [ 8]  124 	ld	(hl), a
+    00000067                        125 00112$:
+                                    126 ;C:/CrossZGB/ZGB/common/src/DefScrollLimits.c:14: if (scroll_y > (scroll_h - SCREEN_HEIGHT + scroll_h_border)) scroll_y = (scroll_h - SCREEN_HEIGHT + scroll_h_border);
+    00000067 21r00r00         [12]  127 	ld	hl, #_scroll_h
+    0000006A 2A               [ 8]  128 	ld	a, (hl+)
+    0000006B C6 70            [ 8]  129 	add	a, #0x70
+    0000006D 4F               [ 4]  130 	ld	c, a
+    0000006E 7E               [ 8]  131 	ld	a, (hl)
+    0000006F CE FF            [ 8]  132 	adc	a, #0xff
+    00000071 47               [ 4]  133 	ld	b, a
+    00000072 FAr00r00         [16]  134 	ld	a, (_scroll_h_border)
+    00000075 6F               [ 4]  135 	ld	l, a
+    00000076 FAr01r00         [16]  136 	ld	a, (_scroll_h_border + 1)
+    00000079 67               [ 4]  137 	ld	h, a
+    0000007A 09               [ 8]  138 	add	hl, bc
+    0000007B 5D               [ 4]  139 	ld	e, l
+    0000007C FAr00r00         [16]  140 	ld	a, (_scroll_y)
+    0000007F 4F               [ 4]  141 	ld	c, a
+    00000080 FAr01r00         [16]  142 	ld	a, (_scroll_y + 1)
+    00000083 6F               [ 4]  143 	ld	l, a
+    00000084 7B               [ 4]  144 	ld	a, e
+    00000085 91               [ 4]  145 	sub	a, c
+    00000086 7C               [ 4]  146 	ld	a, h
+    00000087 9D               [ 4]  147 	sbc	a, l
+    00000088 D0               [20]  148 	ret	NC
+    00000089 54               [ 4]  149 	ld	d, h
+    0000008A 21r00r00         [12]  150 	ld	hl, #_scroll_y
+    0000008D 7B               [ 4]  151 	ld	a, e
+    0000008E 22               [ 8]  152 	ld	(hl+), a
+    0000008F 72               [ 8]  153 	ld	(hl), d
+                                    154 ;C:/CrossZGB/ZGB/common/src/DefScrollLimits.c:16: }
+    00000090 C9               [16]  155 	ret
+                                    156 	.area _CODE
+                                    157 	.area _INITIALIZER
+                                    158 	.area _CABS (ABS)

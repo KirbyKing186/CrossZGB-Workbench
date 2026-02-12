@@ -1,0 +1,3278 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module SpritePlayer
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _Destroy_SpritePlayer
+                                     11 	.globl _Update_SpritePlayer
+                                     12 	.globl _Start_SpritePlayer
+                                     13 	.globl _PlayerAnimate
+                                     14 	.globl _PlayerDynaCollect
+                                     15 	.globl _PlayerDynaCollide
+                                     16 	.globl _PlayerVelocity
+                                     17 	.globl _DynaTileAt
+                                     18 	.globl _UpdateDynaTile
+                                     19 	.globl b_PlatformerUpdate
+                                     20 	.globl _PlatformerUpdate
+                                     21 	.globl b_SpriteCameraUpdate
+                                     22 	.globl _SpriteCameraUpdate
+                                     23 	.globl _tile_col_test_range_y
+                                     24 	.globl _ScrollScreenRedraw
+                                     25 	.globl _SetSpriteAnim
+                                     26 	.globl _idle_status
+                                     27 	.globl _shoulderbashing_cooldown
+                                     28 	.globl _shoulderbashing
+                                     29 	.globl _knockback_minimum
+                                     30 	.globl _knockback
+                                     31 	.globl _deceling
+                                     32 	.globl _turning
+                                     33 	.globl _falling
+                                     34 	.globl _jumping
+                                     35 	.globl _running
+                                     36 	.globl _jump_extra_count
+                                     37 	.globl _jump_add
+                                     38 	.globl ___bank_SpritePlayer
+                                     39 ;--------------------------------------------------------
+                                     40 ; special function registers
+                                     41 ;--------------------------------------------------------
+                                     42 	.area _HRAM
+                                     43 ;--------------------------------------------------------
+                                     44 ; ram data
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _DATA
+    00000000                         47 _jump_add::
+    00000000                         48 	.ds 1
+    00000001                         49 _jump_extra_count::
+    00000001                         50 	.ds 1
+    00000002                         51 _running::
+    00000002                         52 	.ds 1
+    00000003                         53 _jumping::
+    00000003                         54 	.ds 1
+    00000004                         55 _falling::
+    00000004                         56 	.ds 1
+    00000005                         57 _turning::
+    00000005                         58 	.ds 1
+    00000006                         59 _deceling::
+    00000006                         60 	.ds 1
+    00000007                         61 _knockback::
+    00000007                         62 	.ds 1
+    00000008                         63 _knockback_minimum::
+    00000008                         64 	.ds 1
+    00000009                         65 _shoulderbashing::
+    00000009                         66 	.ds 1
+    0000000A                         67 _shoulderbashing_cooldown::
+    0000000A                         68 	.ds 1
+    0000000B                         69 _idle_status::
+    0000000B                         70 	.ds 1
+                                     71 ;--------------------------------------------------------
+                                     72 ; ram data
+                                     73 ;--------------------------------------------------------
+                                     74 	.area _INITIALIZED
+    00000000                         75 ___CRASH_HANDLER_INIT:
+    00000000                         76 	.ds 2
+                                     77 ;--------------------------------------------------------
+                                     78 ; absolute external ram data
+                                     79 ;--------------------------------------------------------
+                                     80 	.area _DABS (ABS)
+                                     81 ;--------------------------------------------------------
+                                     82 ; global & static initialisations
+                                     83 ;--------------------------------------------------------
+                                     84 	.area _HOME
+                                     85 	.area _GSINIT
+                                     86 	.area _GSFINAL
+                                     87 	.area _GSINIT
+                                     88 ;--------------------------------------------------------
+                                     89 ; Home
+                                     90 ;--------------------------------------------------------
+                                     91 	.area _HOME
+                                     92 	.area _HOME
+                                     93 ;--------------------------------------------------------
+                                     94 ; code
+                                     95 ;--------------------------------------------------------
+                                     96 	.area _CODE_255
+                                     97 ;SpritePlayer.c:61: void PlayerVelocity(Sprite* this) {
+                                     98 ;	---------------------------------
+                                     99 ; Function PlayerVelocity
+                                    100 ; ---------------------------------
+    00000000                        101 _PlayerVelocity::
+    00000000 E8 F4            [16]  102 	add	sp, #-12
+                                    103 ;SpritePlayer.c:63: CUSTOM_DATA* data = (CUSTOM_DATA*)this->custom_data;
+    00000002 21 24 00         [12]  104 	ld	hl, #0x0024
+    00000005 19               [ 8]  105 	add	hl, de
+    00000006 E5               [16]  106 	push	hl
+    00000007 7D               [ 4]  107 	ld	a, l
+    00000008 F8 0A            [12]  108 	ldhl	sp,	#10
+    0000000A 77               [ 8]  109 	ld	(hl), a
+    0000000B E1               [12]  110 	pop	hl
+    0000000C 7C               [ 4]  111 	ld	a, h
+    0000000D F8 09            [12]  112 	ldhl	sp,	#9
+                                    113 ;SpritePlayer.c:75: if (data->grounded) {
+    0000000F 32               [ 8]  114 	ld	(hl-), a
+    00000010 2A               [ 8]  115 	ld	a, (hl+)
+    00000011 5F               [ 4]  116 	ld	e, a
+    00000012 56               [ 8]  117 	ld	d, (hl)
+    00000013 21 09 00         [12]  118 	ld	hl, #0x0009
+    00000016 19               [ 8]  119 	add	hl, de
+    00000017 E5               [16]  120 	push	hl
+    00000018 7D               [ 4]  121 	ld	a, l
+    00000019 F8 04            [12]  122 	ldhl	sp,	#4
+    0000001B 77               [ 8]  123 	ld	(hl), a
+    0000001C E1               [12]  124 	pop	hl
+    0000001D 7C               [ 4]  125 	ld	a, h
+    0000001E F8 03            [12]  126 	ldhl	sp,	#3
+    00000020 77               [ 8]  127 	ld	(hl), a
+                                    128 ;SpritePlayer.c:79: data->vel.y = JUMP_VEL_Y;
+    00000021 F8 08            [12]  129 	ldhl	sp,#8
+    00000023 2A               [ 8]  130 	ld	a, (hl+)
+    00000024 5F               [ 4]  131 	ld	e, a
+    00000025 56               [ 8]  132 	ld	d, (hl)
+    00000026 21 06 00         [12]  133 	ld	hl, #0x0006
+    00000029 19               [ 8]  134 	add	hl, de
+    0000002A E5               [16]  135 	push	hl
+    0000002B 7D               [ 4]  136 	ld	a, l
+    0000002C F8 06            [12]  137 	ldhl	sp,	#6
+    0000002E 77               [ 8]  138 	ld	(hl), a
+    0000002F E1               [12]  139 	pop	hl
+    00000030 7C               [ 4]  140 	ld	a, h
+    00000031 F8 05            [12]  141 	ldhl	sp,	#5
+    00000033 77               [ 8]  142 	ld	(hl), a
+                                    143 ;SpritePlayer.c:66: if (!knockback) {
+    00000034 FAr07r00         [16]  144 	ld	a, (#_knockback)
+    00000037 B7               [ 4]  145 	or	a, a
+    00000038 20 74            [12]  146 	jr	NZ, 00116$
+                                    147 ;SpritePlayer.c:67: if (KEY_PRESSED(INPUT_JUMP)) {
+    0000003A 21r01r00         [12]  148 	ld	hl, #(_joypads + 1)
+    0000003D 4E               [ 8]  149 	ld	c, (hl)
+    0000003E CB 61            [ 8]  150 	bit	4, c
+    00000040 28 5C            [12]  151 	jr	Z, 00113$
+                                    152 ;SpritePlayer.c:68: switch (jumping) {
+    00000042 FAr03r00         [16]  153 	ld	a, (#_jumping)
+    00000045 B7               [ 4]  154 	or	a, a
+    00000046 28 08            [12]  155 	jr	Z, 00101$
+    00000048 FAr03r00         [16]  156 	ld	a, (#_jumping)
+    0000004B 3D               [ 4]  157 	dec	a
+    0000004C 28 2F            [12]  158 	jr	Z, 00106$
+    0000004E 18 62            [12]  159 	jr	00117$
+                                    160 ;SpritePlayer.c:69: case 0:		// Jumping = 0: Not jumping.
+    00000050                        161 00101$:
+                                    162 ;SpritePlayer.c:70: if (KEY_TICKED(INPUT_JUMP)) {
+    00000050 FAr01r00         [16]  163 	ld	a, (#(_old_joypads + 1) + 0)
+    00000053 A9               [ 4]  164 	xor	a, c
+    00000054 A1               [ 4]  165 	and	a, c
+    00000055 CB 67            [ 8]  166 	bit	4, a
+    00000057 28 59            [12]  167 	jr	Z, 00117$
+                                    168 ;SpritePlayer.c:75: if (data->grounded) {
+    00000059 F8 02            [12]  169 	ldhl	sp,#2
+    0000005B 2A               [ 8]  170 	ld	a, (hl+)
+    0000005C 5F               [ 4]  171 	ld	e, a
+    0000005D 56               [ 8]  172 	ld	d, (hl)
+    0000005E 1A               [ 8]  173 	ld	a, (de)
+    0000005F B7               [ 4]  174 	or	a, a
+    00000060 28 50            [12]  175 	jr	Z, 00117$
+                                    176 ;SpritePlayer.c:78: data->grounded = 0;
+    00000062 3A               [ 8]  177 	ld	a, (hl-)
+    00000063 6E               [ 8]  178 	ld	l, (hl)
+    00000064 67               [ 4]  179 	ld	h, a
+    00000065 36 00            [12]  180 	ld	(hl), #0x00
+                                    181 ;SpritePlayer.c:79: data->vel.y = JUMP_VEL_Y;
+    00000067 F8 04            [12]  182 	ldhl	sp,	#4
+    00000069 2A               [ 8]  183 	ld	a, (hl+)
+    0000006A 66               [ 8]  184 	ld	h, (hl)
+    0000006B 6F               [ 4]  185 	ld	l, a
+    0000006C 3E 20            [ 8]  186 	ld	a, #0x20
+    0000006E 22               [ 8]  187 	ld	(hl+), a
+    0000006F 36 D1            [12]  188 	ld	(hl), #0xd1
+                                    189 ;SpritePlayer.c:81: jumping = 1;
+    00000071 21r03r00         [12]  190 	ld	hl, #_jumping
+    00000074 36 01            [12]  191 	ld	(hl), #0x01
+                                    192 ;SpritePlayer.c:82: jump_add = JUMP_ADD_FRAMES;
+    00000076 21r00r00         [12]  193 	ld	hl, #_jump_add
+    00000079 36 0C            [12]  194 	ld	(hl), #0x0c
+                                    195 ;SpritePlayer.c:90: break;
+    0000007B 18 35            [12]  196 	jr	00117$
+                                    197 ;SpritePlayer.c:91: case 1:		// Jumping = 1: Applying vertical velocity while holding A (Skipped if JUMP_ADD_FRAMES is 0)
+    0000007D                        198 00106$:
+                                    199 ;SpritePlayer.c:92: data->vel.y += JUMP_VEL_Y_ADD;
+    0000007D F8 04            [12]  200 	ldhl	sp,#4
+    0000007F 2A               [ 8]  201 	ld	a, (hl+)
+    00000080 5F               [ 4]  202 	ld	e, a
+    00000081 56               [ 8]  203 	ld	d, (hl)
+    00000082 1A               [ 8]  204 	ld	a, (de)
+    00000083 4F               [ 4]  205 	ld	c, a
+    00000084 13               [ 8]  206 	inc	de
+    00000085 1A               [ 8]  207 	ld	a, (de)
+    00000086 C6 FE            [ 8]  208 	add	a, #0xfe
+    00000088 47               [ 4]  209 	ld	b, a
+    00000089 F8 04            [12]  210 	ldhl	sp,	#4
+    0000008B 2A               [ 8]  211 	ld	a, (hl+)
+    0000008C 66               [ 8]  212 	ld	h, (hl)
+    0000008D 6F               [ 4]  213 	ld	l, a
+    0000008E 79               [ 4]  214 	ld	a, c
+    0000008F 22               [ 8]  215 	ld	(hl+), a
+    00000090 70               [ 8]  216 	ld	(hl), b
+                                    217 ;SpritePlayer.c:93: if (--jump_add == 0) jumping = 2;
+    00000091 21r00r00         [12]  218 	ld	hl, #_jump_add
+    00000094 35               [12]  219 	dec	(hl)
+    00000095 20 1B            [12]  220 	jr	NZ, 00117$
+    00000097 21r03r00         [12]  221 	ld	hl, #_jumping
+    0000009A 36 02            [12]  222 	ld	(hl), #0x02
+                                    223 ;SpritePlayer.c:96: }
+    0000009C 18 14            [12]  224 	jr	00117$
+    0000009E                        225 00113$:
+                                    226 ;SpritePlayer.c:97: } else if (jumping > 0) {
+    0000009E 21r03r00         [12]  227 	ld	hl, #_jumping
+    000000A1 7E               [ 8]  228 	ld	a, (hl)
+    000000A2 B7               [ 4]  229 	or	a, a
+    000000A3 28 0D            [12]  230 	jr	Z, 00117$
+                                    231 ;SpritePlayer.c:98: jumping = 0;
+    000000A5 36 00            [12]  232 	ld	(hl), #0x00
+                                    233 ;SpritePlayer.c:99: falling = 1;
+    000000A7 21r04r00         [12]  234 	ld	hl, #_falling
+    000000AA 36 01            [12]  235 	ld	(hl), #0x01
+    000000AC 18 04            [12]  236 	jr	00117$
+    000000AE                        237 00116$:
+                                    238 ;SpritePlayer.c:102: jumping = 0;
+    000000AE AF               [ 4]  239 	xor	a, a
+    000000AF EAr03r00         [16]  240 	ld	(#_jumping),a
+    000000B2                        241 00117$:
+                                    242 ;SpritePlayer.c:92: data->vel.y += JUMP_VEL_Y_ADD;
+    000000B2 F8 04            [12]  243 	ldhl	sp,#4
+    000000B4 2A               [ 8]  244 	ld	a, (hl+)
+    000000B5 5F               [ 4]  245 	ld	e, a
+    000000B6 56               [ 8]  246 	ld	d, (hl)
+    000000B7 1A               [ 8]  247 	ld	a, (de)
+    000000B8 4F               [ 4]  248 	ld	c, a
+    000000B9 13               [ 8]  249 	inc	de
+    000000BA 1A               [ 8]  250 	ld	a, (de)
+    000000BB 47               [ 4]  251 	ld	b, a
+                                    252 ;SpritePlayer.c:111: if (!jumping) {
+    000000BC FAr03r00         [16]  253 	ld	a, (#_jumping)
+    000000BF B7               [ 4]  254 	or	a, a
+    000000C0 20 20            [12]  255 	jr	NZ, 00121$
+                                    256 ;SpritePlayer.c:113: data->vel.y = MIN(data->vel.y + ACCELERATION_VEL_Y, MAX_VEL_Y);
+    000000C2 21 08 07         [12]  257 	ld	hl, #0x0708
+    000000C5 09               [ 8]  258 	add	hl, bc
+    000000C6 7D               [ 4]  259 	ld	a, l
+    000000C7 D6 B0            [ 8]  260 	sub	a, #0xb0
+    000000C9 7C               [ 4]  261 	ld	a, h
+    000000CA 17               [ 4]  262 	rla
+    000000CB 3F               [ 4]  263 	ccf
+    000000CC 1F               [ 4]  264 	rra
+    000000CD DE B6            [ 8]  265 	sbc	a, #0xb6
+    000000CF 30 04            [12]  266 	jr	NC, 00184$
+    000000D1 4D               [ 4]  267 	ld	c, l
+    000000D2 44               [ 4]  268 	ld	b, h
+    000000D3 18 03            [12]  269 	jr	00185$
+    000000D5                        270 00184$:
+    000000D5 01 B0 36         [12]  271 	ld	bc, #0x36b0
+    000000D8                        272 00185$:
+    000000D8 F8 04            [12]  273 	ldhl	sp,	#4
+    000000DA 2A               [ 8]  274 	ld	a, (hl+)
+    000000DB 66               [ 8]  275 	ld	h, (hl)
+    000000DC 6F               [ 4]  276 	ld	l, a
+    000000DD 79               [ 4]  277 	ld	a, c
+    000000DE 22               [ 8]  278 	ld	(hl+), a
+    000000DF 70               [ 8]  279 	ld	(hl), b
+    000000E0 18 2B            [12]  280 	jr	00122$
+    000000E2                        281 00121$:
+                                    282 ;SpritePlayer.c:116: data->vel.y = MIN(data->vel.y + ACCELERATION_VEL_Y_HELD, MAX_VEL_Y);
+    000000E2 21 58 02         [12]  283 	ld	hl, #0x0258
+    000000E5 09               [ 8]  284 	add	hl, bc
+    000000E6 7D               [ 4]  285 	ld	a, l
+    000000E7 D6 B0            [ 8]  286 	sub	a, #0xb0
+    000000E9 7C               [ 4]  287 	ld	a, h
+    000000EA 17               [ 4]  288 	rla
+    000000EB 3F               [ 4]  289 	ccf
+    000000EC 1F               [ 4]  290 	rra
+    000000ED DE B6            [ 8]  291 	sbc	a, #0xb6
+    000000EF 30 04            [12]  292 	jr	NC, 00186$
+    000000F1 4D               [ 4]  293 	ld	c, l
+    000000F2 44               [ 4]  294 	ld	b, h
+    000000F3 18 03            [12]  295 	jr	00187$
+    000000F5                        296 00186$:
+    000000F5 01 B0 36         [12]  297 	ld	bc, #0x36b0
+    000000F8                        298 00187$:
+    000000F8 F8 04            [12]  299 	ldhl	sp,	#4
+    000000FA 2A               [ 8]  300 	ld	a, (hl+)
+    000000FB 66               [ 8]  301 	ld	h, (hl)
+    000000FC 6F               [ 4]  302 	ld	l, a
+    000000FD 79               [ 4]  303 	ld	a, c
+    000000FE 22               [ 8]  304 	ld	(hl+), a
+    000000FF 70               [ 8]  305 	ld	(hl), b
+                                    306 ;SpritePlayer.c:117: if (data->vel.y >= 0) {
+    00000100 CB 78            [ 8]  307 	bit	7, b
+    00000102 20 09            [12]  308 	jr	NZ, 00122$
+                                    309 ;SpritePlayer.c:118: jumping = 0;
+    00000104 AF               [ 4]  310 	xor	a, a
+    00000105 EAr03r00         [16]  311 	ld	(#_jumping),a
+                                    312 ;SpritePlayer.c:119: falling = 1;
+    00000108 21r04r00         [12]  313 	ld	hl, #_falling
+    0000010B 36 01            [12]  314 	ld	(hl), #0x01
+    0000010D                        315 00122$:
+                                    316 ;SpritePlayer.c:125: running = turning = deceling = 0;
+    0000010D AF               [ 4]  317 	xor	a, a
+    0000010E EAr06r00         [16]  318 	ld	(#_deceling), a
+    00000111 EAr05r00         [16]  319 	ld	(#_turning),a
+    00000114 AF               [ 4]  320 	xor	a, a
+    00000115 EAr02r00         [16]  321 	ld	(#_running),a
+                                    322 ;SpritePlayer.c:126: INT16 prev_vel_x = data->vel.x;
+    00000118 F8 08            [12]  323 	ldhl	sp,#8
+    0000011A 2A               [ 8]  324 	ld	a, (hl+)
+    0000011B 5F               [ 4]  325 	ld	e, a
+    0000011C 56               [ 8]  326 	ld	d, (hl)
+    0000011D 21 04 00         [12]  327 	ld	hl, #0x0004
+    00000120 19               [ 8]  328 	add	hl, de
+    00000121 E5               [16]  329 	push	hl
+    00000122 7D               [ 4]  330 	ld	a, l
+    00000123 F8 08            [12]  331 	ldhl	sp,	#8
+    00000125 77               [ 8]  332 	ld	(hl), a
+    00000126 E1               [12]  333 	pop	hl
+    00000127 7C               [ 4]  334 	ld	a, h
+    00000128 F8 07            [12]  335 	ldhl	sp,	#7
+    0000012A 32               [ 8]  336 	ld	(hl-), a
+    0000012B 2A               [ 8]  337 	ld	a, (hl+)
+    0000012C 5F               [ 4]  338 	ld	e, a
+    0000012D 56               [ 8]  339 	ld	d, (hl)
+    0000012E 1A               [ 8]  340 	ld	a, (de)
+    0000012F F8 0A            [12]  341 	ldhl	sp,	#10
+    00000131 22               [ 8]  342 	ld	(hl+), a
+    00000132 13               [ 8]  343 	inc	de
+    00000133 1A               [ 8]  344 	ld	a, (de)
+    00000134 77               [ 8]  345 	ld	(hl), a
+                                    346 ;SpritePlayer.c:127: if ((!shoulderbashing_cooldown) || (--shoulderbashing_cooldown == 0)) {
+    00000135 21r0Ar00         [12]  347 	ld	hl, #_shoulderbashing_cooldown
+    00000138 7E               [ 8]  348 	ld	a, (hl)
+    00000139 B7               [ 4]  349 	or	a, a
+    0000013A 28 03            [12]  350 	jr	Z, 00127$
+    0000013C 35               [12]  351 	dec	(hl)
+    0000013D 20 1F            [12]  352 	jr	NZ, 00128$
+    0000013F                        353 00127$:
+                                    354 ;SpritePlayer.c:128: if ((KEY_TICKED(J_B)) && (data->grounded) && (!shoulderbashing)) {
+    0000013F 21r01r00         [12]  355 	ld	hl, #(_joypads + 1)
+    00000142 4E               [ 8]  356 	ld	c, (hl)
+    00000143 FAr01r00         [16]  357 	ld	a, (#(_old_joypads + 1) + 0)
+    00000146 A9               [ 4]  358 	xor	a, c
+    00000147 A1               [ 4]  359 	and	a, c
+    00000148 CB 6F            [ 8]  360 	bit	5, a
+    0000014A 28 12            [12]  361 	jr	Z, 00128$
+    0000014C F8 02            [12]  362 	ldhl	sp,#2
+    0000014E 2A               [ 8]  363 	ld	a, (hl+)
+    0000014F 5F               [ 4]  364 	ld	e, a
+    00000150 56               [ 8]  365 	ld	d, (hl)
+    00000151 1A               [ 8]  366 	ld	a, (de)
+    00000152 B7               [ 4]  367 	or	a, a
+    00000153 28 09            [12]  368 	jr	Z, 00128$
+    00000155 21r09r00         [12]  369 	ld	hl, #_shoulderbashing
+    00000158 7E               [ 8]  370 	ld	a, (hl)
+    00000159 B7               [ 4]  371 	or	a, a
+    0000015A 20 02            [12]  372 	jr	NZ, 00128$
+                                    373 ;SpritePlayer.c:129: shoulderbashing = SHOULDERBASH_TIME;
+    0000015C 36 28            [12]  374 	ld	(hl), #0x28
+    0000015E                        375 00128$:
+                                    376 ;SpritePlayer.c:134: if ((data->grounded) && (((KEY_TICKED(J_LEFT)) && (data->dir > 0)) || ((KEY_TICKED(J_RIGHT)) && (data->dir < 0)))) {
+    0000015E F8 08            [12]  377 	ldhl	sp,#8
+    00000160 2A               [ 8]  378 	ld	a, (hl+)
+    00000161 5F               [ 4]  379 	ld	e, a
+    00000162 56               [ 8]  380 	ld	d, (hl)
+    00000163 21 08 00         [12]  381 	ld	hl, #0x0008
+    00000166 19               [ 8]  382 	add	hl, de
+    00000167 33               [ 8]  383 	inc	sp
+    00000168 33               [ 8]  384 	inc	sp
+    00000169 E5               [16]  385 	push	hl
+                                    386 ;SpritePlayer.c:133: if (shoulderbashing) {
+    0000016A FAr09r00         [16]  387 	ld	a, (#_shoulderbashing)
+    0000016D B7               [ 4]  388 	or	a, a
+    0000016E CAr02r02         [16]  389 	jp	Z, 00173$
+                                    390 ;SpritePlayer.c:134: if ((data->grounded) && (((KEY_TICKED(J_LEFT)) && (data->dir > 0)) || ((KEY_TICKED(J_RIGHT)) && (data->dir < 0)))) {
+    00000171 F8 02            [12]  391 	ldhl	sp,#2
+    00000173 2A               [ 8]  392 	ld	a, (hl+)
+    00000174 5F               [ 4]  393 	ld	e, a
+    00000175 56               [ 8]  394 	ld	d, (hl)
+    00000176 1A               [ 8]  395 	ld	a, (de)
+    00000177 47               [ 4]  396 	ld	b, a
+                                    397 ;SpritePlayer.c:167: if (((prev_vel_x ^ data->dir) < 0) && (data->vel.x != 0)) {	// Turning
+    00000178 D1               [12]  398 	pop	de
+    00000179 D5               [16]  399 	push	de
+    0000017A 1A               [ 8]  400 	ld	a, (de)
+    0000017B 4F               [ 4]  401 	ld	c, a
+                                    402 ;SpritePlayer.c:134: if ((data->grounded) && (((KEY_TICKED(J_LEFT)) && (data->dir > 0)) || ((KEY_TICKED(J_RIGHT)) && (data->dir < 0)))) {
+    0000017C 78               [ 4]  403 	ld	a, b
+    0000017D B7               [ 4]  404 	or	a, a
+    0000017E 28 40            [12]  405 	jr	Z, 00136$
+    00000180 21r01r00         [12]  406 	ld	hl, #(_joypads + 1)
+    00000183 46               [ 8]  407 	ld	b, (hl)
+    00000184 FAr01r00         [16]  408 	ld	a, (#(_old_joypads + 1) + 0)
+    00000187 A8               [ 4]  409 	xor	a, b
+    00000188 A0               [ 4]  410 	and	a, b
+    00000189 47               [ 4]  411 	ld	b, a
+    0000018A CB 48            [ 8]  412 	bit	1, b
+    0000018C 28 16            [12]  413 	jr	Z, 00140$
+    0000018E 59               [ 4]  414 	ld	e, c
+    0000018F AF               [ 4]  415 	xor	a, a
+    00000190 57               [ 4]  416 	ld	d, a
+    00000191 91               [ 4]  417 	sub	a, c
+    00000192 CB 7B            [ 8]  418 	bit	7, e
+    00000194 28 07            [12]  419 	jr	Z, 00501$
+    00000196 CB 7A            [ 8]  420 	bit	7, d
+    00000198 20 08            [12]  421 	jr	NZ, 00502$
+    0000019A BF               [ 4]  422 	cp	a, a
+    0000019B 18 05            [12]  423 	jr	00502$
+    0000019D                        424 00501$:
+    0000019D CB 7A            [ 8]  425 	bit	7, d
+    0000019F 28 01            [12]  426 	jr	Z, 00502$
+    000001A1 37               [ 4]  427 	scf
+    000001A2                        428 00502$:
+    000001A2 38 08            [12]  429 	jr	C, 00135$
+    000001A4                        430 00140$:
+    000001A4 CB 40            [ 8]  431 	bit	0, b
+    000001A6 28 18            [12]  432 	jr	Z, 00136$
+    000001A8 CB 79            [ 8]  433 	bit	7, c
+    000001AA 28 14            [12]  434 	jr	Z, 00136$
+    000001AC                        435 00135$:
+                                    436 ;SpritePlayer.c:135: data->vel.x = 0;
+    000001AC F8 06            [12]  437 	ldhl	sp,	#6
+    000001AE 2A               [ 8]  438 	ld	a, (hl+)
+    000001AF 66               [ 8]  439 	ld	h, (hl)
+    000001B0 6F               [ 4]  440 	ld	l, a
+    000001B1 AF               [ 4]  441 	xor	a, a
+    000001B2 22               [ 8]  442 	ld	(hl+), a
+    000001B3 77               [ 8]  443 	ld	(hl), a
+                                    444 ;SpritePlayer.c:136: shoulderbashing = 0;
+    000001B4 AF               [ 4]  445 	xor	a, a
+    000001B5 EAr09r00         [16]  446 	ld	(#_shoulderbashing),a
+                                    447 ;SpritePlayer.c:137: shoulderbashing_cooldown = SHOULDERBASH_COOLDOWN;
+    000001B8 21r0Ar00         [12]  448 	ld	hl, #_shoulderbashing_cooldown
+    000001BB 36 10            [12]  449 	ld	(hl), #0x10
+    000001BD C3r4Dr04         [16]  450 	jp	00174$
+    000001C0                        451 00136$:
+                                    452 ;SpritePlayer.c:139: data->vel.x = SHOULDERBASH_VEL_X * data->dir;
+    000001C0 79               [ 4]  453 	ld	a, c
+    000001C1 07               [ 4]  454 	rlca
+    000001C2 9F               [ 4]  455 	sbc	a, a
+    000001C3 47               [ 4]  456 	ld	b, a
+    000001C4 69               [ 4]  457 	ld	l, c
+    000001C5 60               [ 4]  458 	ld	h, b
+    000001C6 29               [ 8]  459 	add	hl, hl
+    000001C7 09               [ 8]  460 	add	hl, bc
+    000001C8 29               [ 8]  461 	add	hl, hl
+    000001C9 29               [ 8]  462 	add	hl, hl
+    000001CA 29               [ 8]  463 	add	hl, hl
+    000001CB 09               [ 8]  464 	add	hl, bc
+    000001CC 29               [ 8]  465 	add	hl, hl
+    000001CD 29               [ 8]  466 	add	hl, hl
+    000001CE 29               [ 8]  467 	add	hl, hl
+    000001CF 29               [ 8]  468 	add	hl, hl
+    000001D0 29               [ 8]  469 	add	hl, hl
+    000001D1 29               [ 8]  470 	add	hl, hl
+    000001D2 29               [ 8]  471 	add	hl, hl
+    000001D3 29               [ 8]  472 	add	hl, hl
+    000001D4 29               [ 8]  473 	add	hl, hl
+    000001D5 4D               [ 4]  474 	ld	c, l
+    000001D6 44               [ 4]  475 	ld	b, h
+    000001D7 F8 06            [12]  476 	ldhl	sp,	#6
+    000001D9 2A               [ 8]  477 	ld	a, (hl+)
+    000001DA 66               [ 8]  478 	ld	h, (hl)
+    000001DB 6F               [ 4]  479 	ld	l, a
+    000001DC 79               [ 4]  480 	ld	a, c
+    000001DD 22               [ 8]  481 	ld	(hl+), a
+    000001DE 70               [ 8]  482 	ld	(hl), b
+                                    483 ;SpritePlayer.c:140: if (shoulderbashing == 1) {
+    000001DF FAr09r00         [16]  484 	ld	a, (#_shoulderbashing)
+    000001E2 3D               [ 4]  485 	dec	a
+    000001E3 20 16            [12]  486 	jr	NZ, 00133$
+                                    487 ;SpritePlayer.c:141: if (data->grounded) {
+    000001E5 F8 02            [12]  488 	ldhl	sp,#2
+    000001E7 2A               [ 8]  489 	ld	a, (hl+)
+    000001E8 5F               [ 4]  490 	ld	e, a
+    000001E9 56               [ 8]  491 	ld	d, (hl)
+    000001EA 1A               [ 8]  492 	ld	a, (de)
+    000001EB B7               [ 4]  493 	or	a, a
+    000001EC CAr4Dr04         [16]  494 	jp	Z, 00174$
+                                    495 ;SpritePlayer.c:142: shoulderbashing = 0;
+    000001EF AF               [ 4]  496 	xor	a, a
+    000001F0 EAr09r00         [16]  497 	ld	(#_shoulderbashing),a
+                                    498 ;SpritePlayer.c:143: shoulderbashing_cooldown = SHOULDERBASH_COOLDOWN;
+    000001F3 21r0Ar00         [12]  499 	ld	hl, #_shoulderbashing_cooldown
+    000001F6 36 10            [12]  500 	ld	(hl), #0x10
+    000001F8 C3r4Dr04         [16]  501 	jp	00174$
+    000001FB                        502 00133$:
+                                    503 ;SpritePlayer.c:146: shoulderbashing--;
+    000001FB 21r09r00         [12]  504 	ld	hl, #_shoulderbashing
+    000001FE 35               [12]  505 	dec	(hl)
+    000001FF C3r4Dr04         [16]  506 	jp	00174$
+    00000202                        507 00173$:
+                                    508 ;SpritePlayer.c:150: if ((KEY_PRESSED(J_LEFT | J_RIGHT)) && (!knockback)) {
+    00000202 21r01r00         [12]  509 	ld	hl, #(_joypads + 1)
+    00000205 4E               [ 8]  510 	ld	c, (hl)
+    00000206 79               [ 4]  511 	ld	a, c
+    00000207 E6 03            [ 8]  512 	and	a, #0x03
+    00000209 CAr2Br03         [16]  513 	jp	Z, 00169$
+    0000020C FAr07r00         [16]  514 	ld	a, (#_knockback)
+    0000020F B7               [ 4]  515 	or	a, a
+    00000210 C2r2Br03         [16]  516 	jp	NZ, 00169$
+                                    517 ;SpritePlayer.c:152: if (KEY_PRESSED(J_LEFT)) {
+    00000213 CB 49            [ 8]  518 	bit	1, c
+    00000215 28 1C            [12]  519 	jr	Z, 00143$
+                                    520 ;SpritePlayer.c:153: data->dir = -1;
+    00000217 E1               [12]  521 	pop	hl
+    00000218 36 FF            [12]  522 	ld	(hl), #0xff
+    0000021A E5               [16]  523 	push	hl
+                                    524 ;SpritePlayer.c:154: data->vel.x = -data->vel.x;
+    0000021B F8 06            [12]  525 	ldhl	sp,#6
+    0000021D 2A               [ 8]  526 	ld	a, (hl+)
+    0000021E 5F               [ 4]  527 	ld	e, a
+    0000021F 56               [ 8]  528 	ld	d, (hl)
+    00000220 1A               [ 8]  529 	ld	a, (de)
+    00000221 4F               [ 4]  530 	ld	c, a
+    00000222 13               [ 8]  531 	inc	de
+    00000223 1A               [ 8]  532 	ld	a, (de)
+    00000224 47               [ 4]  533 	ld	b, a
+    00000225 AF               [ 4]  534 	xor	a, a
+    00000226 91               [ 4]  535 	sub	a, c
+    00000227 4F               [ 4]  536 	ld	c, a
+    00000228 9F               [ 4]  537 	sbc	a, a
+    00000229 90               [ 4]  538 	sub	a, b
+    0000022A 47               [ 4]  539 	ld	b, a
+    0000022B 3A               [ 8]  540 	ld	a, (hl-)
+    0000022C 6E               [ 8]  541 	ld	l, (hl)
+    0000022D 67               [ 4]  542 	ld	h, a
+    0000022E 79               [ 4]  543 	ld	a, c
+    0000022F 22               [ 8]  544 	ld	(hl+), a
+    00000230 70               [ 8]  545 	ld	(hl), b
+    00000231 18 04            [12]  546 	jr	00144$
+    00000233                        547 00143$:
+                                    548 ;SpritePlayer.c:156: data->dir = 1;
+    00000233 E1               [12]  549 	pop	hl
+    00000234 36 01            [12]  550 	ld	(hl), #0x01
+    00000236 E5               [16]  551 	push	hl
+    00000237                        552 00144$:
+                                    553 ;SpritePlayer.c:167: if (((prev_vel_x ^ data->dir) < 0) && (data->vel.x != 0)) {	// Turning
+    00000237 D1               [12]  554 	pop	de
+    00000238 D5               [16]  555 	push	de
+    00000239 1A               [ 8]  556 	ld	a, (de)
+    0000023A 07               [ 4]  557 	rlca
+    0000023B 9F               [ 4]  558 	sbc	a, a
+    0000023C 5F               [ 4]  559 	ld	e, a
+    0000023D F8 0A            [12]  560 	ldhl	sp,	#10
+    0000023F 2A               [ 8]  561 	ld	a, (hl+)
+    00000240 7E               [ 8]  562 	ld	a, (hl)
+    00000241 AB               [ 4]  563 	xor	a, e
+    00000242 CB 7F            [ 8]  564 	bit	7,a
+    00000244 28 14            [12]  565 	jr	Z, 00146$
+    00000246 F8 06            [12]  566 	ldhl	sp,#6
+    00000248 2A               [ 8]  567 	ld	a, (hl+)
+    00000249 5F               [ 4]  568 	ld	e, a
+    0000024A 56               [ 8]  569 	ld	d, (hl)
+    0000024B 1A               [ 8]  570 	ld	a, (de)
+    0000024C 4F               [ 4]  571 	ld	c, a
+    0000024D 13               [ 8]  572 	inc	de
+    0000024E 1A               [ 8]  573 	ld	a, (de)
+    0000024F B1               [ 4]  574 	or	a, c
+    00000250 28 08            [12]  575 	jr	Z, 00146$
+                                    576 ;SpritePlayer.c:168: turning = 1;
+    00000252 21r05r00         [12]  577 	ld	hl, #_turning
+    00000255 36 01            [12]  578 	ld	(hl), #0x01
+    00000257 C3rF6r02         [16]  579 	jp	00153$
+    0000025A                        580 00146$:
+                                    581 ;SpritePlayer.c:170: turning = 0;
+    0000025A AF               [ 4]  582 	xor	a, a
+    0000025B EAr05r00         [16]  583 	ld	(#_turning),a
+                                    584 ;SpritePlayer.c:126: INT16 prev_vel_x = data->vel.x;
+    0000025E F8 06            [12]  585 	ldhl	sp,#6
+    00000260 2A               [ 8]  586 	ld	a, (hl+)
+    00000261 5F               [ 4]  587 	ld	e, a
+    00000262 2A               [ 8]  588 	ld	a, (hl+)
+    00000263 57               [ 4]  589 	ld	d, a
+    00000264 1A               [ 8]  590 	ld	a, (de)
+    00000265 22               [ 8]  591 	ld	(hl+), a
+    00000266 13               [ 8]  592 	inc	de
+    00000267 1A               [ 8]  593 	ld	a, (de)
+                                    594 ;SpritePlayer.c:183: if (data->vel.x > MAX_VEL_X_WALK) {
+    00000268 32               [ 8]  595 	ld	(hl-), a
+    00000269 3E 58            [ 8]  596 	ld	a, #0x58
+    0000026B 96               [ 8]  597 	sub	a, (hl)
+    0000026C 23               [ 8]  598 	inc	hl
+    0000026D 3E 1B            [ 8]  599 	ld	a, #0x1b
+    0000026F 9E               [ 8]  600 	sbc	a, (hl)
+    00000270 3E 1B            [ 8]  601 	ld	a, #0x1b
+    00000272 57               [ 4]  602 	ld	d, a
+    00000273 CB 7E            [12]  603 	bit	7, (hl)
+    00000275 28 07            [12]  604 	jr	Z, 00508$
+    00000277 CB 7A            [ 8]  605 	bit	7, d
+    00000279 20 08            [12]  606 	jr	NZ, 00509$
+    0000027B BF               [ 4]  607 	cp	a, a
+    0000027C 18 05            [12]  608 	jr	00509$
+    0000027E                        609 00508$:
+    0000027E CB 7A            [ 8]  610 	bit	7, d
+    00000280 28 01            [12]  611 	jr	Z, 00509$
+    00000282 37               [ 4]  612 	scf
+    00000283                        613 00509$:
+    00000283 30 42            [12]  614 	jr	NC, 00150$
+                                    615 ;SpritePlayer.c:184: data->vel.x = MAX(data->vel.x - DECELERATION_VEL_X, MAX_VEL_X_WALK);
+    00000285 F8 06            [12]  616 	ldhl	sp,	#6
+    00000287 2A               [ 8]  617 	ld	a, (hl+)
+    00000288 4F               [ 4]  618 	ld	c, a
+    00000289 2A               [ 8]  619 	ld	a, (hl+)
+    0000028A 47               [ 4]  620 	ld	b, a
+    0000028B 2A               [ 8]  621 	ld	a, (hl+)
+    0000028C 5F               [ 4]  622 	ld	e, a
+    0000028D 56               [ 8]  623 	ld	d, (hl)
+    0000028E 21 00 02         [12]  624 	ld	hl, #0x0200
+    00000291 7B               [ 4]  625 	ld	a, e
+    00000292 95               [ 4]  626 	sub	a, l
+    00000293 5F               [ 4]  627 	ld	e, a
+    00000294 7A               [ 4]  628 	ld	a, d
+    00000295 9C               [ 4]  629 	sbc	a, h
+    00000296 F8 0B            [12]  630 	ldhl	sp,	#11
+    00000298 32               [ 8]  631 	ld	(hl-), a
+    00000299 73               [ 8]  632 	ld	(hl), e
+    0000029A 3E 58            [ 8]  633 	ld	a, #0x58
+    0000029C 96               [ 8]  634 	sub	a, (hl)
+    0000029D 23               [ 8]  635 	inc	hl
+    0000029E 3E 1B            [ 8]  636 	ld	a, #0x1b
+    000002A0 9E               [ 8]  637 	sbc	a, (hl)
+    000002A1 3E 1B            [ 8]  638 	ld	a, #0x1b
+    000002A3 57               [ 4]  639 	ld	d, a
+    000002A4 CB 7E            [12]  640 	bit	7, (hl)
+    000002A6 28 07            [12]  641 	jr	Z, 00510$
+    000002A8 CB 7A            [ 8]  642 	bit	7, d
+    000002AA 20 08            [12]  643 	jr	NZ, 00511$
+    000002AC BF               [ 4]  644 	cp	a, a
+    000002AD 18 05            [12]  645 	jr	00511$
+    000002AF                        646 00510$:
+    000002AF CB 7A            [ 8]  647 	bit	7, d
+    000002B1 28 01            [12]  648 	jr	Z, 00511$
+    000002B3 37               [ 4]  649 	scf
+    000002B4                        650 00511$:
+    000002B4 30 07            [12]  651 	jr	NC, 00188$
+    000002B6 F8 0A            [12]  652 	ldhl	sp,	#10
+    000002B8 2A               [ 8]  653 	ld	a, (hl+)
+    000002B9 5F               [ 4]  654 	ld	e, a
+    000002BA 56               [ 8]  655 	ld	d, (hl)
+    000002BB 18 03            [12]  656 	jr	00189$
+    000002BD                        657 00188$:
+    000002BD 11 58 1B         [12]  658 	ld	de, #0x1b58
+    000002C0                        659 00189$:
+    000002C0 7B               [ 4]  660 	ld	a, e
+    000002C1 02               [ 8]  661 	ld	(bc), a
+    000002C2 03               [ 8]  662 	inc	bc
+    000002C3 7A               [ 4]  663 	ld	a, d
+    000002C4 02               [ 8]  664 	ld	(bc), a
+    000002C5 18 43            [12]  665 	jr	00154$
+    000002C7                        666 00150$:
+                                    667 ;SpritePlayer.c:186: data->vel.x = MIN(data->vel.x + ACCELERATION_VEL_X, MAX_VEL_X_WALK);
+    000002C7 F8 06            [12]  668 	ldhl	sp,	#6
+    000002C9 7E               [ 8]  669 	ld	a, (hl)
+    000002CA F8 0A            [12]  670 	ldhl	sp,	#10
+    000002CC 77               [ 8]  671 	ld	(hl), a
+    000002CD F8 07            [12]  672 	ldhl	sp,	#7
+    000002CF 7E               [ 8]  673 	ld	a, (hl)
+    000002D0 F8 0B            [12]  674 	ldhl	sp,	#11
+    000002D2 32               [ 8]  675 	ld	(hl-), a
+    000002D3 2B               [ 8]  676 	dec	hl
+    000002D4 2B               [ 8]  677 	dec	hl
+    000002D5 2A               [ 8]  678 	ld	a, (hl+)
+    000002D6 5F               [ 4]  679 	ld	e, a
+    000002D7 56               [ 8]  680 	ld	d, (hl)
+    000002D8 21 00 01         [12]  681 	ld	hl, #0x0100
+    000002DB 19               [ 8]  682 	add	hl, de
+    000002DC 4D               [ 4]  683 	ld	c, l
+    000002DD 44               [ 4]  684 	ld	b, h
+    000002DE 79               [ 4]  685 	ld	a, c
+    000002DF D6 58            [ 8]  686 	sub	a, #0x58
+    000002E1 78               [ 4]  687 	ld	a, b
+    000002E2 17               [ 4]  688 	rla
+    000002E3 3F               [ 4]  689 	ccf
+    000002E4 1F               [ 4]  690 	rra
+    000002E5 DE 9B            [ 8]  691 	sbc	a, #0x9b
+    000002E7 38 03            [12]  692 	jr	C, 00191$
+    000002E9 01 58 1B         [12]  693 	ld	bc, #0x1b58
+    000002EC                        694 00191$:
+    000002EC F8 0A            [12]  695 	ldhl	sp,	#10
+    000002EE 2A               [ 8]  696 	ld	a, (hl+)
+    000002EF 66               [ 8]  697 	ld	h, (hl)
+    000002F0 6F               [ 4]  698 	ld	l, a
+    000002F1 79               [ 4]  699 	ld	a, c
+    000002F2 22               [ 8]  700 	ld	(hl+), a
+    000002F3 70               [ 8]  701 	ld	(hl), b
+    000002F4 18 14            [12]  702 	jr	00154$
+    000002F6                        703 00153$:
+                                    704 ;SpritePlayer.c:192: data->vel.x += ACCELERATION_VEL_X_TURN;
+    000002F6 F8 06            [12]  705 	ldhl	sp,#6
+    000002F8 2A               [ 8]  706 	ld	a, (hl+)
+    000002F9 5F               [ 4]  707 	ld	e, a
+    000002FA 56               [ 8]  708 	ld	d, (hl)
+    000002FB 1A               [ 8]  709 	ld	a, (de)
+    000002FC 4F               [ 4]  710 	ld	c, a
+    000002FD 13               [ 8]  711 	inc	de
+    000002FE 1A               [ 8]  712 	ld	a, (de)
+    000002FF C6 08            [ 8]  713 	add	a, #0x08
+    00000301 47               [ 4]  714 	ld	b, a
+    00000302 F8 06            [12]  715 	ldhl	sp,	#6
+    00000304 2A               [ 8]  716 	ld	a, (hl+)
+    00000305 66               [ 8]  717 	ld	h, (hl)
+    00000306 6F               [ 4]  718 	ld	l, a
+    00000307 79               [ 4]  719 	ld	a, c
+    00000308 22               [ 8]  720 	ld	(hl+), a
+    00000309 70               [ 8]  721 	ld	(hl), b
+    0000030A                        722 00154$:
+                                    723 ;SpritePlayer.c:195: if (data->dir < 0) {
+    0000030A D1               [12]  724 	pop	de
+    0000030B D5               [16]  725 	push	de
+    0000030C 1A               [ 8]  726 	ld	a, (de)
+    0000030D CB 7F            [ 8]  727 	bit	7,a
+    0000030F CAr4Dr04         [16]  728 	jp	Z, 00174$
+                                    729 ;SpritePlayer.c:196: data->vel.x = -data->vel.x;
+    00000312 F8 06            [12]  730 	ldhl	sp,#6
+    00000314 2A               [ 8]  731 	ld	a, (hl+)
+    00000315 5F               [ 4]  732 	ld	e, a
+    00000316 56               [ 8]  733 	ld	d, (hl)
+    00000317 1A               [ 8]  734 	ld	a, (de)
+    00000318 4F               [ 4]  735 	ld	c, a
+    00000319 13               [ 8]  736 	inc	de
+    0000031A 1A               [ 8]  737 	ld	a, (de)
+    0000031B 47               [ 4]  738 	ld	b, a
+    0000031C AF               [ 4]  739 	xor	a, a
+    0000031D 91               [ 4]  740 	sub	a, c
+    0000031E 4F               [ 4]  741 	ld	c, a
+    0000031F 9F               [ 4]  742 	sbc	a, a
+    00000320 90               [ 4]  743 	sub	a, b
+    00000321 47               [ 4]  744 	ld	b, a
+    00000322 3A               [ 8]  745 	ld	a, (hl-)
+    00000323 6E               [ 8]  746 	ld	l, (hl)
+    00000324 67               [ 4]  747 	ld	h, a
+    00000325 79               [ 4]  748 	ld	a, c
+    00000326 22               [ 8]  749 	ld	(hl+), a
+    00000327 70               [ 8]  750 	ld	(hl), b
+    00000328 C3r4Dr04         [16]  751 	jp	00174$
+    0000032B                        752 00169$:
+                                    753 ;SpritePlayer.c:199: } else if (data->vel.x != 0) {
+    0000032B F8 06            [12]  754 	ldhl	sp,#6
+    0000032D 2A               [ 8]  755 	ld	a, (hl+)
+    0000032E 5F               [ 4]  756 	ld	e, a
+    0000032F 56               [ 8]  757 	ld	d, (hl)
+    00000330 1A               [ 8]  758 	ld	a, (de)
+    00000331 4F               [ 4]  759 	ld	c, a
+    00000332 13               [ 8]  760 	inc	de
+    00000333 1A               [ 8]  761 	ld	a, (de)
+    00000334 B1               [ 4]  762 	or	a, c
+    00000335 CAr4Dr04         [16]  763 	jp	Z, 00174$
+                                    764 ;SpritePlayer.c:200: deceling = 1;
+    00000338 21r06r00         [12]  765 	ld	hl, #_deceling
+    0000033B 36 01            [12]  766 	ld	(hl), #0x01
+                                    767 ;SpritePlayer.c:201: if (data->vel.x > 0) {
+    0000033D F8 06            [12]  768 	ldhl	sp,#6
+    0000033F 2A               [ 8]  769 	ld	a, (hl+)
+    00000340 5F               [ 4]  770 	ld	e, a
+    00000341 56               [ 8]  771 	ld	d, (hl)
+    00000342 1A               [ 8]  772 	ld	a, (de)
+    00000343 F8 00            [12]  773 	ldhl	sp,	#0
+    00000345 22               [ 8]  774 	ld	(hl+), a
+    00000346 13               [ 8]  775 	inc	de
+    00000347 1A               [ 8]  776 	ld	a, (de)
+                                    777 ;SpritePlayer.c:134: if ((data->grounded) && (((KEY_TICKED(J_LEFT)) && (data->dir > 0)) || ((KEY_TICKED(J_RIGHT)) && (data->dir < 0)))) {
+    00000348 22               [ 8]  778 	ld	(hl+), a
+    00000349 2A               [ 8]  779 	ld	a, (hl+)
+    0000034A 5F               [ 4]  780 	ld	e, a
+    0000034B 56               [ 8]  781 	ld	d, (hl)
+    0000034C 1A               [ 8]  782 	ld	a, (de)
+    0000034D F8 0B            [12]  783 	ldhl	sp,	#11
+    0000034F 77               [ 8]  784 	ld	(hl), a
+                                    785 ;SpritePlayer.c:201: if (data->vel.x > 0) {
+    00000350 F8 00            [12]  786 	ldhl	sp,	#0
+    00000352 AF               [ 4]  787 	xor	a, a
+    00000353 96               [ 8]  788 	sub	a, (hl)
+    00000354 23               [ 8]  789 	inc	hl
+    00000355 3E 00            [ 8]  790 	ld	a, #0x00
+    00000357 9E               [ 8]  791 	sbc	a, (hl)
+    00000358 3E 00            [ 8]  792 	ld	a, #0x00
+    0000035A 57               [ 4]  793 	ld	d, a
+    0000035B CB 7E            [12]  794 	bit	7, (hl)
+    0000035D 28 07            [12]  795 	jr	Z, 00512$
+    0000035F CB 7A            [ 8]  796 	bit	7, d
+    00000361 20 08            [12]  797 	jr	NZ, 00513$
+    00000363 BF               [ 4]  798 	cp	a, a
+    00000364 18 05            [12]  799 	jr	00513$
+    00000366                        800 00512$:
+    00000366 CB 7A            [ 8]  801 	bit	7, d
+    00000368 28 01            [12]  802 	jr	Z, 00513$
+    0000036A 37               [ 4]  803 	scf
+    0000036B                        804 00513$:
+    0000036B D2rF7r03         [16]  805 	jp	NC, 00164$
+                                    806 ;SpritePlayer.c:202: if (data->grounded) {
+    0000036E F8 0B            [12]  807 	ldhl	sp,	#11
+    00000370 7E               [ 8]  808 	ld	a, (hl)
+    00000371 B7               [ 4]  809 	or	a, a
+    00000372 28 40            [12]  810 	jr	Z, 00158$
+                                    811 ;SpritePlayer.c:203: data->vel.x = MAX(data->vel.x - DECELERATION_VEL_X, 0);
+    00000374 F8 06            [12]  812 	ldhl	sp,	#6
+    00000376 2A               [ 8]  813 	ld	a, (hl+)
+    00000377 4F               [ 4]  814 	ld	c, a
+    00000378 46               [ 8]  815 	ld	b, (hl)
+    00000379 D1               [12]  816 	pop	de
+    0000037A D5               [16]  817 	push	de
+    0000037B 21 00 02         [12]  818 	ld	hl, #0x0200
+    0000037E 7B               [ 4]  819 	ld	a, e
+    0000037F 95               [ 4]  820 	sub	a, l
+    00000380 5F               [ 4]  821 	ld	e, a
+    00000381 7A               [ 4]  822 	ld	a, d
+    00000382 9C               [ 4]  823 	sbc	a, h
+    00000383 F8 0B            [12]  824 	ldhl	sp,	#11
+    00000385 32               [ 8]  825 	ld	(hl-), a
+    00000386 73               [ 8]  826 	ld	(hl), e
+    00000387 AF               [ 4]  827 	xor	a, a
+    00000388 96               [ 8]  828 	sub	a, (hl)
+    00000389 23               [ 8]  829 	inc	hl
+    0000038A 3E 00            [ 8]  830 	ld	a, #0x00
+    0000038C 9E               [ 8]  831 	sbc	a, (hl)
+    0000038D 3E 00            [ 8]  832 	ld	a, #0x00
+    0000038F 57               [ 4]  833 	ld	d, a
+    00000390 CB 7E            [12]  834 	bit	7, (hl)
+    00000392 28 07            [12]  835 	jr	Z, 00514$
+    00000394 CB 7A            [ 8]  836 	bit	7, d
+    00000396 20 08            [12]  837 	jr	NZ, 00515$
+    00000398 BF               [ 4]  838 	cp	a, a
+    00000399 18 05            [12]  839 	jr	00515$
+    0000039B                        840 00514$:
+    0000039B CB 7A            [ 8]  841 	bit	7, d
+    0000039D 28 01            [12]  842 	jr	Z, 00515$
+    0000039F 37               [ 4]  843 	scf
+    000003A0                        844 00515$:
+    000003A0 30 07            [12]  845 	jr	NC, 00192$
+    000003A2 F8 0A            [12]  846 	ldhl	sp,	#10
+    000003A4 2A               [ 8]  847 	ld	a, (hl+)
+    000003A5 5F               [ 4]  848 	ld	e, a
+    000003A6 56               [ 8]  849 	ld	d, (hl)
+    000003A7 18 03            [12]  850 	jr	00193$
+    000003A9                        851 00192$:
+    000003A9 11 00 00         [12]  852 	ld	de, #0x0000
+    000003AC                        853 00193$:
+    000003AC 7B               [ 4]  854 	ld	a, e
+    000003AD 02               [ 8]  855 	ld	(bc), a
+    000003AE 03               [ 8]  856 	inc	bc
+    000003AF 7A               [ 4]  857 	ld	a, d
+    000003B0 02               [ 8]  858 	ld	(bc), a
+    000003B1 C3r4Dr04         [16]  859 	jp	00174$
+    000003B4                        860 00158$:
+                                    861 ;SpritePlayer.c:205: data->vel.x = MAX(data->vel.x - DECELERATION_VEL_X_AIR, 0);
+    000003B4 F8 06            [12]  862 	ldhl	sp,	#6
+    000003B6 2A               [ 8]  863 	ld	a, (hl+)
+    000003B7 23               [ 8]  864 	inc	hl
+    000003B8 32               [ 8]  865 	ld	(hl-), a
+    000003B9 2A               [ 8]  866 	ld	a, (hl+)
+    000003BA 23               [ 8]  867 	inc	hl
+    000003BB 77               [ 8]  868 	ld	(hl), a
+    000003BC D1               [12]  869 	pop	de
+    000003BD D5               [16]  870 	push	de
+    000003BE 21 00 01         [12]  871 	ld	hl, #0x0100
+    000003C1 7B               [ 4]  872 	ld	a, e
+    000003C2 95               [ 4]  873 	sub	a, l
+    000003C3 5F               [ 4]  874 	ld	e, a
+    000003C4 7A               [ 4]  875 	ld	a, d
+    000003C5 9C               [ 4]  876 	sbc	a, h
+    000003C6 F8 0B            [12]  877 	ldhl	sp,	#11
+    000003C8 32               [ 8]  878 	ld	(hl-), a
+    000003C9 73               [ 8]  879 	ld	(hl), e
+    000003CA AF               [ 4]  880 	xor	a, a
+    000003CB 96               [ 8]  881 	sub	a, (hl)
+    000003CC 23               [ 8]  882 	inc	hl
+    000003CD 3E 00            [ 8]  883 	ld	a, #0x00
+    000003CF 9E               [ 8]  884 	sbc	a, (hl)
+    000003D0 3E 00            [ 8]  885 	ld	a, #0x00
+    000003D2 57               [ 4]  886 	ld	d, a
+    000003D3 CB 7E            [12]  887 	bit	7, (hl)
+    000003D5 28 07            [12]  888 	jr	Z, 00516$
+    000003D7 CB 7A            [ 8]  889 	bit	7, d
+    000003D9 20 08            [12]  890 	jr	NZ, 00517$
+    000003DB BF               [ 4]  891 	cp	a, a
+    000003DC 18 05            [12]  892 	jr	00517$
+    000003DE                        893 00516$:
+    000003DE CB 7A            [ 8]  894 	bit	7, d
+    000003E0 28 01            [12]  895 	jr	Z, 00517$
+    000003E2 37               [ 4]  896 	scf
+    000003E3                        897 00517$:
+    000003E3 38 05            [12]  898 	jr	C, 00195$
+    000003E5 AF               [ 4]  899 	xor	a, a
+    000003E6 F8 0A            [12]  900 	ldhl	sp,	#10
+    000003E8 22               [ 8]  901 	ld	(hl+), a
+    000003E9 77               [ 8]  902 	ld	(hl), a
+    000003EA                        903 00195$:
+    000003EA F8 08            [12]  904 	ldhl	sp,	#8
+    000003EC 2A               [ 8]  905 	ld	a, (hl+)
+    000003ED 5F               [ 4]  906 	ld	e, a
+    000003EE 2A               [ 8]  907 	ld	a, (hl+)
+    000003EF 57               [ 4]  908 	ld	d, a
+    000003F0 2A               [ 8]  909 	ld	a, (hl+)
+    000003F1 12               [ 8]  910 	ld	(de), a
+    000003F2 13               [ 8]  911 	inc	de
+    000003F3 7E               [ 8]  912 	ld	a, (hl)
+    000003F4 12               [ 8]  913 	ld	(de), a
+    000003F5 18 56            [12]  914 	jr	00174$
+    000003F7                        915 00164$:
+                                    916 ;SpritePlayer.c:208: if (data->grounded) {
+    000003F7 F8 0B            [12]  917 	ldhl	sp,	#11
+    000003F9 7E               [ 8]  918 	ld	a, (hl)
+    000003FA B7               [ 4]  919 	or	a, a
+    000003FB 28 29            [12]  920 	jr	Z, 00161$
+                                    921 ;SpritePlayer.c:209: data->vel.x = MIN(data->vel.x + DECELERATION_VEL_X, 0);
+    000003FD F8 06            [12]  922 	ldhl	sp,	#6
+    000003FF 2A               [ 8]  923 	ld	a, (hl+)
+    00000400 4F               [ 4]  924 	ld	c, a
+    00000401 46               [ 8]  925 	ld	b, (hl)
+    00000402 D1               [12]  926 	pop	de
+    00000403 D5               [16]  927 	push	de
+    00000404 21 00 02         [12]  928 	ld	hl, #0x0200
+    00000407 19               [ 8]  929 	add	hl, de
+    00000408 E5               [16]  930 	push	hl
+    00000409 7D               [ 4]  931 	ld	a, l
+    0000040A F8 0C            [12]  932 	ldhl	sp,	#12
+    0000040C 77               [ 8]  933 	ld	(hl), a
+    0000040D E1               [12]  934 	pop	hl
+    0000040E 7C               [ 4]  935 	ld	a, h
+    0000040F F8 0B            [12]  936 	ldhl	sp,	#11
+    00000411 77               [ 8]  937 	ld	(hl), a
+    00000412 CB 7E            [12]  938 	bit	7, (hl)
+    00000414 28 06            [12]  939 	jr	Z, 00196$
+    00000416 2B               [ 8]  940 	dec	hl
+    00000417 2A               [ 8]  941 	ld	a, (hl+)
+    00000418 5F               [ 4]  942 	ld	e, a
+    00000419 56               [ 8]  943 	ld	d, (hl)
+    0000041A 18 03            [12]  944 	jr	00197$
+    0000041C                        945 00196$:
+    0000041C 11 00 00         [12]  946 	ld	de, #0x0000
+    0000041F                        947 00197$:
+    0000041F 7B               [ 4]  948 	ld	a, e
+    00000420 02               [ 8]  949 	ld	(bc), a
+    00000421 03               [ 8]  950 	inc	bc
+    00000422 7A               [ 4]  951 	ld	a, d
+    00000423 02               [ 8]  952 	ld	(bc), a
+    00000424 18 27            [12]  953 	jr	00174$
+    00000426                        954 00161$:
+                                    955 ;SpritePlayer.c:211: data->vel.x = MIN(data->vel.x + DECELERATION_VEL_X_AIR, 0);
+    00000426 F8 06            [12]  956 	ldhl	sp,	#6
+    00000428 2A               [ 8]  957 	ld	a, (hl+)
+    00000429 4F               [ 4]  958 	ld	c, a
+    0000042A 46               [ 8]  959 	ld	b, (hl)
+    0000042B D1               [12]  960 	pop	de
+    0000042C D5               [16]  961 	push	de
+    0000042D 21 00 01         [12]  962 	ld	hl, #0x0100
+    00000430 19               [ 8]  963 	add	hl, de
+    00000431 E5               [16]  964 	push	hl
+    00000432 7D               [ 4]  965 	ld	a, l
+    00000433 F8 0C            [12]  966 	ldhl	sp,	#12
+    00000435 77               [ 8]  967 	ld	(hl), a
+    00000436 E1               [12]  968 	pop	hl
+    00000437 7C               [ 4]  969 	ld	a, h
+    00000438 F8 0B            [12]  970 	ldhl	sp,	#11
+    0000043A 77               [ 8]  971 	ld	(hl), a
+    0000043B CB 7E            [12]  972 	bit	7, (hl)
+    0000043D 28 06            [12]  973 	jr	Z, 00198$
+    0000043F 2B               [ 8]  974 	dec	hl
+    00000440 2A               [ 8]  975 	ld	a, (hl+)
+    00000441 5F               [ 4]  976 	ld	e, a
+    00000442 56               [ 8]  977 	ld	d, (hl)
+    00000443 18 03            [12]  978 	jr	00199$
+    00000445                        979 00198$:
+    00000445 11 00 00         [12]  980 	ld	de, #0x0000
+    00000448                        981 00199$:
+    00000448 7B               [ 4]  982 	ld	a, e
+    00000449 02               [ 8]  983 	ld	(bc), a
+    0000044A 03               [ 8]  984 	inc	bc
+    0000044B 7A               [ 4]  985 	ld	a, d
+    0000044C 02               [ 8]  986 	ld	(bc), a
+    0000044D                        987 00174$:
+                                    988 ;SpritePlayer.c:217: if (knockback) {
+    0000044D FAr07r00         [16]  989 	ld	a, (#_knockback)
+    00000450 B7               [ 4]  990 	or	a, a
+    00000451 28 27            [12]  991 	jr	Z, 00182$
+                                    992 ;SpritePlayer.c:218: if ((!knockback_minimum) || (--knockback_minimum == 0)) {
+    00000453 21r08r00         [12]  993 	ld	hl, #_knockback_minimum
+    00000456 7E               [ 8]  994 	ld	a, (hl)
+    00000457 B7               [ 4]  995 	or	a, a
+    00000458 28 03            [12]  996 	jr	Z, 00177$
+    0000045A 35               [12]  997 	dec	(hl)
+    0000045B 20 1D            [12]  998 	jr	NZ, 00182$
+    0000045D                        999 00177$:
+                                   1000 ;SpritePlayer.c:219: if (data->grounded) {
+    0000045D F8 02            [12] 1001 	ldhl	sp,#2
+    0000045F 2A               [ 8] 1002 	ld	a, (hl+)
+    00000460 5F               [ 4] 1003 	ld	e, a
+    00000461 56               [ 8] 1004 	ld	d, (hl)
+    00000462 1A               [ 8] 1005 	ld	a, (de)
+    00000463 B7               [ 4] 1006 	or	a, a
+    00000464 28 14            [12] 1007 	jr	Z, 00182$
+                                   1008 ;SpritePlayer.c:220: knockback = FALSE;
+    00000466 AF               [ 4] 1009 	xor	a, a
+    00000467 EAr07r00         [16] 1010 	ld	(#_knockback),a
+                                   1011 ;SpritePlayer.c:221: data->vel.x = 0;
+    0000046A F8 06            [12] 1012 	ldhl	sp,	#6
+    0000046C 2A               [ 8] 1013 	ld	a, (hl+)
+    0000046D 66               [ 8] 1014 	ld	h, (hl)
+    0000046E 6F               [ 4] 1015 	ld	l, a
+    0000046F AF               [ 4] 1016 	xor	a, a
+    00000470 22               [ 8] 1017 	ld	(hl+), a
+    00000471 77               [ 8] 1018 	ld	(hl), a
+                                   1019 ;SpritePlayer.c:222: data->vel.y = 0;
+    00000472 F8 04            [12] 1020 	ldhl	sp,	#4
+    00000474 2A               [ 8] 1021 	ld	a, (hl+)
+    00000475 66               [ 8] 1022 	ld	h, (hl)
+    00000476 6F               [ 4] 1023 	ld	l, a
+    00000477 AF               [ 4] 1024 	xor	a, a
+    00000478 22               [ 8] 1025 	ld	(hl+), a
+    00000479 77               [ 8] 1026 	ld	(hl), a
+    0000047A                       1027 00182$:
+                                   1028 ;SpritePlayer.c:227: }
+    0000047A E8 0C            [16] 1029 	add	sp, #12
+    0000047C C9               [16] 1030 	ret
+                         000000FF  1031 ___bank_SpritePlayer	=	0x00ff
+    0000047D                       1032 _anim_idle:
+    0000047D 07                    1033 	.db #0x07	; 7
+    0000047E 00                    1034 	.db #0x00	; 0
+    0000047F 00                    1035 	.db #0x00	; 0
+    00000480 00                    1036 	.db #0x00	; 0
+    00000481 00                    1037 	.db #0x00	; 0
+    00000482 00                    1038 	.db #0x00	; 0
+    00000483 00                    1039 	.db #0x00	; 0
+    00000484 01                    1040 	.db #0x01	; 1
+    00000485                       1041 _anim_doze:
+    00000485 04                    1042 	.db #0x04	; 4
+    00000486 01                    1043 	.db #0x01	; 1
+    00000487 02                    1044 	.db #0x02	; 2
+    00000488 03                    1045 	.db #0x03	; 3
+    00000489 04                    1046 	.db #0x04	; 4
+    0000048A                       1047 _anim_sleep:
+    0000048A 0C                    1048 	.db #0x0c	; 12
+    0000048B 04                    1049 	.db #0x04	; 4
+    0000048C 04                    1050 	.db #0x04	; 4
+    0000048D 04                    1051 	.db #0x04	; 4
+    0000048E 04                    1052 	.db #0x04	; 4
+    0000048F 05                    1053 	.db #0x05	; 5
+    00000490 06                    1054 	.db #0x06	; 6
+    00000491 06                    1055 	.db #0x06	; 6
+    00000492 06                    1056 	.db #0x06	; 6
+    00000493 06                    1057 	.db #0x06	; 6
+    00000494 06                    1058 	.db #0x06	; 6
+    00000495 06                    1059 	.db #0x06	; 6
+    00000496 05                    1060 	.db #0x05	; 5
+    00000497                       1061 _anim_walk:
+    00000497 04                    1062 	.db #0x04	; 4
+    00000498 07                    1063 	.db #0x07	; 7
+    00000499 08                    1064 	.db #0x08	; 8
+    0000049A 09                    1065 	.db #0x09	; 9
+    0000049B 0A                    1066 	.db #0x0a	; 10
+    0000049C                       1067 _anim_jump:
+    0000049C 01                    1068 	.db #0x01	; 1
+    0000049D 0B                    1069 	.db #0x0b	; 11
+    0000049E                       1070 _anim_bash:
+    0000049E 04                    1071 	.db #0x04	; 4
+    0000049F 0C                    1072 	.db #0x0c	; 12
+    000004A0 0D                    1073 	.db #0x0d	; 13
+    000004A1 0E                    1074 	.db #0x0e	; 14
+    000004A2 0F                    1075 	.db #0x0f	; 15
+    000004A3                       1076 _anim_bash_knockback:
+    000004A3 01                    1077 	.db #0x01	; 1
+    000004A4 10                    1078 	.db #0x10	; 16
+                                   1079 ;SpritePlayer.c:229: void PlayerDynaCollide(Sprite* this) {
+                                   1080 ;	---------------------------------
+                                   1081 ; Function PlayerDynaCollide
+                                   1082 ; ---------------------------------
+    000004A5                       1083 _PlayerDynaCollide::
+    000004A5 E8 F0            [16] 1084 	add	sp, #-16
+    000004A7 F8 0C            [12] 1085 	ldhl	sp,	#12
+    000004A9 7B               [ 4] 1086 	ld	a, e
+    000004AA 22               [ 8] 1087 	ld	(hl+), a
+                                   1088 ;SpritePlayer.c:230: CUSTOM_DATA* data = (CUSTOM_DATA*)this->custom_data;
+    000004AB 7A               [ 4] 1089 	ld	a, d
+    000004AC 32               [ 8] 1090 	ld	(hl-), a
+    000004AD 2A               [ 8] 1091 	ld	a, (hl+)
+    000004AE 5F               [ 4] 1092 	ld	e, a
+    000004AF 56               [ 8] 1093 	ld	d, (hl)
+    000004B0 21 24 00         [12] 1094 	ld	hl, #0x0024
+    000004B3 19               [ 8] 1095 	add	hl, de
+    000004B4 33               [ 8] 1096 	inc	sp
+    000004B5 33               [ 8] 1097 	inc	sp
+                                   1098 ;SpritePlayer.c:232: if (data->vel.x > 0) {
+    000004B6 5D               [ 4] 1099 	ld	e, l
+    000004B7 54               [ 4] 1100 	ld	d, h
+    000004B8 D5               [16] 1101 	push	de
+    000004B9 21 04 00         [12] 1102 	ld	hl, #0x0004
+    000004BC 19               [ 8] 1103 	add	hl, de
+    000004BD E5               [16] 1104 	push	hl
+    000004BE 7D               [ 4] 1105 	ld	a, l
+    000004BF F8 04            [12] 1106 	ldhl	sp,	#4
+    000004C1 77               [ 8] 1107 	ld	(hl), a
+    000004C2 E1               [12] 1108 	pop	hl
+    000004C3 7C               [ 4] 1109 	ld	a, h
+    000004C4 F8 03            [12] 1110 	ldhl	sp,	#3
+    000004C6 32               [ 8] 1111 	ld	(hl-), a
+    000004C7 2A               [ 8] 1112 	ld	a, (hl+)
+    000004C8 5F               [ 4] 1113 	ld	e, a
+    000004C9 56               [ 8] 1114 	ld	d, (hl)
+    000004CA 1A               [ 8] 1115 	ld	a, (de)
+    000004CB 47               [ 4] 1116 	ld	b, a
+    000004CC 13               [ 8] 1117 	inc	de
+    000004CD 1A               [ 8] 1118 	ld	a, (de)
+    000004CE 4F               [ 4] 1119 	ld	c, a
+    000004CF 59               [ 4] 1120 	ld	e, c
+    000004D0 AF               [ 4] 1121 	xor	a, a
+    000004D1 57               [ 4] 1122 	ld	d, a
+    000004D2 B8               [ 4] 1123 	cp	a, b
+    000004D3 99               [ 4] 1124 	sbc	a, c
+    000004D4 CB 7B            [ 8] 1125 	bit	7, e
+    000004D6 28 07            [12] 1126 	jr	Z, 00614$
+    000004D8 CB 7A            [ 8] 1127 	bit	7, d
+    000004DA 20 08            [12] 1128 	jr	NZ, 00615$
+    000004DC BF               [ 4] 1129 	cp	a, a
+    000004DD 18 05            [12] 1130 	jr	00615$
+    000004DF                       1131 00614$:
+    000004DF CB 7A            [ 8] 1132 	bit	7, d
+    000004E1 28 01            [12] 1133 	jr	Z, 00615$
+    000004E3 37               [ 4] 1134 	scf
+    000004E4                       1135 00615$:
+    000004E4 3E 00            [ 8] 1136 	ld	a, #0x00
+    000004E6 17               [ 4] 1137 	rla
+    000004E7 F8 0B            [12] 1138 	ldhl	sp,	#11
+    000004E9 77               [ 8] 1139 	ld	(hl), a
+    000004EA B7               [ 4] 1140 	or	a, a
+    000004EB 28 55            [12] 1141 	jr	Z, 00102$
+                                   1142 ;SpritePlayer.c:233: tile_x = SUBPX_TO_TILE(data->pos.x + VEL_TO_SUBPX(data->vel.x) + PX_TO_SUBPX(this->coll_w) - 1);
+    000004ED D1               [12] 1143 	pop	de
+    000004EE D5               [16] 1144 	push	de
+    000004EF 1A               [ 8] 1145 	ld	a, (de)
+    000004F0 6F               [ 4] 1146 	ld	l, a
+    000004F1 13               [ 8] 1147 	inc	de
+    000004F2 1A               [ 8] 1148 	ld	a, (de)
+    000004F3 67               [ 4] 1149 	ld	h, a
+    000004F4 79               [ 4] 1150 	ld	a, c
+    000004F5 07               [ 4] 1151 	rlca
+    000004F6 9F               [ 4] 1152 	sbc	a, a
+    000004F7 47               [ 4] 1153 	ld	b, a
+    000004F8 09               [ 8] 1154 	add	hl, bc
+    000004F9 4D               [ 4] 1155 	ld	c, l
+    000004FA 44               [ 4] 1156 	ld	b, h
+    000004FB F8 0C            [12] 1157 	ldhl	sp,#12
+    000004FD 2A               [ 8] 1158 	ld	a, (hl+)
+    000004FE 5F               [ 4] 1159 	ld	e, a
+    000004FF 56               [ 8] 1160 	ld	d, (hl)
+    00000500 21 04 00         [12] 1161 	ld	hl, #0x0004
+    00000503 19               [ 8] 1162 	add	hl, de
+    00000504 5D               [ 4] 1163 	ld	e, l
+    00000505 54               [ 4] 1164 	ld	d, h
+    00000506 1A               [ 8] 1165 	ld	a, (de)
+    00000507 26 00            [ 8] 1166 	ld	h, #0x00
+    00000509 6F               [ 4] 1167 	ld	l, a
+    0000050A 29               [ 8] 1168 	add	hl, hl
+    0000050B 29               [ 8] 1169 	add	hl, hl
+    0000050C 29               [ 8] 1170 	add	hl, hl
+    0000050D 29               [ 8] 1171 	add	hl, hl
+    0000050E 09               [ 8] 1172 	add	hl, bc
+    0000050F 4D               [ 4] 1173 	ld	c, l
+    00000510 44               [ 4] 1174 	ld	b, h
+    00000511 0B               [ 8] 1175 	dec	bc
+    00000512 F8 04            [12] 1176 	ldhl	sp,	#4
+    00000514 79               [ 4] 1177 	ld	a, c
+    00000515 22               [ 8] 1178 	ld	(hl+), a
+    00000516 70               [ 8] 1179 	ld	(hl), b
+    00000517 CB 3E            [16] 1180 	srl	(hl)
+    00000519 2B               [ 8] 1181 	dec	hl
+    0000051A CB 1E            [16] 1182 	rr	(hl)
+    0000051C 23               [ 8] 1183 	inc	hl
+    0000051D CB 3E            [16] 1184 	srl	(hl)
+    0000051F 2B               [ 8] 1185 	dec	hl
+    00000520 CB 1E            [16] 1186 	rr	(hl)
+    00000522 23               [ 8] 1187 	inc	hl
+    00000523 CB 3E            [16] 1188 	srl	(hl)
+    00000525 2B               [ 8] 1189 	dec	hl
+    00000526 CB 1E            [16] 1190 	rr	(hl)
+    00000528 23               [ 8] 1191 	inc	hl
+    00000529 CB 3E            [16] 1192 	srl	(hl)
+    0000052B 2B               [ 8] 1193 	dec	hl
+    0000052C CB 1E            [16] 1194 	rr	(hl)
+    0000052E 23               [ 8] 1195 	inc	hl
+    0000052F CB 3E            [16] 1196 	srl	(hl)
+    00000531 2B               [ 8] 1197 	dec	hl
+    00000532 CB 1E            [16] 1198 	rr	(hl)
+    00000534 23               [ 8] 1199 	inc	hl
+    00000535 CB 3E            [16] 1200 	srl	(hl)
+    00000537 2B               [ 8] 1201 	dec	hl
+    00000538 CB 1E            [16] 1202 	rr	(hl)
+    0000053A 23               [ 8] 1203 	inc	hl
+    0000053B CB 3E            [16] 1204 	srl	(hl)
+    0000053D 2B               [ 8] 1205 	dec	hl
+    0000053E CB 1E            [16] 1206 	rr	(hl)
+    00000540 18 3C            [12] 1207 	jr	00103$
+    00000542                       1208 00102$:
+                                   1209 ;SpritePlayer.c:235: tile_x = SUBPX_TO_TILE(data->pos.x + VEL_TO_SUBPX(data->vel.x));
+    00000542 D1               [12] 1210 	pop	de
+    00000543 D5               [16] 1211 	push	de
+    00000544 1A               [ 8] 1212 	ld	a, (de)
+    00000545 6F               [ 4] 1213 	ld	l, a
+    00000546 13               [ 8] 1214 	inc	de
+    00000547 1A               [ 8] 1215 	ld	a, (de)
+    00000548 67               [ 4] 1216 	ld	h, a
+    00000549 79               [ 4] 1217 	ld	a, c
+    0000054A 07               [ 4] 1218 	rlca
+    0000054B 9F               [ 4] 1219 	sbc	a, a
+    0000054C 47               [ 4] 1220 	ld	b, a
+    0000054D 09               [ 8] 1221 	add	hl, bc
+    0000054E 4D               [ 4] 1222 	ld	c, l
+    0000054F 44               [ 4] 1223 	ld	b, h
+    00000550 F8 04            [12] 1224 	ldhl	sp,	#4
+    00000552 79               [ 4] 1225 	ld	a, c
+    00000553 22               [ 8] 1226 	ld	(hl+), a
+    00000554 70               [ 8] 1227 	ld	(hl), b
+    00000555 CB 3E            [16] 1228 	srl	(hl)
+    00000557 2B               [ 8] 1229 	dec	hl
+    00000558 CB 1E            [16] 1230 	rr	(hl)
+    0000055A 23               [ 8] 1231 	inc	hl
+    0000055B CB 3E            [16] 1232 	srl	(hl)
+    0000055D 2B               [ 8] 1233 	dec	hl
+    0000055E CB 1E            [16] 1234 	rr	(hl)
+    00000560 23               [ 8] 1235 	inc	hl
+    00000561 CB 3E            [16] 1236 	srl	(hl)
+    00000563 2B               [ 8] 1237 	dec	hl
+    00000564 CB 1E            [16] 1238 	rr	(hl)
+    00000566 23               [ 8] 1239 	inc	hl
+    00000567 CB 3E            [16] 1240 	srl	(hl)
+    00000569 2B               [ 8] 1241 	dec	hl
+    0000056A CB 1E            [16] 1242 	rr	(hl)
+    0000056C 23               [ 8] 1243 	inc	hl
+    0000056D CB 3E            [16] 1244 	srl	(hl)
+    0000056F 2B               [ 8] 1245 	dec	hl
+    00000570 CB 1E            [16] 1246 	rr	(hl)
+    00000572 23               [ 8] 1247 	inc	hl
+    00000573 CB 3E            [16] 1248 	srl	(hl)
+    00000575 2B               [ 8] 1249 	dec	hl
+    00000576 CB 1E            [16] 1250 	rr	(hl)
+    00000578 23               [ 8] 1251 	inc	hl
+    00000579 CB 3E            [16] 1252 	srl	(hl)
+    0000057B 2B               [ 8] 1253 	dec	hl
+    0000057C CB 1E            [16] 1254 	rr	(hl)
+    0000057E                       1255 00103$:
+                                   1256 ;SpritePlayer.c:237: UINT16 tile_y = SUBPX_TO_TILE(data->pos.y);
+    0000057E C1               [12] 1257 	pop	bc
+    0000057F C5               [16] 1258 	push	bc
+    00000580 03               [ 8] 1259 	inc	bc
+    00000581 03               [ 8] 1260 	inc	bc
+    00000582 59               [ 4] 1261 	ld	e, c
+    00000583 50               [ 4] 1262 	ld	d, b
+    00000584 1A               [ 8] 1263 	ld	a, (de)
+    00000585 F8 0E            [12] 1264 	ldhl	sp,	#14
+    00000587 22               [ 8] 1265 	ld	(hl+), a
+    00000588 13               [ 8] 1266 	inc	de
+    00000589 1A               [ 8] 1267 	ld	a, (de)
+    0000058A 32               [ 8] 1268 	ld	(hl-), a
+    0000058B 2A               [ 8] 1269 	ld	a, (hl+)
+    0000058C 4F               [ 4] 1270 	ld	c, a
+                                   1271 ;SpritePlayer.c:238: UINT16 tile_y_end = SUBPX_TO_TILE(data->pos.y + PX_TO_SUBPX(this->coll_h) - 1) - 1;	// Subtract one tile to get some leeway
+    0000058D 3A               [ 8] 1272 	ld	a, (hl-)
+    0000058E 2B               [ 8] 1273 	dec	hl
+    0000058F 2B               [ 8] 1274 	dec	hl
+    00000590 47               [ 4] 1275 	ld	b, a
+    00000591 CB 38            [ 8] 1276 	srl	b
+    00000593 CB 19            [ 8] 1277 	rr	c
+    00000595 CB 38            [ 8] 1278 	srl	b
+    00000597 CB 19            [ 8] 1279 	rr	c
+    00000599 CB 38            [ 8] 1280 	srl	b
+    0000059B CB 19            [ 8] 1281 	rr	c
+    0000059D CB 38            [ 8] 1282 	srl	b
+    0000059F CB 19            [ 8] 1283 	rr	c
+    000005A1 CB 38            [ 8] 1284 	srl	b
+    000005A3 CB 19            [ 8] 1285 	rr	c
+    000005A5 CB 38            [ 8] 1286 	srl	b
+    000005A7 CB 19            [ 8] 1287 	rr	c
+    000005A9 CB 38            [ 8] 1288 	srl	b
+    000005AB CB 19            [ 8] 1289 	rr	c
+    000005AD 2A               [ 8] 1290 	ld	a, (hl+)
+    000005AE 5F               [ 4] 1291 	ld	e, a
+    000005AF 56               [ 8] 1292 	ld	d, (hl)
+    000005B0 21 05 00         [12] 1293 	ld	hl, #0x0005
+    000005B3 19               [ 8] 1294 	add	hl, de
+    000005B4 5D               [ 4] 1295 	ld	e, l
+    000005B5 54               [ 4] 1296 	ld	d, h
+    000005B6 1A               [ 8] 1297 	ld	a, (de)
+    000005B7 6F               [ 4] 1298 	ld	l, a
+    000005B8 26 00            [ 8] 1299 	ld	h, #0x00
+    000005BA 29               [ 8] 1300 	add	hl, hl
+    000005BB 29               [ 8] 1301 	add	hl, hl
+    000005BC 29               [ 8] 1302 	add	hl, hl
+    000005BD 29               [ 8] 1303 	add	hl, hl
+    000005BE 5D               [ 4] 1304 	ld	e, l
+    000005BF 54               [ 4] 1305 	ld	d, h
+    000005C0 F8 0E            [12] 1306 	ldhl	sp,	#14
+    000005C2 2A               [ 8] 1307 	ld	a,	(hl+)
+    000005C3 66               [ 8] 1308 	ld	h, (hl)
+    000005C4 6F               [ 4] 1309 	ld	l, a
+    000005C5 19               [ 8] 1310 	add	hl, de
+    000005C6 2B               [ 8] 1311 	dec	hl
+    000005C7 AF               [ 4] 1312 	xor	a, a
+    000005C8 29               [ 8] 1313 	add	hl, hl
+    000005C9 17               [ 4] 1314 	rla
+    000005CA 57               [ 4] 1315 	ld	d, a
+    000005CB 5C               [ 4] 1316 	ld	e, h
+    000005CC 1B               [ 8] 1317 	dec	de
+                                   1318 ;SpritePlayer.c:239: if (tile_col_test_range_y((data->vel.x > 0) ? COLLISION_LEFT : COLLISION_RIGHT, tile_x, tile_y, tile_y_end)) {
+    000005CD F8 0B            [12] 1319 	ldhl	sp,	#11
+    000005CF 7E               [ 8] 1320 	ld	a, (hl)
+    000005D0 B7               [ 4] 1321 	or	a, a
+    000005D1 3E 04            [ 8] 1322 	ld	a, #0x04
+    000005D3 20 02            [12] 1323 	jr	NZ, 00218$
+    000005D5 3E 08            [ 8] 1324 	ld	a, #0x08
+    000005D7                       1325 00218$:
+    000005D7 D5               [16] 1326 	push	de
+    000005D8 C5               [16] 1327 	push	bc
+    000005D9 F8 08            [12] 1328 	ldhl	sp,	#8
+    000005DB 5E               [ 8] 1329 	ld	e, (hl)
+    000005DC 23               [ 8] 1330 	inc	hl
+    000005DD 56               [ 8] 1331 	ld	d, (hl)
+    000005DE CDr00r00         [24] 1332 	call	_tile_col_test_range_y
+    000005E1 B7               [ 4] 1333 	or	a, a
+    000005E2 CArC2r0A         [16] 1334 	jp	Z, 00215$
+                                   1335 ;SpritePlayer.c:240: switch (DynaTileAt(tile_x, tile_hit_y)) {
+    000005E5 FAr00r00         [16] 1336 	ld	a, (_tile_hit_y)
+    000005E8 4F               [ 4] 1337 	ld	c, a
+    000005E9 21r01r00         [12] 1338 	ld	hl, #_tile_hit_y + 1
+    000005EC 46               [ 8] 1339 	ld	b, (hl)
+    000005ED F8 04            [12] 1340 	ldhl	sp,	#4
+    000005EF 2A               [ 8] 1341 	ld	a, (hl+)
+    000005F0 5F               [ 4] 1342 	ld	e, a
+    000005F1 56               [ 8] 1343 	ld	d, (hl)
+    000005F2 CDr00r00         [24] 1344 	call	_DynaTileAt
+    000005F5 FE 1C            [ 8] 1345 	cp	a, #0x1c
+    000005F7 DAr76r0A         [16] 1346 	jp	C, 00140$
+    000005FA FE 30            [ 8] 1347 	cp	a, #0x30
+    000005FC D2r76r0A         [16] 1348 	jp	NC, 00140$
+    000005FF C6 E4            [ 8] 1349 	add	a, #0xe4
+    00000601 4F               [ 4] 1350 	ld	c, a
+    00000602 06 00            [ 8] 1351 	ld	b, #0x00
+    00000604 21r0Er06         [12] 1352 	ld	hl, #00616$
+    00000607 09               [ 8] 1353 	add	hl, bc
+    00000608 09               [ 8] 1354 	add	hl, bc
+    00000609 4E               [ 8] 1355 	ld	c, (hl)
+    0000060A 23               [ 8] 1356 	inc	hl
+    0000060B 66               [ 8] 1357 	ld	h, (hl)
+    0000060C 69               [ 4] 1358 	ld	l, c
+    0000060D E9               [ 4] 1359 	jp	(hl)
+    0000060E                       1360 00616$:
+    0000060Er36r06                 1361 	.dw	00227$
+    00000610rE0r06                 1362 	.dw	00235$
+    00000612r9Fr06                 1363 	.dw	00231$
+    00000614r3Dr07                 1364 	.dw	00239$
+    00000616rA1r07                 1365 	.dw	00243$
+    00000618r76r0A                 1366 	.dw	00140$
+    0000061Ar76r0A                 1367 	.dw	00140$
+    0000061CrF8r08                 1368 	.dw	00259$
+    0000061ErF5r07                 1369 	.dw	00247$
+    00000620r76r0A                 1370 	.dw	00140$
+    00000622r76r0A                 1371 	.dw	00140$
+    00000624r55r09                 1372 	.dw	00263$
+    00000626r48r08                 1373 	.dw	00251$
+    00000628r76r0A                 1374 	.dw	00140$
+    0000062Ar76r0A                 1375 	.dw	00140$
+    0000062CrB9r09                 1376 	.dw	00267$
+    0000062Er9Cr08                 1377 	.dw	00255$
+    00000630r76r0A                 1378 	.dw	00140$
+    00000632r76r0A                 1379 	.dw	00140$
+    00000634r1Er0A                 1380 	.dw	00271$
+                                   1381 ;SpritePlayer.c:242: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    00000636                       1382 00227$:
+    00000636 F8 0E            [12] 1383 	ldhl	sp,	#14
+    00000638 36 00            [12] 1384 	ld	(hl), #0x00
+    0000063A                       1385 00147$:
+    0000063A F8 0E            [12] 1386 	ldhl	sp,	#14
+    0000063C 7E               [ 8] 1387 	ld	a, (hl)
+    0000063D D6 02            [ 8] 1388 	sub	a, #0x02
+    0000063F D2r76r0A         [16] 1389 	jp	NC, 00140$
+                                   1390 ;SpritePlayer.c:243: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000642 23               [ 8] 1391 	inc	hl
+    00000643 36 00            [12] 1392 	ld	(hl), #0x00
+    00000645                       1393 00144$:
+    00000645 F8 0F            [12] 1394 	ldhl	sp,	#15
+                                   1395 ;SpritePlayer.c:244: UpdateDynaTile(tile_x + offset_x, tile_hit_y + offset_y, 0);
+    00000647 7E               [ 8] 1396 	ld	a,(hl)
+    00000648 FE 02            [ 8] 1397 	cp	a,#0x02
+    0000064A 30 4E            [12] 1398 	jr	NC, 00148$
+    0000064C F8 0B            [12] 1399 	ldhl	sp,	#11
+    0000064E 77               [ 8] 1400 	ld	(hl), a
+    0000064F 3A               [ 8] 1401 	ld	a, (hl-)
+    00000650 22               [ 8] 1402 	ld	(hl+), a
+    00000651 AF               [ 4] 1403 	xor	a, a
+    00000652 32               [ 8] 1404 	ld	(hl-), a
+    00000653 2A               [ 8] 1405 	ld	a, (hl+)
+    00000654 5F               [ 4] 1406 	ld	e, a
+    00000655 56               [ 8] 1407 	ld	d, (hl)
+    00000656 21r00r00         [12] 1408 	ld	hl, #_tile_hit_y
+    00000659 2A               [ 8] 1409 	ld	a,	(hl+)
+    0000065A 66               [ 8] 1410 	ld	h, (hl)
+    0000065B 6F               [ 4] 1411 	ld	l, a
+    0000065C 19               [ 8] 1412 	add	hl, de
+    0000065D E5               [16] 1413 	push	hl
+    0000065E 7D               [ 4] 1414 	ld	a, l
+    0000065F F8 08            [12] 1415 	ldhl	sp,	#8
+    00000661 77               [ 8] 1416 	ld	(hl), a
+    00000662 E1               [12] 1417 	pop	hl
+    00000663 7C               [ 4] 1418 	ld	a, h
+    00000664 F8 07            [12] 1419 	ldhl	sp,	#7
+    00000666 77               [ 8] 1420 	ld	(hl), a
+    00000667 F8 0E            [12] 1421 	ldhl	sp,	#14
+    00000669 7E               [ 8] 1422 	ld	a, (hl)
+    0000066A F8 0B            [12] 1423 	ldhl	sp,	#11
+    0000066C 77               [ 8] 1424 	ld	(hl), a
+    0000066D F8 08            [12] 1425 	ldhl	sp,	#8
+    0000066F 22               [ 8] 1426 	ld	(hl+), a
+    00000670 AF               [ 4] 1427 	xor	a, a
+    00000671 32               [ 8] 1428 	ld	(hl-), a
+    00000672 2A               [ 8] 1429 	ld	a, (hl+)
+    00000673 5F               [ 4] 1430 	ld	e, a
+    00000674 56               [ 8] 1431 	ld	d, (hl)
+    00000675 F8 04            [12] 1432 	ldhl	sp,	#4
+    00000677 2A               [ 8] 1433 	ld	a,	(hl+)
+    00000678 66               [ 8] 1434 	ld	h, (hl)
+    00000679 6F               [ 4] 1435 	ld	l, a
+    0000067A 19               [ 8] 1436 	add	hl, de
+    0000067B E5               [16] 1437 	push	hl
+    0000067C 7D               [ 4] 1438 	ld	a, l
+    0000067D F8 0C            [12] 1439 	ldhl	sp,	#12
+    0000067F 77               [ 8] 1440 	ld	(hl), a
+    00000680 E1               [12] 1441 	pop	hl
+    00000681 7C               [ 4] 1442 	ld	a, h
+    00000682 F8 0B            [12] 1443 	ldhl	sp,	#11
+    00000684 77               [ 8] 1444 	ld	(hl), a
+    00000685 AF               [ 4] 1445 	xor	a, a
+    00000686 F5               [16] 1446 	push	af
+    00000687 33               [ 8] 1447 	inc	sp
+    00000688 F8 07            [12] 1448 	ldhl	sp,	#7
+    0000068A 2A               [ 8] 1449 	ld	a, (hl+)
+    0000068B 4F               [ 4] 1450 	ld	c, a
+    0000068C 46               [ 8] 1451 	ld	b, (hl)
+    0000068D F8 0B            [12] 1452 	ldhl	sp,	#11
+    0000068F 2A               [ 8] 1453 	ld	a, (hl+)
+    00000690 5F               [ 4] 1454 	ld	e, a
+    00000691 56               [ 8] 1455 	ld	d, (hl)
+    00000692 CDr00r00         [24] 1456 	call	_UpdateDynaTile
+                                   1457 ;SpritePlayer.c:243: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000695 F8 0F            [12] 1458 	ldhl	sp,	#15
+    00000697 34               [12] 1459 	inc	(hl)
+    00000698 18 AB            [12] 1460 	jr	00144$
+    0000069A                       1461 00148$:
+                                   1462 ;SpritePlayer.c:242: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    0000069A F8 0E            [12] 1463 	ldhl	sp,	#14
+    0000069C 34               [12] 1464 	inc	(hl)
+    0000069D 18 9B            [12] 1465 	jr	00147$
+                                   1466 ;SpritePlayer.c:249: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    0000069F                       1467 00231$:
+    0000069F F8 0E            [12] 1468 	ldhl	sp,	#14
+    000006A1 36 00            [12] 1469 	ld	(hl), #0x00
+    000006A3                       1470 00153$:
+    000006A3 F8 0E            [12] 1471 	ldhl	sp,	#14
+    000006A5 7E               [ 8] 1472 	ld	a, (hl)
+    000006A6 D6 02            [ 8] 1473 	sub	a, #0x02
+    000006A8 D2r76r0A         [16] 1474 	jp	NC, 00140$
+                                   1475 ;SpritePlayer.c:250: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    000006AB 23               [ 8] 1476 	inc	hl
+    000006AC 36 00            [12] 1477 	ld	(hl), #0x00
+    000006AE                       1478 00150$:
+    000006AE F8 0F            [12] 1479 	ldhl	sp,	#15
+    000006B0 7E               [ 8] 1480 	ld	a, (hl)
+    000006B1 D6 02            [ 8] 1481 	sub	a, #0x02
+    000006B3 30 26            [12] 1482 	jr	NC, 00154$
+                                   1483 ;SpritePlayer.c:251: UpdateDynaTile(tile_x + offset_x, tile_hit_y + offset_y - 1, 0);
+    000006B5 4E               [ 8] 1484 	ld	c, (hl)
+    000006B6 06 00            [ 8] 1485 	ld	b, #0x00
+    000006B8 79               [ 4] 1486 	ld	a, c
+    000006B9 21r00r00         [12] 1487 	ld	hl, #_tile_hit_y
+    000006BC 86               [ 8] 1488 	add	a, (hl)
+    000006BD 23               [ 8] 1489 	inc	hl
+    000006BE 4F               [ 4] 1490 	ld	c, a
+    000006BF 78               [ 4] 1491 	ld	a, b
+    000006C0 8E               [ 8] 1492 	adc	a, (hl)
+    000006C1 47               [ 4] 1493 	ld	b, a
+    000006C2 0B               [ 8] 1494 	dec	bc
+    000006C3 F8 0E            [12] 1495 	ldhl	sp,	#14
+    000006C5 5E               [ 8] 1496 	ld	e, (hl)
+    000006C6 16 00            [ 8] 1497 	ld	d, #0x00
+    000006C8 F8 04            [12] 1498 	ldhl	sp,	#4
+    000006CA 2A               [ 8] 1499 	ld	a,	(hl+)
+    000006CB 66               [ 8] 1500 	ld	h, (hl)
+    000006CC 6F               [ 4] 1501 	ld	l, a
+    000006CD 19               [ 8] 1502 	add	hl, de
+    000006CE 5D               [ 4] 1503 	ld	e, l
+    000006CF 54               [ 4] 1504 	ld	d, h
+    000006D0 AF               [ 4] 1505 	xor	a, a
+    000006D1 F5               [16] 1506 	push	af
+    000006D2 33               [ 8] 1507 	inc	sp
+    000006D3 CDr00r00         [24] 1508 	call	_UpdateDynaTile
+                                   1509 ;SpritePlayer.c:250: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    000006D6 F8 0F            [12] 1510 	ldhl	sp,	#15
+    000006D8 34               [12] 1511 	inc	(hl)
+    000006D9 18 D3            [12] 1512 	jr	00150$
+    000006DB                       1513 00154$:
+                                   1514 ;SpritePlayer.c:249: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    000006DB F8 0E            [12] 1515 	ldhl	sp,	#14
+    000006DD 34               [12] 1516 	inc	(hl)
+    000006DE 18 C3            [12] 1517 	jr	00153$
+                                   1518 ;SpritePlayer.c:256: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    000006E0                       1519 00235$:
+    000006E0 F8 0E            [12] 1520 	ldhl	sp,	#14
+    000006E2 36 00            [12] 1521 	ld	(hl), #0x00
+    000006E4                       1522 00159$:
+    000006E4 F8 0E            [12] 1523 	ldhl	sp,	#14
+    000006E6 7E               [ 8] 1524 	ld	a, (hl)
+    000006E7 D6 02            [ 8] 1525 	sub	a, #0x02
+    000006E9 D2r76r0A         [16] 1526 	jp	NC, 00140$
+                                   1527 ;SpritePlayer.c:257: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    000006EC 23               [ 8] 1528 	inc	hl
+    000006ED 36 00            [12] 1529 	ld	(hl), #0x00
+    000006EF                       1530 00156$:
+    000006EF F8 0F            [12] 1531 	ldhl	sp,	#15
+                                   1532 ;SpritePlayer.c:258: UpdateDynaTile(tile_x - offset_x, tile_hit_y + offset_y, 0);
+    000006F1 7E               [ 8] 1533 	ld	a,(hl)
+    000006F2 FE 02            [ 8] 1534 	cp	a,#0x02
+    000006F4 30 42            [12] 1535 	jr	NC, 00160$
+    000006F6 F8 0B            [12] 1536 	ldhl	sp,	#11
+    000006F8 77               [ 8] 1537 	ld	(hl), a
+    000006F9 3A               [ 8] 1538 	ld	a, (hl-)
+    000006FA 22               [ 8] 1539 	ld	(hl+), a
+    000006FB AF               [ 4] 1540 	xor	a, a
+    000006FC 32               [ 8] 1541 	ld	(hl-), a
+    000006FD 2A               [ 8] 1542 	ld	a, (hl+)
+    000006FE 5F               [ 4] 1543 	ld	e, a
+    000006FF 56               [ 8] 1544 	ld	d, (hl)
+    00000700 21r00r00         [12] 1545 	ld	hl, #_tile_hit_y
+    00000703 2A               [ 8] 1546 	ld	a,	(hl+)
+    00000704 66               [ 8] 1547 	ld	h, (hl)
+    00000705 6F               [ 4] 1548 	ld	l, a
+    00000706 19               [ 8] 1549 	add	hl, de
+    00000707 E5               [16] 1550 	push	hl
+    00000708 7D               [ 4] 1551 	ld	a, l
+    00000709 F8 0A            [12] 1552 	ldhl	sp,	#10
+    0000070B 77               [ 8] 1553 	ld	(hl), a
+    0000070C E1               [12] 1554 	pop	hl
+    0000070D 7C               [ 4] 1555 	ld	a, h
+    0000070E F8 09            [12] 1556 	ldhl	sp,	#9
+    00000710 77               [ 8] 1557 	ld	(hl), a
+    00000711 F8 0E            [12] 1558 	ldhl	sp,	#14
+    00000713 4E               [ 8] 1559 	ld	c, (hl)
+    00000714 06 00            [ 8] 1560 	ld	b, #0x00
+    00000716 F8 04            [12] 1561 	ldhl	sp,#4
+    00000718 2A               [ 8] 1562 	ld	a, (hl+)
+    00000719 5F               [ 4] 1563 	ld	e, a
+    0000071A 56               [ 8] 1564 	ld	d, (hl)
+    0000071B 7B               [ 4] 1565 	ld	a, e
+    0000071C 91               [ 4] 1566 	sub	a, c
+    0000071D 5F               [ 4] 1567 	ld	e, a
+    0000071E 7A               [ 4] 1568 	ld	a, d
+    0000071F 98               [ 4] 1569 	sbc	a, b
+    00000720 F8 0B            [12] 1570 	ldhl	sp,	#11
+    00000722 32               [ 8] 1571 	ld	(hl-), a
+    00000723 7B               [ 4] 1572 	ld	a, e
+    00000724 32               [ 8] 1573 	ld	(hl-), a
+    00000725 2B               [ 8] 1574 	dec	hl
+    00000726 AF               [ 4] 1575 	xor	a, a
+    00000727 F5               [16] 1576 	push	af
+    00000728 33               [ 8] 1577 	inc	sp
+    00000729 2A               [ 8] 1578 	ld	a, (hl+)
+    0000072A 4F               [ 4] 1579 	ld	c, a
+    0000072B 2A               [ 8] 1580 	ld	a, (hl+)
+    0000072C 47               [ 4] 1581 	ld	b, a
+    0000072D 2A               [ 8] 1582 	ld	a, (hl+)
+    0000072E 5F               [ 4] 1583 	ld	e, a
+    0000072F 56               [ 8] 1584 	ld	d, (hl)
+    00000730 CDr00r00         [24] 1585 	call	_UpdateDynaTile
+                                   1586 ;SpritePlayer.c:257: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000733 F8 0F            [12] 1587 	ldhl	sp,	#15
+    00000735 34               [12] 1588 	inc	(hl)
+    00000736 18 B7            [12] 1589 	jr	00156$
+    00000738                       1590 00160$:
+                                   1591 ;SpritePlayer.c:256: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    00000738 F8 0E            [12] 1592 	ldhl	sp,	#14
+    0000073A 34               [12] 1593 	inc	(hl)
+    0000073B 18 A7            [12] 1594 	jr	00159$
+                                   1595 ;SpritePlayer.c:263: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    0000073D                       1596 00239$:
+    0000073D F8 0E            [12] 1597 	ldhl	sp,	#14
+    0000073F 36 00            [12] 1598 	ld	(hl), #0x00
+    00000741                       1599 00165$:
+    00000741 F8 0E            [12] 1600 	ldhl	sp,	#14
+    00000743 7E               [ 8] 1601 	ld	a, (hl)
+    00000744 D6 02            [ 8] 1602 	sub	a, #0x02
+    00000746 D2r76r0A         [16] 1603 	jp	NC, 00140$
+                                   1604 ;SpritePlayer.c:264: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000749 23               [ 8] 1605 	inc	hl
+    0000074A 36 00            [12] 1606 	ld	(hl), #0x00
+    0000074C                       1607 00162$:
+    0000074C F8 0F            [12] 1608 	ldhl	sp,	#15
+                                   1609 ;SpritePlayer.c:265: UpdateDynaTile(tile_x - offset_x, tile_hit_y + offset_y - 1, 0);
+    0000074E 7E               [ 8] 1610 	ld	a,(hl)
+    0000074F FE 02            [ 8] 1611 	cp	a,#0x02
+    00000751 30 49            [12] 1612 	jr	NC, 00166$
+    00000753 F8 0B            [12] 1613 	ldhl	sp,	#11
+    00000755 77               [ 8] 1614 	ld	(hl), a
+    00000756 F8 08            [12] 1615 	ldhl	sp,	#8
+    00000758 22               [ 8] 1616 	ld	(hl+), a
+    00000759 AF               [ 4] 1617 	xor	a, a
+    0000075A 32               [ 8] 1618 	ld	(hl-), a
+    0000075B 2A               [ 8] 1619 	ld	a, (hl+)
+    0000075C 5F               [ 4] 1620 	ld	e, a
+    0000075D 56               [ 8] 1621 	ld	d, (hl)
+    0000075E 21r00r00         [12] 1622 	ld	hl, #_tile_hit_y
+    00000761 2A               [ 8] 1623 	ld	a,	(hl+)
+    00000762 66               [ 8] 1624 	ld	h, (hl)
+    00000763 6F               [ 4] 1625 	ld	l, a
+    00000764 19               [ 8] 1626 	add	hl, de
+    00000765 E5               [16] 1627 	push	hl
+    00000766 7D               [ 4] 1628 	ld	a, l
+    00000767 F8 0C            [12] 1629 	ldhl	sp,	#12
+    00000769 77               [ 8] 1630 	ld	(hl), a
+    0000076A E1               [12] 1631 	pop	hl
+    0000076B 7C               [ 4] 1632 	ld	a, h
+    0000076C F8 0B            [12] 1633 	ldhl	sp,	#11
+    0000076E 32               [ 8] 1634 	ld	(hl-), a
+    0000076F 2A               [ 8] 1635 	ld	a, (hl+)
+    00000770 4F               [ 4] 1636 	ld	c, a
+    00000771 46               [ 8] 1637 	ld	b, (hl)
+    00000772 0B               [ 8] 1638 	dec	bc
+    00000773 F8 0E            [12] 1639 	ldhl	sp,	#14
+    00000775 7E               [ 8] 1640 	ld	a, (hl)
+    00000776 F8 08            [12] 1641 	ldhl	sp,	#8
+    00000778 22               [ 8] 1642 	ld	(hl+), a
+    00000779 36 00            [12] 1643 	ld	(hl), #0x00
+    0000077B F8 04            [12] 1644 	ldhl	sp,#4
+    0000077D 2A               [ 8] 1645 	ld	a, (hl+)
+    0000077E 5F               [ 4] 1646 	ld	e, a
+    0000077F 56               [ 8] 1647 	ld	d, (hl)
+    00000780 F8 08            [12] 1648 	ldhl	sp,	#8
+    00000782 2A               [ 8] 1649 	ld	a,	(hl+)
+    00000783 66               [ 8] 1650 	ld	h, (hl)
+    00000784 6F               [ 4] 1651 	ld	l, a
+    00000785 7B               [ 4] 1652 	ld	a, e
+    00000786 95               [ 4] 1653 	sub	a, l
+    00000787 5F               [ 4] 1654 	ld	e, a
+    00000788 7A               [ 4] 1655 	ld	a, d
+    00000789 9C               [ 4] 1656 	sbc	a, h
+    0000078A F8 0B            [12] 1657 	ldhl	sp,	#11
+    0000078C 32               [ 8] 1658 	ld	(hl-), a
+    0000078D 73               [ 8] 1659 	ld	(hl), e
+    0000078E AF               [ 4] 1660 	xor	a, a
+    0000078F F5               [16] 1661 	push	af
+    00000790 33               [ 8] 1662 	inc	sp
+    00000791 2A               [ 8] 1663 	ld	a, (hl+)
+    00000792 5F               [ 4] 1664 	ld	e, a
+    00000793 56               [ 8] 1665 	ld	d, (hl)
+    00000794 CDr00r00         [24] 1666 	call	_UpdateDynaTile
+                                   1667 ;SpritePlayer.c:264: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000797 F8 0F            [12] 1668 	ldhl	sp,	#15
+    00000799 34               [12] 1669 	inc	(hl)
+    0000079A 18 B0            [12] 1670 	jr	00162$
+    0000079C                       1671 00166$:
+                                   1672 ;SpritePlayer.c:263: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    0000079C F8 0E            [12] 1673 	ldhl	sp,	#14
+    0000079E 34               [12] 1674 	inc	(hl)
+    0000079F 18 A0            [12] 1675 	jr	00165$
+                                   1676 ;SpritePlayer.c:270: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    000007A1                       1677 00243$:
+    000007A1 F8 0E            [12] 1678 	ldhl	sp,	#14
+    000007A3 36 00            [12] 1679 	ld	(hl), #0x00
+    000007A5                       1680 00171$:
+    000007A5 F8 0E            [12] 1681 	ldhl	sp,	#14
+    000007A7 7E               [ 8] 1682 	ld	a, (hl)
+    000007A8 D6 04            [ 8] 1683 	sub	a, #0x04
+    000007AA D2r76r0A         [16] 1684 	jp	NC, 00140$
+                                   1685 ;SpritePlayer.c:271: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    000007AD 23               [ 8] 1686 	inc	hl
+    000007AE 36 00            [12] 1687 	ld	(hl), #0x00
+    000007B0                       1688 00168$:
+    000007B0 F8 0F            [12] 1689 	ldhl	sp,	#15
+                                   1690 ;SpritePlayer.c:272: UpdateDynaTile(tile_x + offset_x, tile_hit_y + offset_y, 0);
+    000007B2 7E               [ 8] 1691 	ld	a,(hl)
+    000007B3 FE 04            [ 8] 1692 	cp	a,#0x04
+    000007B5 30 39            [12] 1693 	jr	NC, 00172$
+    000007B7 F8 0B            [12] 1694 	ldhl	sp,	#11
+    000007B9 77               [ 8] 1695 	ld	(hl), a
+    000007BA F8 08            [12] 1696 	ldhl	sp,	#8
+    000007BC 22               [ 8] 1697 	ld	(hl+), a
+    000007BD AF               [ 4] 1698 	xor	a, a
+    000007BE 32               [ 8] 1699 	ld	(hl-), a
+    000007BF 2A               [ 8] 1700 	ld	a, (hl+)
+    000007C0 5F               [ 4] 1701 	ld	e, a
+    000007C1 56               [ 8] 1702 	ld	d, (hl)
+    000007C2 21r00r00         [12] 1703 	ld	hl, #_tile_hit_y
+    000007C5 2A               [ 8] 1704 	ld	a,	(hl+)
+    000007C6 66               [ 8] 1705 	ld	h, (hl)
+    000007C7 6F               [ 4] 1706 	ld	l, a
+    000007C8 19               [ 8] 1707 	add	hl, de
+    000007C9 E5               [16] 1708 	push	hl
+    000007CA 7D               [ 4] 1709 	ld	a, l
+    000007CB F8 0C            [12] 1710 	ldhl	sp,	#12
+    000007CD 77               [ 8] 1711 	ld	(hl), a
+    000007CE E1               [12] 1712 	pop	hl
+    000007CF 7C               [ 4] 1713 	ld	a, h
+    000007D0 F8 0B            [12] 1714 	ldhl	sp,	#11
+    000007D2 77               [ 8] 1715 	ld	(hl), a
+    000007D3 F8 0E            [12] 1716 	ldhl	sp,	#14
+    000007D5 4E               [ 8] 1717 	ld	c, (hl)
+    000007D6 06 00            [ 8] 1718 	ld	b, #0x00
+    000007D8 F8 04            [12] 1719 	ldhl	sp,	#4
+    000007DA 2A               [ 8] 1720 	ld	a,	(hl+)
+    000007DB 66               [ 8] 1721 	ld	h, (hl)
+    000007DC 6F               [ 4] 1722 	ld	l, a
+    000007DD 09               [ 8] 1723 	add	hl, bc
+    000007DE 5D               [ 4] 1724 	ld	e, l
+    000007DF 54               [ 4] 1725 	ld	d, h
+    000007E0 AF               [ 4] 1726 	xor	a, a
+    000007E1 F5               [16] 1727 	push	af
+    000007E2 33               [ 8] 1728 	inc	sp
+    000007E3 F8 0B            [12] 1729 	ldhl	sp,	#11
+    000007E5 2A               [ 8] 1730 	ld	a, (hl+)
+    000007E6 4F               [ 4] 1731 	ld	c, a
+    000007E7 46               [ 8] 1732 	ld	b, (hl)
+    000007E8 CDr00r00         [24] 1733 	call	_UpdateDynaTile
+                                   1734 ;SpritePlayer.c:271: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    000007EB F8 0F            [12] 1735 	ldhl	sp,	#15
+    000007ED 34               [12] 1736 	inc	(hl)
+    000007EE 18 C0            [12] 1737 	jr	00168$
+    000007F0                       1738 00172$:
+                                   1739 ;SpritePlayer.c:270: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    000007F0 F8 0E            [12] 1740 	ldhl	sp,	#14
+    000007F2 34               [12] 1741 	inc	(hl)
+    000007F3 18 B0            [12] 1742 	jr	00171$
+                                   1743 ;SpritePlayer.c:277: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    000007F5                       1744 00247$:
+    000007F5 F8 0E            [12] 1745 	ldhl	sp,	#14
+    000007F7 36 00            [12] 1746 	ld	(hl), #0x00
+    000007F9                       1747 00177$:
+    000007F9 F8 0E            [12] 1748 	ldhl	sp,	#14
+    000007FB 7E               [ 8] 1749 	ld	a, (hl)
+    000007FC D6 04            [ 8] 1750 	sub	a, #0x04
+    000007FE D2r76r0A         [16] 1751 	jp	NC, 00140$
+                                   1752 ;SpritePlayer.c:278: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    00000801 23               [ 8] 1753 	inc	hl
+    00000802 36 00            [12] 1754 	ld	(hl), #0x00
+    00000804                       1755 00174$:
+    00000804 F8 0F            [12] 1756 	ldhl	sp,	#15
+                                   1757 ;SpritePlayer.c:279: UpdateDynaTile(tile_x + offset_x, tile_hit_y + offset_y - 1, 0);
+    00000806 7E               [ 8] 1758 	ld	a,(hl)
+    00000807 FE 04            [ 8] 1759 	cp	a,#0x04
+    00000809 30 38            [12] 1760 	jr	NC, 00178$
+    0000080B F8 0B            [12] 1761 	ldhl	sp,	#11
+    0000080D 77               [ 8] 1762 	ld	(hl), a
+    0000080E F8 08            [12] 1763 	ldhl	sp,	#8
+    00000810 22               [ 8] 1764 	ld	(hl+), a
+    00000811 AF               [ 4] 1765 	xor	a, a
+    00000812 32               [ 8] 1766 	ld	(hl-), a
+    00000813 2A               [ 8] 1767 	ld	a, (hl+)
+    00000814 5F               [ 4] 1768 	ld	e, a
+    00000815 56               [ 8] 1769 	ld	d, (hl)
+    00000816 21r00r00         [12] 1770 	ld	hl, #_tile_hit_y
+    00000819 2A               [ 8] 1771 	ld	a,	(hl+)
+    0000081A 66               [ 8] 1772 	ld	h, (hl)
+    0000081B 6F               [ 4] 1773 	ld	l, a
+    0000081C 19               [ 8] 1774 	add	hl, de
+    0000081D E5               [16] 1775 	push	hl
+    0000081E 7D               [ 4] 1776 	ld	a, l
+    0000081F F8 0C            [12] 1777 	ldhl	sp,	#12
+    00000821 77               [ 8] 1778 	ld	(hl), a
+    00000822 E1               [12] 1779 	pop	hl
+    00000823 7C               [ 4] 1780 	ld	a, h
+    00000824 F8 0B            [12] 1781 	ldhl	sp,	#11
+    00000826 32               [ 8] 1782 	ld	(hl-), a
+    00000827 2A               [ 8] 1783 	ld	a, (hl+)
+    00000828 4F               [ 4] 1784 	ld	c, a
+    00000829 46               [ 8] 1785 	ld	b, (hl)
+    0000082A 0B               [ 8] 1786 	dec	bc
+    0000082B F8 0E            [12] 1787 	ldhl	sp,	#14
+    0000082D 5E               [ 8] 1788 	ld	e, (hl)
+    0000082E 16 00            [ 8] 1789 	ld	d, #0x00
+    00000830 F8 04            [12] 1790 	ldhl	sp,	#4
+    00000832 2A               [ 8] 1791 	ld	a,	(hl+)
+    00000833 66               [ 8] 1792 	ld	h, (hl)
+    00000834 6F               [ 4] 1793 	ld	l, a
+    00000835 19               [ 8] 1794 	add	hl, de
+    00000836 5D               [ 4] 1795 	ld	e, l
+    00000837 54               [ 4] 1796 	ld	d, h
+    00000838 AF               [ 4] 1797 	xor	a, a
+    00000839 F5               [16] 1798 	push	af
+    0000083A 33               [ 8] 1799 	inc	sp
+    0000083B CDr00r00         [24] 1800 	call	_UpdateDynaTile
+                                   1801 ;SpritePlayer.c:278: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    0000083E F8 0F            [12] 1802 	ldhl	sp,	#15
+    00000840 34               [12] 1803 	inc	(hl)
+    00000841 18 C1            [12] 1804 	jr	00174$
+    00000843                       1805 00178$:
+                                   1806 ;SpritePlayer.c:277: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    00000843 F8 0E            [12] 1807 	ldhl	sp,	#14
+    00000845 34               [12] 1808 	inc	(hl)
+    00000846 18 B1            [12] 1809 	jr	00177$
+                                   1810 ;SpritePlayer.c:284: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    00000848                       1811 00251$:
+    00000848 F8 0E            [12] 1812 	ldhl	sp,	#14
+    0000084A 36 00            [12] 1813 	ld	(hl), #0x00
+    0000084C                       1814 00183$:
+    0000084C F8 0E            [12] 1815 	ldhl	sp,	#14
+    0000084E 7E               [ 8] 1816 	ld	a, (hl)
+    0000084F D6 04            [ 8] 1817 	sub	a, #0x04
+    00000851 D2r76r0A         [16] 1818 	jp	NC, 00140$
+                                   1819 ;SpritePlayer.c:285: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    00000854 23               [ 8] 1820 	inc	hl
+    00000855 36 00            [12] 1821 	ld	(hl), #0x00
+    00000857                       1822 00180$:
+    00000857 F8 0F            [12] 1823 	ldhl	sp,	#15
+                                   1824 ;SpritePlayer.c:286: UpdateDynaTile(tile_x + offset_x, tile_hit_y + offset_y - 2, 0);
+    00000859 7E               [ 8] 1825 	ld	a,(hl)
+    0000085A FE 04            [ 8] 1826 	cp	a,#0x04
+    0000085C 30 39            [12] 1827 	jr	NC, 00184$
+    0000085E F8 0B            [12] 1828 	ldhl	sp,	#11
+    00000860 77               [ 8] 1829 	ld	(hl), a
+    00000861 F8 08            [12] 1830 	ldhl	sp,	#8
+    00000863 22               [ 8] 1831 	ld	(hl+), a
+    00000864 AF               [ 4] 1832 	xor	a, a
+    00000865 32               [ 8] 1833 	ld	(hl-), a
+    00000866 2A               [ 8] 1834 	ld	a, (hl+)
+    00000867 5F               [ 4] 1835 	ld	e, a
+    00000868 56               [ 8] 1836 	ld	d, (hl)
+    00000869 21r00r00         [12] 1837 	ld	hl, #_tile_hit_y
+    0000086C 2A               [ 8] 1838 	ld	a,	(hl+)
+    0000086D 66               [ 8] 1839 	ld	h, (hl)
+    0000086E 6F               [ 4] 1840 	ld	l, a
+    0000086F 19               [ 8] 1841 	add	hl, de
+    00000870 E5               [16] 1842 	push	hl
+    00000871 7D               [ 4] 1843 	ld	a, l
+    00000872 F8 0C            [12] 1844 	ldhl	sp,	#12
+    00000874 77               [ 8] 1845 	ld	(hl), a
+    00000875 E1               [12] 1846 	pop	hl
+    00000876 7C               [ 4] 1847 	ld	a, h
+    00000877 F8 0B            [12] 1848 	ldhl	sp,	#11
+    00000879 32               [ 8] 1849 	ld	(hl-), a
+    0000087A 2A               [ 8] 1850 	ld	a, (hl+)
+    0000087B 4F               [ 4] 1851 	ld	c, a
+    0000087C 46               [ 8] 1852 	ld	b, (hl)
+    0000087D 0B               [ 8] 1853 	dec	bc
+    0000087E 0B               [ 8] 1854 	dec	bc
+    0000087F F8 0E            [12] 1855 	ldhl	sp,	#14
+    00000881 5E               [ 8] 1856 	ld	e, (hl)
+    00000882 16 00            [ 8] 1857 	ld	d, #0x00
+    00000884 F8 04            [12] 1858 	ldhl	sp,	#4
+    00000886 2A               [ 8] 1859 	ld	a,	(hl+)
+    00000887 66               [ 8] 1860 	ld	h, (hl)
+    00000888 6F               [ 4] 1861 	ld	l, a
+    00000889 19               [ 8] 1862 	add	hl, de
+    0000088A 5D               [ 4] 1863 	ld	e, l
+    0000088B 54               [ 4] 1864 	ld	d, h
+    0000088C AF               [ 4] 1865 	xor	a, a
+    0000088D F5               [16] 1866 	push	af
+    0000088E 33               [ 8] 1867 	inc	sp
+    0000088F CDr00r00         [24] 1868 	call	_UpdateDynaTile
+                                   1869 ;SpritePlayer.c:285: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    00000892 F8 0F            [12] 1870 	ldhl	sp,	#15
+    00000894 34               [12] 1871 	inc	(hl)
+    00000895 18 C0            [12] 1872 	jr	00180$
+    00000897                       1873 00184$:
+                                   1874 ;SpritePlayer.c:284: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    00000897 F8 0E            [12] 1875 	ldhl	sp,	#14
+    00000899 34               [12] 1876 	inc	(hl)
+    0000089A 18 B0            [12] 1877 	jr	00183$
+                                   1878 ;SpritePlayer.c:291: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    0000089C                       1879 00255$:
+    0000089C F8 0E            [12] 1880 	ldhl	sp,	#14
+    0000089E 36 00            [12] 1881 	ld	(hl), #0x00
+    000008A0                       1882 00189$:
+    000008A0 F8 0E            [12] 1883 	ldhl	sp,	#14
+    000008A2 7E               [ 8] 1884 	ld	a, (hl)
+    000008A3 D6 04            [ 8] 1885 	sub	a, #0x04
+    000008A5 D2r76r0A         [16] 1886 	jp	NC, 00140$
+                                   1887 ;SpritePlayer.c:292: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    000008A8 23               [ 8] 1888 	inc	hl
+    000008A9 36 00            [12] 1889 	ld	(hl), #0x00
+    000008AB                       1890 00186$:
+    000008AB F8 0F            [12] 1891 	ldhl	sp,	#15
+                                   1892 ;SpritePlayer.c:293: UpdateDynaTile(tile_x + offset_x, tile_hit_y + offset_y - 3, 0);
+    000008AD 7E               [ 8] 1893 	ld	a,(hl)
+    000008AE FE 04            [ 8] 1894 	cp	a,#0x04
+    000008B0 30 41            [12] 1895 	jr	NC, 00190$
+    000008B2 F8 0B            [12] 1896 	ldhl	sp,	#11
+    000008B4 77               [ 8] 1897 	ld	(hl), a
+    000008B5 F8 08            [12] 1898 	ldhl	sp,	#8
+    000008B7 22               [ 8] 1899 	ld	(hl+), a
+    000008B8 AF               [ 4] 1900 	xor	a, a
+    000008B9 32               [ 8] 1901 	ld	(hl-), a
+    000008BA 2A               [ 8] 1902 	ld	a, (hl+)
+    000008BB 5F               [ 4] 1903 	ld	e, a
+    000008BC 56               [ 8] 1904 	ld	d, (hl)
+    000008BD 21r00r00         [12] 1905 	ld	hl, #_tile_hit_y
+    000008C0 2A               [ 8] 1906 	ld	a,	(hl+)
+    000008C1 66               [ 8] 1907 	ld	h, (hl)
+    000008C2 6F               [ 4] 1908 	ld	l, a
+    000008C3 19               [ 8] 1909 	add	hl, de
+    000008C4 E5               [16] 1910 	push	hl
+    000008C5 7D               [ 4] 1911 	ld	a, l
+    000008C6 F8 0C            [12] 1912 	ldhl	sp,	#12
+    000008C8 77               [ 8] 1913 	ld	(hl), a
+    000008C9 E1               [12] 1914 	pop	hl
+    000008CA 7C               [ 4] 1915 	ld	a, h
+    000008CB F8 0B            [12] 1916 	ldhl	sp,	#11
+    000008CD 32               [ 8] 1917 	ld	(hl-), a
+    000008CE 2A               [ 8] 1918 	ld	a, (hl+)
+    000008CF 5F               [ 4] 1919 	ld	e, a
+    000008D0 56               [ 8] 1920 	ld	d, (hl)
+    000008D1 21 03 00         [12] 1921 	ld	hl, #0x0003
+    000008D4 7B               [ 4] 1922 	ld	a, e
+    000008D5 95               [ 4] 1923 	sub	a, l
+    000008D6 5F               [ 4] 1924 	ld	e, a
+    000008D7 7A               [ 4] 1925 	ld	a, d
+    000008D8 9C               [ 4] 1926 	sbc	a, h
+    000008D9 47               [ 4] 1927 	ld	b, a
+    000008DA 4B               [ 4] 1928 	ld	c, e
+    000008DB F8 0E            [12] 1929 	ldhl	sp,	#14
+    000008DD 5E               [ 8] 1930 	ld	e, (hl)
+    000008DE 16 00            [ 8] 1931 	ld	d, #0x00
+    000008E0 F8 04            [12] 1932 	ldhl	sp,	#4
+    000008E2 2A               [ 8] 1933 	ld	a,	(hl+)
+    000008E3 66               [ 8] 1934 	ld	h, (hl)
+    000008E4 6F               [ 4] 1935 	ld	l, a
+    000008E5 19               [ 8] 1936 	add	hl, de
+    000008E6 5D               [ 4] 1937 	ld	e, l
+    000008E7 54               [ 4] 1938 	ld	d, h
+    000008E8 AF               [ 4] 1939 	xor	a, a
+    000008E9 F5               [16] 1940 	push	af
+    000008EA 33               [ 8] 1941 	inc	sp
+    000008EB CDr00r00         [24] 1942 	call	_UpdateDynaTile
+                                   1943 ;SpritePlayer.c:292: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    000008EE F8 0F            [12] 1944 	ldhl	sp,	#15
+    000008F0 34               [12] 1945 	inc	(hl)
+    000008F1 18 B8            [12] 1946 	jr	00186$
+    000008F3                       1947 00190$:
+                                   1948 ;SpritePlayer.c:291: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    000008F3 F8 0E            [12] 1949 	ldhl	sp,	#14
+    000008F5 34               [12] 1950 	inc	(hl)
+    000008F6 18 A8            [12] 1951 	jr	00189$
+                                   1952 ;SpritePlayer.c:298: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    000008F8                       1953 00259$:
+    000008F8 F8 0E            [12] 1954 	ldhl	sp,	#14
+    000008FA 36 00            [12] 1955 	ld	(hl), #0x00
+    000008FC                       1956 00195$:
+    000008FC F8 0E            [12] 1957 	ldhl	sp,	#14
+    000008FE 7E               [ 8] 1958 	ld	a, (hl)
+    000008FF D6 04            [ 8] 1959 	sub	a, #0x04
+    00000901 D2r76r0A         [16] 1960 	jp	NC, 00140$
+                                   1961 ;SpritePlayer.c:299: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    00000904 23               [ 8] 1962 	inc	hl
+    00000905 36 00            [12] 1963 	ld	(hl), #0x00
+    00000907                       1964 00192$:
+    00000907 F8 0F            [12] 1965 	ldhl	sp,	#15
+                                   1966 ;SpritePlayer.c:300: UpdateDynaTile(tile_x - offset_x, tile_hit_y + offset_y, 0);
+    00000909 7E               [ 8] 1967 	ld	a,(hl)
+    0000090A FE 04            [ 8] 1968 	cp	a,#0x04
+    0000090C 30 42            [12] 1969 	jr	NC, 00196$
+    0000090E F8 0B            [12] 1970 	ldhl	sp,	#11
+    00000910 77               [ 8] 1971 	ld	(hl), a
+    00000911 3A               [ 8] 1972 	ld	a, (hl-)
+    00000912 22               [ 8] 1973 	ld	(hl+), a
+    00000913 AF               [ 4] 1974 	xor	a, a
+    00000914 32               [ 8] 1975 	ld	(hl-), a
+    00000915 2A               [ 8] 1976 	ld	a, (hl+)
+    00000916 5F               [ 4] 1977 	ld	e, a
+    00000917 56               [ 8] 1978 	ld	d, (hl)
+    00000918 21r00r00         [12] 1979 	ld	hl, #_tile_hit_y
+    0000091B 2A               [ 8] 1980 	ld	a,	(hl+)
+    0000091C 66               [ 8] 1981 	ld	h, (hl)
+    0000091D 6F               [ 4] 1982 	ld	l, a
+    0000091E 19               [ 8] 1983 	add	hl, de
+    0000091F E5               [16] 1984 	push	hl
+    00000920 7D               [ 4] 1985 	ld	a, l
+    00000921 F8 0A            [12] 1986 	ldhl	sp,	#10
+    00000923 77               [ 8] 1987 	ld	(hl), a
+    00000924 E1               [12] 1988 	pop	hl
+    00000925 7C               [ 4] 1989 	ld	a, h
+    00000926 F8 09            [12] 1990 	ldhl	sp,	#9
+    00000928 77               [ 8] 1991 	ld	(hl), a
+    00000929 F8 0E            [12] 1992 	ldhl	sp,	#14
+    0000092B 4E               [ 8] 1993 	ld	c, (hl)
+    0000092C 06 00            [ 8] 1994 	ld	b, #0x00
+    0000092E F8 04            [12] 1995 	ldhl	sp,#4
+    00000930 2A               [ 8] 1996 	ld	a, (hl+)
+    00000931 5F               [ 4] 1997 	ld	e, a
+    00000932 56               [ 8] 1998 	ld	d, (hl)
+    00000933 7B               [ 4] 1999 	ld	a, e
+    00000934 91               [ 4] 2000 	sub	a, c
+    00000935 5F               [ 4] 2001 	ld	e, a
+    00000936 7A               [ 4] 2002 	ld	a, d
+    00000937 98               [ 4] 2003 	sbc	a, b
+    00000938 F8 0B            [12] 2004 	ldhl	sp,	#11
+    0000093A 32               [ 8] 2005 	ld	(hl-), a
+    0000093B 7B               [ 4] 2006 	ld	a, e
+    0000093C 32               [ 8] 2007 	ld	(hl-), a
+    0000093D 2B               [ 8] 2008 	dec	hl
+    0000093E AF               [ 4] 2009 	xor	a, a
+    0000093F F5               [16] 2010 	push	af
+    00000940 33               [ 8] 2011 	inc	sp
+    00000941 2A               [ 8] 2012 	ld	a, (hl+)
+    00000942 4F               [ 4] 2013 	ld	c, a
+    00000943 2A               [ 8] 2014 	ld	a, (hl+)
+    00000944 47               [ 4] 2015 	ld	b, a
+    00000945 2A               [ 8] 2016 	ld	a, (hl+)
+    00000946 5F               [ 4] 2017 	ld	e, a
+    00000947 56               [ 8] 2018 	ld	d, (hl)
+    00000948 CDr00r00         [24] 2019 	call	_UpdateDynaTile
+                                   2020 ;SpritePlayer.c:299: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    0000094B F8 0F            [12] 2021 	ldhl	sp,	#15
+    0000094D 34               [12] 2022 	inc	(hl)
+    0000094E 18 B7            [12] 2023 	jr	00192$
+    00000950                       2024 00196$:
+                                   2025 ;SpritePlayer.c:298: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    00000950 F8 0E            [12] 2026 	ldhl	sp,	#14
+    00000952 34               [12] 2027 	inc	(hl)
+    00000953 18 A7            [12] 2028 	jr	00195$
+                                   2029 ;SpritePlayer.c:305: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    00000955                       2030 00263$:
+    00000955 F8 0E            [12] 2031 	ldhl	sp,	#14
+    00000957 36 00            [12] 2032 	ld	(hl), #0x00
+    00000959                       2033 00201$:
+    00000959 F8 0E            [12] 2034 	ldhl	sp,	#14
+    0000095B 7E               [ 8] 2035 	ld	a, (hl)
+    0000095C D6 04            [ 8] 2036 	sub	a, #0x04
+    0000095E D2r76r0A         [16] 2037 	jp	NC, 00140$
+                                   2038 ;SpritePlayer.c:306: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    00000961 23               [ 8] 2039 	inc	hl
+    00000962 36 00            [12] 2040 	ld	(hl), #0x00
+    00000964                       2041 00198$:
+    00000964 F8 0F            [12] 2042 	ldhl	sp,	#15
+                                   2043 ;SpritePlayer.c:307: UpdateDynaTile(tile_x - offset_x, tile_hit_y + offset_y - 1, 0);
+    00000966 7E               [ 8] 2044 	ld	a,(hl)
+    00000967 FE 04            [ 8] 2045 	cp	a,#0x04
+    00000969 30 49            [12] 2046 	jr	NC, 00202$
+    0000096B F8 0B            [12] 2047 	ldhl	sp,	#11
+    0000096D 77               [ 8] 2048 	ld	(hl), a
+    0000096E F8 08            [12] 2049 	ldhl	sp,	#8
+    00000970 22               [ 8] 2050 	ld	(hl+), a
+    00000971 AF               [ 4] 2051 	xor	a, a
+    00000972 32               [ 8] 2052 	ld	(hl-), a
+    00000973 2A               [ 8] 2053 	ld	a, (hl+)
+    00000974 5F               [ 4] 2054 	ld	e, a
+    00000975 56               [ 8] 2055 	ld	d, (hl)
+    00000976 21r00r00         [12] 2056 	ld	hl, #_tile_hit_y
+    00000979 2A               [ 8] 2057 	ld	a,	(hl+)
+    0000097A 66               [ 8] 2058 	ld	h, (hl)
+    0000097B 6F               [ 4] 2059 	ld	l, a
+    0000097C 19               [ 8] 2060 	add	hl, de
+    0000097D E5               [16] 2061 	push	hl
+    0000097E 7D               [ 4] 2062 	ld	a, l
+    0000097F F8 0C            [12] 2063 	ldhl	sp,	#12
+    00000981 77               [ 8] 2064 	ld	(hl), a
+    00000982 E1               [12] 2065 	pop	hl
+    00000983 7C               [ 4] 2066 	ld	a, h
+    00000984 F8 0B            [12] 2067 	ldhl	sp,	#11
+    00000986 32               [ 8] 2068 	ld	(hl-), a
+    00000987 2A               [ 8] 2069 	ld	a, (hl+)
+    00000988 4F               [ 4] 2070 	ld	c, a
+    00000989 46               [ 8] 2071 	ld	b, (hl)
+    0000098A 0B               [ 8] 2072 	dec	bc
+    0000098B F8 0E            [12] 2073 	ldhl	sp,	#14
+    0000098D 7E               [ 8] 2074 	ld	a, (hl)
+    0000098E F8 08            [12] 2075 	ldhl	sp,	#8
+    00000990 22               [ 8] 2076 	ld	(hl+), a
+    00000991 36 00            [12] 2077 	ld	(hl), #0x00
+    00000993 F8 04            [12] 2078 	ldhl	sp,#4
+    00000995 2A               [ 8] 2079 	ld	a, (hl+)
+    00000996 5F               [ 4] 2080 	ld	e, a
+    00000997 56               [ 8] 2081 	ld	d, (hl)
+    00000998 F8 08            [12] 2082 	ldhl	sp,	#8
+    0000099A 2A               [ 8] 2083 	ld	a,	(hl+)
+    0000099B 66               [ 8] 2084 	ld	h, (hl)
+    0000099C 6F               [ 4] 2085 	ld	l, a
+    0000099D 7B               [ 4] 2086 	ld	a, e
+    0000099E 95               [ 4] 2087 	sub	a, l
+    0000099F 5F               [ 4] 2088 	ld	e, a
+    000009A0 7A               [ 4] 2089 	ld	a, d
+    000009A1 9C               [ 4] 2090 	sbc	a, h
+    000009A2 F8 0B            [12] 2091 	ldhl	sp,	#11
+    000009A4 32               [ 8] 2092 	ld	(hl-), a
+    000009A5 73               [ 8] 2093 	ld	(hl), e
+    000009A6 AF               [ 4] 2094 	xor	a, a
+    000009A7 F5               [16] 2095 	push	af
+    000009A8 33               [ 8] 2096 	inc	sp
+    000009A9 2A               [ 8] 2097 	ld	a, (hl+)
+    000009AA 5F               [ 4] 2098 	ld	e, a
+    000009AB 56               [ 8] 2099 	ld	d, (hl)
+    000009AC CDr00r00         [24] 2100 	call	_UpdateDynaTile
+                                   2101 ;SpritePlayer.c:306: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    000009AF F8 0F            [12] 2102 	ldhl	sp,	#15
+    000009B1 34               [12] 2103 	inc	(hl)
+    000009B2 18 B0            [12] 2104 	jr	00198$
+    000009B4                       2105 00202$:
+                                   2106 ;SpritePlayer.c:305: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    000009B4 F8 0E            [12] 2107 	ldhl	sp,	#14
+    000009B6 34               [12] 2108 	inc	(hl)
+    000009B7 18 A0            [12] 2109 	jr	00201$
+                                   2110 ;SpritePlayer.c:312: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    000009B9                       2111 00267$:
+    000009B9 F8 0E            [12] 2112 	ldhl	sp,	#14
+    000009BB 36 00            [12] 2113 	ld	(hl), #0x00
+    000009BD                       2114 00207$:
+    000009BD F8 0E            [12] 2115 	ldhl	sp,	#14
+    000009BF 7E               [ 8] 2116 	ld	a, (hl)
+    000009C0 D6 04            [ 8] 2117 	sub	a, #0x04
+    000009C2 D2r76r0A         [16] 2118 	jp	NC, 00140$
+                                   2119 ;SpritePlayer.c:313: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    000009C5 23               [ 8] 2120 	inc	hl
+    000009C6 36 00            [12] 2121 	ld	(hl), #0x00
+    000009C8                       2122 00204$:
+    000009C8 F8 0F            [12] 2123 	ldhl	sp,	#15
+                                   2124 ;SpritePlayer.c:314: UpdateDynaTile(tile_x - offset_x, tile_hit_y + offset_y - 2, 0);
+    000009CA 7E               [ 8] 2125 	ld	a,(hl)
+    000009CB FE 04            [ 8] 2126 	cp	a,#0x04
+    000009CD 30 4A            [12] 2127 	jr	NC, 00208$
+    000009CF F8 0B            [12] 2128 	ldhl	sp,	#11
+    000009D1 77               [ 8] 2129 	ld	(hl), a
+    000009D2 F8 08            [12] 2130 	ldhl	sp,	#8
+    000009D4 22               [ 8] 2131 	ld	(hl+), a
+    000009D5 AF               [ 4] 2132 	xor	a, a
+    000009D6 32               [ 8] 2133 	ld	(hl-), a
+    000009D7 2A               [ 8] 2134 	ld	a, (hl+)
+    000009D8 5F               [ 4] 2135 	ld	e, a
+    000009D9 56               [ 8] 2136 	ld	d, (hl)
+    000009DA 21r00r00         [12] 2137 	ld	hl, #_tile_hit_y
+    000009DD 2A               [ 8] 2138 	ld	a,	(hl+)
+    000009DE 66               [ 8] 2139 	ld	h, (hl)
+    000009DF 6F               [ 4] 2140 	ld	l, a
+    000009E0 19               [ 8] 2141 	add	hl, de
+    000009E1 E5               [16] 2142 	push	hl
+    000009E2 7D               [ 4] 2143 	ld	a, l
+    000009E3 F8 0C            [12] 2144 	ldhl	sp,	#12
+    000009E5 77               [ 8] 2145 	ld	(hl), a
+    000009E6 E1               [12] 2146 	pop	hl
+    000009E7 7C               [ 4] 2147 	ld	a, h
+    000009E8 F8 0B            [12] 2148 	ldhl	sp,	#11
+    000009EA 32               [ 8] 2149 	ld	(hl-), a
+    000009EB 2A               [ 8] 2150 	ld	a, (hl+)
+    000009EC 4F               [ 4] 2151 	ld	c, a
+    000009ED 46               [ 8] 2152 	ld	b, (hl)
+    000009EE 0B               [ 8] 2153 	dec	bc
+    000009EF 0B               [ 8] 2154 	dec	bc
+    000009F0 F8 0E            [12] 2155 	ldhl	sp,	#14
+    000009F2 7E               [ 8] 2156 	ld	a, (hl)
+    000009F3 F8 08            [12] 2157 	ldhl	sp,	#8
+    000009F5 22               [ 8] 2158 	ld	(hl+), a
+    000009F6 36 00            [12] 2159 	ld	(hl), #0x00
+    000009F8 F8 04            [12] 2160 	ldhl	sp,#4
+    000009FA 2A               [ 8] 2161 	ld	a, (hl+)
+    000009FB 5F               [ 4] 2162 	ld	e, a
+    000009FC 56               [ 8] 2163 	ld	d, (hl)
+    000009FD F8 08            [12] 2164 	ldhl	sp,	#8
+    000009FF 2A               [ 8] 2165 	ld	a,	(hl+)
+    00000A00 66               [ 8] 2166 	ld	h, (hl)
+    00000A01 6F               [ 4] 2167 	ld	l, a
+    00000A02 7B               [ 4] 2168 	ld	a, e
+    00000A03 95               [ 4] 2169 	sub	a, l
+    00000A04 5F               [ 4] 2170 	ld	e, a
+    00000A05 7A               [ 4] 2171 	ld	a, d
+    00000A06 9C               [ 4] 2172 	sbc	a, h
+    00000A07 F8 0B            [12] 2173 	ldhl	sp,	#11
+    00000A09 32               [ 8] 2174 	ld	(hl-), a
+    00000A0A 73               [ 8] 2175 	ld	(hl), e
+    00000A0B AF               [ 4] 2176 	xor	a, a
+    00000A0C F5               [16] 2177 	push	af
+    00000A0D 33               [ 8] 2178 	inc	sp
+    00000A0E 2A               [ 8] 2179 	ld	a, (hl+)
+    00000A0F 5F               [ 4] 2180 	ld	e, a
+    00000A10 56               [ 8] 2181 	ld	d, (hl)
+    00000A11 CDr00r00         [24] 2182 	call	_UpdateDynaTile
+                                   2183 ;SpritePlayer.c:313: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    00000A14 F8 0F            [12] 2184 	ldhl	sp,	#15
+    00000A16 34               [12] 2185 	inc	(hl)
+    00000A17 18 AF            [12] 2186 	jr	00204$
+    00000A19                       2187 00208$:
+                                   2188 ;SpritePlayer.c:312: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    00000A19 F8 0E            [12] 2189 	ldhl	sp,	#14
+    00000A1B 34               [12] 2190 	inc	(hl)
+    00000A1C 18 9F            [12] 2191 	jr	00207$
+                                   2192 ;SpritePlayer.c:319: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    00000A1E                       2193 00271$:
+    00000A1E F8 0E            [12] 2194 	ldhl	sp,	#14
+    00000A20 36 00            [12] 2195 	ld	(hl), #0x00
+    00000A22                       2196 00213$:
+    00000A22 F8 0E            [12] 2197 	ldhl	sp,	#14
+    00000A24 7E               [ 8] 2198 	ld	a, (hl)
+    00000A25 D6 04            [ 8] 2199 	sub	a, #0x04
+    00000A27 30 4D            [12] 2200 	jr	NC, 00140$
+                                   2201 ;SpritePlayer.c:320: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    00000A29 23               [ 8] 2202 	inc	hl
+    00000A2A 36 00            [12] 2203 	ld	(hl), #0x00
+    00000A2C                       2204 00210$:
+    00000A2C F8 0F            [12] 2205 	ldhl	sp,	#15
+    00000A2E 7E               [ 8] 2206 	ld	a, (hl)
+    00000A2F D6 04            [ 8] 2207 	sub	a, #0x04
+    00000A31 30 3E            [12] 2208 	jr	NC, 00214$
+                                   2209 ;SpritePlayer.c:321: UpdateDynaTile(tile_x - offset_x, tile_hit_y + offset_y - 3, 0);
+    00000A33 4E               [ 8] 2210 	ld	c, (hl)
+    00000A34 06 00            [ 8] 2211 	ld	b, #0x00
+    00000A36 79               [ 4] 2212 	ld	a, c
+    00000A37 21r00r00         [12] 2213 	ld	hl, #_tile_hit_y
+    00000A3A 86               [ 8] 2214 	add	a, (hl)
+    00000A3B 23               [ 8] 2215 	inc	hl
+    00000A3C 4F               [ 4] 2216 	ld	c, a
+    00000A3D 78               [ 4] 2217 	ld	a, b
+    00000A3E 8E               [ 8] 2218 	adc	a, (hl)
+    00000A3F 47               [ 4] 2219 	ld	b, a
+    00000A40 79               [ 4] 2220 	ld	a, c
+    00000A41 C6 FD            [ 8] 2221 	add	a, #0xfd
+    00000A43 4F               [ 4] 2222 	ld	c, a
+    00000A44 78               [ 4] 2223 	ld	a, b
+    00000A45 CE FF            [ 8] 2224 	adc	a, #0xff
+    00000A47 47               [ 4] 2225 	ld	b, a
+    00000A48 F8 0E            [12] 2226 	ldhl	sp,	#14
+    00000A4A 7E               [ 8] 2227 	ld	a, (hl)
+    00000A4B F8 08            [12] 2228 	ldhl	sp,	#8
+    00000A4D 22               [ 8] 2229 	ld	(hl+), a
+    00000A4E 36 00            [12] 2230 	ld	(hl), #0x00
+    00000A50 F8 04            [12] 2231 	ldhl	sp,#4
+    00000A52 2A               [ 8] 2232 	ld	a, (hl+)
+    00000A53 5F               [ 4] 2233 	ld	e, a
+    00000A54 56               [ 8] 2234 	ld	d, (hl)
+    00000A55 F8 08            [12] 2235 	ldhl	sp,	#8
+    00000A57 2A               [ 8] 2236 	ld	a,	(hl+)
+    00000A58 66               [ 8] 2237 	ld	h, (hl)
+    00000A59 6F               [ 4] 2238 	ld	l, a
+    00000A5A 7B               [ 4] 2239 	ld	a, e
+    00000A5B 95               [ 4] 2240 	sub	a, l
+    00000A5C 5F               [ 4] 2241 	ld	e, a
+    00000A5D 7A               [ 4] 2242 	ld	a, d
+    00000A5E 9C               [ 4] 2243 	sbc	a, h
+    00000A5F F8 0B            [12] 2244 	ldhl	sp,	#11
+    00000A61 32               [ 8] 2245 	ld	(hl-), a
+    00000A62 73               [ 8] 2246 	ld	(hl), e
+    00000A63 AF               [ 4] 2247 	xor	a, a
+    00000A64 F5               [16] 2248 	push	af
+    00000A65 33               [ 8] 2249 	inc	sp
+    00000A66 2A               [ 8] 2250 	ld	a, (hl+)
+    00000A67 5F               [ 4] 2251 	ld	e, a
+    00000A68 56               [ 8] 2252 	ld	d, (hl)
+    00000A69 CDr00r00         [24] 2253 	call	_UpdateDynaTile
+                                   2254 ;SpritePlayer.c:320: for (UINT8 offset_y = 0; offset_y < 4; offset_y++) {
+    00000A6C F8 0F            [12] 2255 	ldhl	sp,	#15
+    00000A6E 34               [12] 2256 	inc	(hl)
+    00000A6F 18 BB            [12] 2257 	jr	00210$
+    00000A71                       2258 00214$:
+                                   2259 ;SpritePlayer.c:319: for (UINT8 offset_x = 0; offset_x < 4; offset_x++) {
+    00000A71 F8 0E            [12] 2260 	ldhl	sp,	#14
+    00000A73 34               [12] 2261 	inc	(hl)
+    00000A74 18 AC            [12] 2262 	jr	00213$
+                                   2263 ;SpritePlayer.c:325: }
+    00000A76                       2264 00140$:
+                                   2265 ;SpritePlayer.c:333: knockback = 1;
+    00000A76 21r07r00         [12] 2266 	ld	hl, #_knockback
+    00000A79 36 01            [12] 2267 	ld	(hl), #0x01
+                                   2268 ;SpritePlayer.c:334: knockback_minimum = KNOCKBACK_MINIMUM;
+    00000A7B 21r08r00         [12] 2269 	ld	hl, #_knockback_minimum
+    00000A7E 36 08            [12] 2270 	ld	(hl), #0x08
+                                   2271 ;SpritePlayer.c:335: shoulderbashing = 0;
+    00000A80 AF               [ 4] 2272 	xor	a, a
+    00000A81 EAr09r00         [16] 2273 	ld	(#_shoulderbashing),a
+                                   2274 ;SpritePlayer.c:336: shoulderbashing_cooldown = SHOULDERBASH_COOLDOWN;
+    00000A84 21r0Ar00         [12] 2275 	ld	hl, #_shoulderbashing_cooldown
+    00000A87 36 10            [12] 2276 	ld	(hl), #0x10
+                                   2277 ;SpritePlayer.c:337: data->vel.x = -KNOCKBACK_VEL_X * data->dir;
+    00000A89 D1               [12] 2278 	pop	de
+    00000A8A D5               [16] 2279 	push	de
+    00000A8B 21 08 00         [12] 2280 	ld	hl, #0x0008
+    00000A8E 19               [ 8] 2281 	add	hl, de
+    00000A8F 4D               [ 4] 2282 	ld	c, l
+    00000A90 44               [ 4] 2283 	ld	b, h
+    00000A91 0A               [ 8] 2284 	ld	a, (bc)
+    00000A92 4F               [ 4] 2285 	ld	c, a
+    00000A93 07               [ 4] 2286 	rlca
+    00000A94 9F               [ 4] 2287 	sbc	a, a
+    00000A95 47               [ 4] 2288 	ld	b, a
+    00000A96 69               [ 4] 2289 	ld	l, c
+    00000A97 60               [ 4] 2290 	ld	h, b
+    00000A98 29               [ 8] 2291 	add	hl, hl
+    00000A99 09               [ 8] 2292 	add	hl, bc
+    00000A9A 29               [ 8] 2293 	add	hl, hl
+    00000A9B 09               [ 8] 2294 	add	hl, bc
+    00000A9C 29               [ 8] 2295 	add	hl, hl
+    00000A9D 29               [ 8] 2296 	add	hl, hl
+    00000A9E 29               [ 8] 2297 	add	hl, hl
+    00000A9F 29               [ 8] 2298 	add	hl, hl
+    00000AA0 29               [ 8] 2299 	add	hl, hl
+    00000AA1 29               [ 8] 2300 	add	hl, hl
+    00000AA2 09               [ 8] 2301 	add	hl, bc
+    00000AA3 29               [ 8] 2302 	add	hl, hl
+    00000AA4 09               [ 8] 2303 	add	hl, bc
+    00000AA5 29               [ 8] 2304 	add	hl, hl
+    00000AA6 29               [ 8] 2305 	add	hl, hl
+    00000AA7 29               [ 8] 2306 	add	hl, hl
+    00000AA8 29               [ 8] 2307 	add	hl, hl
+    00000AA9 29               [ 8] 2308 	add	hl, hl
+    00000AAA 29               [ 8] 2309 	add	hl, hl
+    00000AAB 4D               [ 4] 2310 	ld	c, l
+    00000AAC 44               [ 4] 2311 	ld	b, h
+    00000AAD F8 02            [12] 2312 	ldhl	sp,	#2
+    00000AAF 2A               [ 8] 2313 	ld	a, (hl+)
+    00000AB0 66               [ 8] 2314 	ld	h, (hl)
+    00000AB1 6F               [ 4] 2315 	ld	l, a
+    00000AB2 71               [ 8] 2316 	ld	(hl), c
+    00000AB3 23               [ 8] 2317 	inc	hl
+    00000AB4 70               [ 8] 2318 	ld	(hl), b
+                                   2319 ;SpritePlayer.c:338: data->vel.y = KNOCKBACK_VEL_Y;
+    00000AB5 D1               [12] 2320 	pop	de
+    00000AB6 D5               [16] 2321 	push	de
+    00000AB7 21 06 00         [12] 2322 	ld	hl, #0x0006
+    00000ABA 19               [ 8] 2323 	add	hl, de
+    00000ABB 45               [ 4] 2324 	ld	b,l
+    00000ABC 4C               [ 4] 2325 	ld	c,h
+    00000ABD 36 68            [12] 2326 	ld	(hl), #0x68
+    00000ABF 23               [ 8] 2327 	inc	hl
+    00000AC0 36 C5            [12] 2328 	ld	(hl), #0xc5
+    00000AC2                       2329 00215$:
+                                   2330 ;SpritePlayer.c:340: }
+    00000AC2 E8 10            [16] 2331 	add	sp, #16
+    00000AC4 C9               [16] 2332 	ret
+                                   2333 ;SpritePlayer.c:342: void PlayerDynaCollect(Sprite* this) {
+                                   2334 ;	---------------------------------
+                                   2335 ; Function PlayerDynaCollect
+                                   2336 ; ---------------------------------
+    00000AC5                       2337 _PlayerDynaCollect::
+    00000AC5 E8 F4            [16] 2338 	add	sp, #-12
+    00000AC7 4B               [ 4] 2339 	ld	c, e
+    00000AC8 42               [ 4] 2340 	ld	b, d
+                                   2341 ;SpritePlayer.c:344: UINT16 tile_x_end = PX_TO_TILE(this->x + this->coll_w - 1 - COLLECT_OFFSET);
+    00000AC9 F8 02            [12] 2342 	ldhl	sp,	#2
+    00000ACB 79               [ 4] 2343 	ld	a, c
+    00000ACC 22               [ 8] 2344 	ld	(hl+), a
+    00000ACD 78               [ 4] 2345 	ld	a, b
+    00000ACE 32               [ 8] 2346 	ld	(hl-), a
+    00000ACF 2A               [ 8] 2347 	ld	a, (hl+)
+    00000AD0 5F               [ 4] 2348 	ld	e, a
+    00000AD1 56               [ 8] 2349 	ld	d, (hl)
+    00000AD2 1A               [ 8] 2350 	ld	a, (de)
+    00000AD3 6F               [ 4] 2351 	ld	l, a
+    00000AD4 13               [ 8] 2352 	inc	de
+    00000AD5 1A               [ 8] 2353 	ld	a, (de)
+    00000AD6 67               [ 4] 2354 	ld	h, a
+    00000AD7 79               [ 4] 2355 	ld	a, c
+    00000AD8 C6 04            [ 8] 2356 	add	a, #0x04
+    00000ADA 5F               [ 4] 2357 	ld	e, a
+    00000ADB 78               [ 4] 2358 	ld	a, b
+    00000ADC CE 00            [ 8] 2359 	adc	a, #0x00
+    00000ADE 57               [ 4] 2360 	ld	d, a
+    00000ADF 1A               [ 8] 2361 	ld	a, (de)
+    00000AE0 16 00            [ 8] 2362 	ld	d, #0x00
+    00000AE2 5F               [ 4] 2363 	ld	e, a
+    00000AE3 19               [ 8] 2364 	add	hl, de
+    00000AE4 11 FB FF         [12] 2365 	ld	de, #0xfffb
+    00000AE7 19               [ 8] 2366 	add	hl, de
+    00000AE8 5D               [ 4] 2367 	ld	e, l
+    00000AE9 54               [ 4] 2368 	ld	d, h
+    00000AEA F8 04            [12] 2369 	ldhl	sp,	#4
+    00000AEC 7B               [ 4] 2370 	ld	a, e
+    00000AED 22               [ 8] 2371 	ld	(hl+), a
+    00000AEE 72               [ 8] 2372 	ld	(hl), d
+    00000AEF CB 3E            [16] 2373 	srl	(hl)
+    00000AF1 2B               [ 8] 2374 	dec	hl
+    00000AF2 CB 1E            [16] 2375 	rr	(hl)
+    00000AF4 23               [ 8] 2376 	inc	hl
+    00000AF5 CB 3E            [16] 2377 	srl	(hl)
+    00000AF7 2B               [ 8] 2378 	dec	hl
+    00000AF8 CB 1E            [16] 2379 	rr	(hl)
+    00000AFA 23               [ 8] 2380 	inc	hl
+    00000AFB CB 3E            [16] 2381 	srl	(hl)
+    00000AFD 2B               [ 8] 2382 	dec	hl
+    00000AFE CB 1E            [16] 2383 	rr	(hl)
+                                   2384 ;SpritePlayer.c:345: UINT16 tile_y_end = PX_TO_TILE(this->y + this->coll_h - 1 - COLLECT_OFFSET);
+    00000B00 69               [ 4] 2385 	ld	l, c
+    00000B01 60               [ 4] 2386 	ld	h, b
+    00000B02 23               [ 8] 2387 	inc	hl
+    00000B03 23               [ 8] 2388 	inc	hl
+    00000B04 5D               [ 4] 2389 	ld	e, l
+    00000B05 54               [ 4] 2390 	ld	d, h
+    00000B06 1A               [ 8] 2391 	ld	a, (de)
+    00000B07 F8 0A            [12] 2392 	ldhl	sp,	#10
+    00000B09 22               [ 8] 2393 	ld	(hl+), a
+    00000B0A 13               [ 8] 2394 	inc	de
+    00000B0B 1A               [ 8] 2395 	ld	a, (de)
+    00000B0C 77               [ 8] 2396 	ld	(hl), a
+    00000B0D 21 05 00         [12] 2397 	ld	hl, #0x0005
+    00000B10 09               [ 8] 2398 	add	hl, bc
+    00000B11 4E               [ 8] 2399 	ld	c, (hl)
+    00000B12 06 00            [ 8] 2400 	ld	b, #0x00
+    00000B14 F8 0A            [12] 2401 	ldhl	sp,	#10
+    00000B16 2A               [ 8] 2402 	ld	a,	(hl+)
+    00000B17 66               [ 8] 2403 	ld	h, (hl)
+    00000B18 6F               [ 4] 2404 	ld	l, a
+    00000B19 09               [ 8] 2405 	add	hl, bc
+    00000B1A 4D               [ 4] 2406 	ld	c, l
+    00000B1B 44               [ 4] 2407 	ld	b, h
+    00000B1C 79               [ 4] 2408 	ld	a, c
+    00000B1D C6 FB            [ 8] 2409 	add	a, #0xfb
+    00000B1F 4F               [ 4] 2410 	ld	c, a
+    00000B20 78               [ 4] 2411 	ld	a, b
+    00000B21 CE FF            [ 8] 2412 	adc	a, #0xff
+    00000B23 47               [ 4] 2413 	ld	b, a
+    00000B24 F8 06            [12] 2414 	ldhl	sp,	#6
+    00000B26 79               [ 4] 2415 	ld	a, c
+    00000B27 22               [ 8] 2416 	ld	(hl+), a
+    00000B28 70               [ 8] 2417 	ld	(hl), b
+    00000B29 CB 3E            [16] 2418 	srl	(hl)
+    00000B2B 2B               [ 8] 2419 	dec	hl
+    00000B2C CB 1E            [16] 2420 	rr	(hl)
+    00000B2E 23               [ 8] 2421 	inc	hl
+    00000B2F CB 3E            [16] 2422 	srl	(hl)
+    00000B31 2B               [ 8] 2423 	dec	hl
+    00000B32 CB 1E            [16] 2424 	rr	(hl)
+    00000B34 23               [ 8] 2425 	inc	hl
+    00000B35 CB 3E            [16] 2426 	srl	(hl)
+    00000B37 2B               [ 8] 2427 	dec	hl
+    00000B38 CB 1E            [16] 2428 	rr	(hl)
+                                   2429 ;SpritePlayer.c:346: for (UINT16 tile_y = PX_TO_TILE(this->y + COLLECT_OFFSET); tile_y <= tile_y_end; tile_y++) {
+    00000B3A F8 0A            [12] 2430 	ldhl	sp,#10
+    00000B3C 2A               [ 8] 2431 	ld	a, (hl+)
+    00000B3D 5F               [ 4] 2432 	ld	e, a
+    00000B3E 56               [ 8] 2433 	ld	d, (hl)
+    00000B3F 21 04 00         [12] 2434 	ld	hl, #0x0004
+    00000B42 19               [ 8] 2435 	add	hl, de
+    00000B43 4D               [ 4] 2436 	ld	c, l
+    00000B44 44               [ 4] 2437 	ld	b, h
+    00000B45 F8 08            [12] 2438 	ldhl	sp,	#8
+    00000B47 79               [ 4] 2439 	ld	a, c
+    00000B48 22               [ 8] 2440 	ld	(hl+), a
+    00000B49 70               [ 8] 2441 	ld	(hl), b
+    00000B4A CB 3E            [16] 2442 	srl	(hl)
+    00000B4C 2B               [ 8] 2443 	dec	hl
+    00000B4D CB 1E            [16] 2444 	rr	(hl)
+    00000B4F 23               [ 8] 2445 	inc	hl
+    00000B50 CB 3E            [16] 2446 	srl	(hl)
+    00000B52 2B               [ 8] 2447 	dec	hl
+    00000B53 CB 1E            [16] 2448 	rr	(hl)
+    00000B55 23               [ 8] 2449 	inc	hl
+    00000B56 CB 3E            [16] 2450 	srl	(hl)
+    00000B58 2B               [ 8] 2451 	dec	hl
+    00000B59 CB 1E            [16] 2452 	rr	(hl)
+    00000B5B                       2453 00152$:
+    00000B5B F8 06            [12] 2454 	ldhl	sp,	#6
+    00000B5D 5D               [ 4] 2455 	ld	e, l
+    00000B5E 54               [ 4] 2456 	ld	d, h
+    00000B5F F8 08            [12] 2457 	ldhl	sp,	#8
+    00000B61 1A               [ 8] 2458 	ld	a, (de)
+    00000B62 13               [ 8] 2459 	inc	de
+    00000B63 96               [ 8] 2460 	sub	a, (hl)
+    00000B64 23               [ 8] 2461 	inc	hl
+    00000B65 1A               [ 8] 2462 	ld	a, (de)
+    00000B66 9E               [ 8] 2463 	sbc	a, (hl)
+    00000B67 DArE1r0C         [16] 2464 	jp	C, 00154$
+                                   2465 ;SpritePlayer.c:347: for (UINT16 tile_x = PX_TO_TILE(this->x + COLLECT_OFFSET); tile_x <= tile_x_end; tile_x++) {
+    00000B6A F8 02            [12] 2466 	ldhl	sp,#2
+    00000B6C 2A               [ 8] 2467 	ld	a, (hl+)
+    00000B6D 5F               [ 4] 2468 	ld	e, a
+    00000B6E 56               [ 8] 2469 	ld	d, (hl)
+    00000B6F 1A               [ 8] 2470 	ld	a, (de)
+    00000B70 F8 00            [12] 2471 	ldhl	sp,	#0
+    00000B72 22               [ 8] 2472 	ld	(hl+), a
+    00000B73 13               [ 8] 2473 	inc	de
+    00000B74 1A               [ 8] 2474 	ld	a, (de)
+    00000B75 77               [ 8] 2475 	ld	(hl), a
+    00000B76 D1               [12] 2476 	pop	de
+    00000B77 D5               [16] 2477 	push	de
+    00000B78 21 04 00         [12] 2478 	ld	hl, #0x0004
+    00000B7B 19               [ 8] 2479 	add	hl, de
+    00000B7C E5               [16] 2480 	push	hl
+    00000B7D 7D               [ 4] 2481 	ld	a, l
+    00000B7E F8 0C            [12] 2482 	ldhl	sp,	#12
+    00000B80 77               [ 8] 2483 	ld	(hl), a
+    00000B81 E1               [12] 2484 	pop	hl
+    00000B82 7C               [ 4] 2485 	ld	a, h
+    00000B83 F8 0B            [12] 2486 	ldhl	sp,	#11
+    00000B85 32               [ 8] 2487 	ld	(hl-), a
+    00000B86 2A               [ 8] 2488 	ld	a, (hl+)
+    00000B87 5F               [ 4] 2489 	ld	e, a
+    00000B88 56               [ 8] 2490 	ld	d, (hl)
+    00000B89 CB 3A            [ 8] 2491 	srl	d
+    00000B8B CB 1B            [ 8] 2492 	rr	e
+    00000B8D CB 3A            [ 8] 2493 	srl	d
+    00000B8F CB 1B            [ 8] 2494 	rr	e
+    00000B91 CB 3A            [ 8] 2495 	srl	d
+    00000B93 CB 1B            [ 8] 2496 	rr	e
+    00000B95                       2497 00149$:
+    00000B95 F8 04            [12] 2498 	ldhl	sp,	#4
+    00000B97 2A               [ 8] 2499 	ld	a, (hl+)
+    00000B98 93               [ 4] 2500 	sub	a, e
+    00000B99 7E               [ 8] 2501 	ld	a, (hl)
+    00000B9A 9A               [ 4] 2502 	sbc	a, d
+    00000B9B DArD6r0C         [16] 2503 	jp	C, 00153$
+                                   2504 ;SpritePlayer.c:348: switch (DynaTileAt(tile_x, tile_y)) {
+    00000B9E D5               [16] 2505 	push	de
+    00000B9F F8 0A            [12] 2506 	ldhl	sp,	#10
+    00000BA1 2A               [ 8] 2507 	ld	a, (hl+)
+    00000BA2 4F               [ 4] 2508 	ld	c, a
+    00000BA3 46               [ 8] 2509 	ld	b, (hl)
+    00000BA4 CDr00r00         [24] 2510 	call	_DynaTileAt
+    00000BA7 4F               [ 4] 2511 	ld	c, a
+    00000BA8 D1               [12] 2512 	pop	de
+    00000BA9 3E 0C            [ 8] 2513 	ld	a, #0x0c
+    00000BAB 91               [ 4] 2514 	sub	a, c
+    00000BAC DArD2r0C         [16] 2515 	jp	C, 00150$
+    00000BAF 06 00            [ 8] 2516 	ld	b, #0x00
+    00000BB1 21rBBr0B         [12] 2517 	ld	hl, #00313$
+    00000BB4 09               [ 8] 2518 	add	hl, bc
+    00000BB5 09               [ 8] 2519 	add	hl, bc
+    00000BB6 4E               [ 8] 2520 	ld	c, (hl)
+    00000BB7 23               [ 8] 2521 	inc	hl
+    00000BB8 66               [ 8] 2522 	ld	h, (hl)
+    00000BB9 69               [ 4] 2523 	ld	l, c
+    00000BBA E9               [ 4] 2524 	jp	(hl)
+    00000BBB                       2525 00313$:
+    00000BBBrD2r0C                 2526 	.dw	00150$
+    00000BBDrD5r0B                 2527 	.dw	00162$
+    00000BBFr10r0C                 2528 	.dw	00166$
+    00000BC1r57r0C                 2529 	.dw	00170$
+    00000BC3r92r0C                 2530 	.dw	00174$
+    00000BC5rD5r0B                 2531 	.dw	00162$
+    00000BC7r10r0C                 2532 	.dw	00166$
+    00000BC9r57r0C                 2533 	.dw	00170$
+    00000BCBr92r0C                 2534 	.dw	00174$
+    00000BCDrD5r0B                 2535 	.dw	00162$
+    00000BCFr10r0C                 2536 	.dw	00166$
+    00000BD1r57r0C                 2537 	.dw	00170$
+    00000BD3r92r0C                 2538 	.dw	00174$
+                                   2539 ;SpritePlayer.c:352: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    00000BD5                       2540 00162$:
+    00000BD5 F8 0A            [12] 2541 	ldhl	sp,	#10
+    00000BD7 36 00            [12] 2542 	ld	(hl), #0x00
+    00000BD9                       2543 00128$:
+    00000BD9 F8 0A            [12] 2544 	ldhl	sp,	#10
+    00000BDB 7E               [ 8] 2545 	ld	a, (hl)
+    00000BDC D6 02            [ 8] 2546 	sub	a, #0x02
+    00000BDE D2rD2r0C         [16] 2547 	jp	NC, 00150$
+                                   2548 ;SpritePlayer.c:353: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000BE1 23               [ 8] 2549 	inc	hl
+    00000BE2 36 00            [12] 2550 	ld	(hl), #0x00
+    00000BE4                       2551 00125$:
+    00000BE4 F8 0B            [12] 2552 	ldhl	sp,	#11
+    00000BE6 7E               [ 8] 2553 	ld	a, (hl)
+    00000BE7 D6 02            [ 8] 2554 	sub	a, #0x02
+    00000BE9 30 20            [12] 2555 	jr	NC, 00129$
+                                   2556 ;SpritePlayer.c:354: UpdateDynaTile(tile_x + offset_x, tile_y + offset_y, 0);
+    00000BEB 4E               [ 8] 2557 	ld	c, (hl)
+    00000BEC 06 00            [ 8] 2558 	ld	b, #0x00
+    00000BEE F8 08            [12] 2559 	ldhl	sp,	#8
+    00000BF0 2A               [ 8] 2560 	ld	a,	(hl+)
+    00000BF1 66               [ 8] 2561 	ld	h, (hl)
+    00000BF2 6F               [ 4] 2562 	ld	l, a
+    00000BF3 09               [ 8] 2563 	add	hl, bc
+    00000BF4 4D               [ 4] 2564 	ld	c, l
+    00000BF5 44               [ 4] 2565 	ld	b, h
+    00000BF6 F8 0A            [12] 2566 	ldhl	sp,	#10
+    00000BF8 6E               [ 8] 2567 	ld	l, (hl)
+    00000BF9 26 00            [ 8] 2568 	ld	h, #0x00
+    00000BFB 19               [ 8] 2569 	add	hl, de
+    00000BFC D5               [16] 2570 	push	de
+    00000BFD AF               [ 4] 2571 	xor	a, a
+    00000BFE F5               [16] 2572 	push	af
+    00000BFF 33               [ 8] 2573 	inc	sp
+    00000C00 5D               [ 4] 2574 	ld	e, l
+    00000C01 54               [ 4] 2575 	ld	d, h
+    00000C02 CDr00r00         [24] 2576 	call	_UpdateDynaTile
+    00000C05 D1               [12] 2577 	pop	de
+                                   2578 ;SpritePlayer.c:353: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000C06 F8 0B            [12] 2579 	ldhl	sp,	#11
+    00000C08 34               [12] 2580 	inc	(hl)
+    00000C09 18 D9            [12] 2581 	jr	00125$
+    00000C0B                       2582 00129$:
+                                   2583 ;SpritePlayer.c:352: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    00000C0B F8 0A            [12] 2584 	ldhl	sp,	#10
+    00000C0D 34               [12] 2585 	inc	(hl)
+    00000C0E 18 C9            [12] 2586 	jr	00128$
+                                   2587 ;SpritePlayer.c:361: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    00000C10                       2588 00166$:
+    00000C10 F8 0A            [12] 2589 	ldhl	sp,	#10
+    00000C12 36 00            [12] 2590 	ld	(hl), #0x00
+    00000C14                       2591 00134$:
+    00000C14 F8 0A            [12] 2592 	ldhl	sp,	#10
+    00000C16 7E               [ 8] 2593 	ld	a, (hl)
+    00000C17 D6 02            [ 8] 2594 	sub	a, #0x02
+    00000C19 D2rD2r0C         [16] 2595 	jp	NC, 00150$
+                                   2596 ;SpritePlayer.c:362: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000C1C 23               [ 8] 2597 	inc	hl
+    00000C1D 36 00            [12] 2598 	ld	(hl), #0x00
+    00000C1F                       2599 00131$:
+    00000C1F F8 0B            [12] 2600 	ldhl	sp,	#11
+                                   2601 ;SpritePlayer.c:363: UpdateDynaTile(tile_x - offset_x, tile_y + offset_y, 0);
+    00000C21 7E               [ 8] 2602 	ld	a,(hl)
+    00000C22 FE 02            [ 8] 2603 	cp	a,#0x02
+    00000C24 30 2C            [12] 2604 	jr	NC, 00135$
+    00000C26 F8 00            [12] 2605 	ldhl	sp,	#0
+    00000C28 22               [ 8] 2606 	ld	(hl+), a
+    00000C29 AF               [ 4] 2607 	xor	a, a
+    00000C2A 32               [ 8] 2608 	ld	(hl-), a
+    00000C2B D5               [16] 2609 	push	de
+    00000C2C 2A               [ 8] 2610 	ld	a, (hl+)
+    00000C2D 5F               [ 4] 2611 	ld	e, a
+    00000C2E 56               [ 8] 2612 	ld	d, (hl)
+    00000C2F F8 0A            [12] 2613 	ldhl	sp,	#10
+    00000C31 2A               [ 8] 2614 	ld	a,	(hl+)
+    00000C32 66               [ 8] 2615 	ld	h, (hl)
+    00000C33 6F               [ 4] 2616 	ld	l, a
+    00000C34 19               [ 8] 2617 	add	hl, de
+    00000C35 D1               [12] 2618 	pop	de
+    00000C36 4D               [ 4] 2619 	ld	c, l
+    00000C37 44               [ 4] 2620 	ld	b, h
+    00000C38 F8 0A            [12] 2621 	ldhl	sp,	#10
+    00000C3A 6E               [ 8] 2622 	ld	l, (hl)
+    00000C3B 26 00            [ 8] 2623 	ld	h, #0x00
+    00000C3D 7B               [ 4] 2624 	ld	a, e
+    00000C3E 95               [ 4] 2625 	sub	a, l
+    00000C3F 6F               [ 4] 2626 	ld	l, a
+    00000C40 7A               [ 4] 2627 	ld	a, d
+    00000C41 9C               [ 4] 2628 	sbc	a, h
+    00000C42 67               [ 4] 2629 	ld	h, a
+    00000C43 D5               [16] 2630 	push	de
+    00000C44 AF               [ 4] 2631 	xor	a, a
+    00000C45 F5               [16] 2632 	push	af
+    00000C46 33               [ 8] 2633 	inc	sp
+    00000C47 5D               [ 4] 2634 	ld	e, l
+    00000C48 54               [ 4] 2635 	ld	d, h
+    00000C49 CDr00r00         [24] 2636 	call	_UpdateDynaTile
+    00000C4C D1               [12] 2637 	pop	de
+                                   2638 ;SpritePlayer.c:362: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000C4D F8 0B            [12] 2639 	ldhl	sp,	#11
+    00000C4F 34               [12] 2640 	inc	(hl)
+    00000C50 18 CD            [12] 2641 	jr	00131$
+    00000C52                       2642 00135$:
+                                   2643 ;SpritePlayer.c:361: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    00000C52 F8 0A            [12] 2644 	ldhl	sp,	#10
+    00000C54 34               [12] 2645 	inc	(hl)
+    00000C55 18 BD            [12] 2646 	jr	00134$
+                                   2647 ;SpritePlayer.c:370: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    00000C57                       2648 00170$:
+    00000C57 F8 0A            [12] 2649 	ldhl	sp,	#10
+    00000C59 36 00            [12] 2650 	ld	(hl), #0x00
+    00000C5B                       2651 00140$:
+    00000C5B F8 0A            [12] 2652 	ldhl	sp,	#10
+    00000C5D 7E               [ 8] 2653 	ld	a, (hl)
+    00000C5E D6 02            [ 8] 2654 	sub	a, #0x02
+    00000C60 30 70            [12] 2655 	jr	NC, 00150$
+                                   2656 ;SpritePlayer.c:371: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000C62 23               [ 8] 2657 	inc	hl
+    00000C63 36 00            [12] 2658 	ld	(hl), #0x00
+    00000C65                       2659 00137$:
+    00000C65 F8 0B            [12] 2660 	ldhl	sp,	#11
+    00000C67 7E               [ 8] 2661 	ld	a, (hl)
+    00000C68 D6 02            [ 8] 2662 	sub	a, #0x02
+    00000C6A 30 21            [12] 2663 	jr	NC, 00141$
+                                   2664 ;SpritePlayer.c:372: UpdateDynaTile(tile_x + offset_x, tile_y + offset_y - 1, 0);
+    00000C6C 4E               [ 8] 2665 	ld	c, (hl)
+    00000C6D 06 00            [ 8] 2666 	ld	b, #0x00
+    00000C6F F8 08            [12] 2667 	ldhl	sp,	#8
+    00000C71 2A               [ 8] 2668 	ld	a,	(hl+)
+    00000C72 66               [ 8] 2669 	ld	h, (hl)
+    00000C73 6F               [ 4] 2670 	ld	l, a
+    00000C74 09               [ 8] 2671 	add	hl, bc
+    00000C75 4D               [ 4] 2672 	ld	c, l
+    00000C76 44               [ 4] 2673 	ld	b, h
+    00000C77 0B               [ 8] 2674 	dec	bc
+    00000C78 F8 0A            [12] 2675 	ldhl	sp,	#10
+    00000C7A 6E               [ 8] 2676 	ld	l, (hl)
+    00000C7B 26 00            [ 8] 2677 	ld	h, #0x00
+    00000C7D 19               [ 8] 2678 	add	hl, de
+    00000C7E D5               [16] 2679 	push	de
+    00000C7F AF               [ 4] 2680 	xor	a, a
+    00000C80 F5               [16] 2681 	push	af
+    00000C81 33               [ 8] 2682 	inc	sp
+    00000C82 5D               [ 4] 2683 	ld	e, l
+    00000C83 54               [ 4] 2684 	ld	d, h
+    00000C84 CDr00r00         [24] 2685 	call	_UpdateDynaTile
+    00000C87 D1               [12] 2686 	pop	de
+                                   2687 ;SpritePlayer.c:371: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000C88 F8 0B            [12] 2688 	ldhl	sp,	#11
+    00000C8A 34               [12] 2689 	inc	(hl)
+    00000C8B 18 D8            [12] 2690 	jr	00137$
+    00000C8D                       2691 00141$:
+                                   2692 ;SpritePlayer.c:370: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    00000C8D F8 0A            [12] 2693 	ldhl	sp,	#10
+    00000C8F 34               [12] 2694 	inc	(hl)
+    00000C90 18 C9            [12] 2695 	jr	00140$
+                                   2696 ;SpritePlayer.c:379: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    00000C92                       2697 00174$:
+    00000C92 F8 0A            [12] 2698 	ldhl	sp,	#10
+    00000C94 36 00            [12] 2699 	ld	(hl), #0x00
+    00000C96                       2700 00146$:
+    00000C96 F8 0A            [12] 2701 	ldhl	sp,	#10
+    00000C98 7E               [ 8] 2702 	ld	a, (hl)
+    00000C99 D6 02            [ 8] 2703 	sub	a, #0x02
+    00000C9B 30 35            [12] 2704 	jr	NC, 00150$
+                                   2705 ;SpritePlayer.c:380: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000C9D 23               [ 8] 2706 	inc	hl
+    00000C9E 36 00            [12] 2707 	ld	(hl), #0x00
+    00000CA0                       2708 00143$:
+    00000CA0 F8 0B            [12] 2709 	ldhl	sp,	#11
+    00000CA2 7E               [ 8] 2710 	ld	a, (hl)
+    00000CA3 D6 02            [ 8] 2711 	sub	a, #0x02
+    00000CA5 30 26            [12] 2712 	jr	NC, 00147$
+                                   2713 ;SpritePlayer.c:381: UpdateDynaTile(tile_x - offset_x, tile_y + offset_y - 1, 0);
+    00000CA7 4E               [ 8] 2714 	ld	c, (hl)
+    00000CA8 06 00            [ 8] 2715 	ld	b, #0x00
+    00000CAA F8 08            [12] 2716 	ldhl	sp,	#8
+    00000CAC 2A               [ 8] 2717 	ld	a,	(hl+)
+    00000CAD 66               [ 8] 2718 	ld	h, (hl)
+    00000CAE 6F               [ 4] 2719 	ld	l, a
+    00000CAF 09               [ 8] 2720 	add	hl, bc
+    00000CB0 4D               [ 4] 2721 	ld	c, l
+    00000CB1 44               [ 4] 2722 	ld	b, h
+    00000CB2 0B               [ 8] 2723 	dec	bc
+    00000CB3 F8 0A            [12] 2724 	ldhl	sp,	#10
+    00000CB5 6E               [ 8] 2725 	ld	l, (hl)
+    00000CB6 26 00            [ 8] 2726 	ld	h, #0x00
+    00000CB8 7B               [ 4] 2727 	ld	a, e
+    00000CB9 95               [ 4] 2728 	sub	a, l
+    00000CBA 6F               [ 4] 2729 	ld	l, a
+    00000CBB 7A               [ 4] 2730 	ld	a, d
+    00000CBC 9C               [ 4] 2731 	sbc	a, h
+    00000CBD 67               [ 4] 2732 	ld	h, a
+    00000CBE D5               [16] 2733 	push	de
+    00000CBF AF               [ 4] 2734 	xor	a, a
+    00000CC0 F5               [16] 2735 	push	af
+    00000CC1 33               [ 8] 2736 	inc	sp
+    00000CC2 5D               [ 4] 2737 	ld	e, l
+    00000CC3 54               [ 4] 2738 	ld	d, h
+    00000CC4 CDr00r00         [24] 2739 	call	_UpdateDynaTile
+    00000CC7 D1               [12] 2740 	pop	de
+                                   2741 ;SpritePlayer.c:380: for (UINT8 offset_y = 0; offset_y < 2; offset_y++) {
+    00000CC8 F8 0B            [12] 2742 	ldhl	sp,	#11
+    00000CCA 34               [12] 2743 	inc	(hl)
+    00000CCB 18 D3            [12] 2744 	jr	00143$
+    00000CCD                       2745 00147$:
+                                   2746 ;SpritePlayer.c:379: for (UINT8 offset_x = 0; offset_x < 2; offset_x++) {
+    00000CCD F8 0A            [12] 2747 	ldhl	sp,	#10
+    00000CCF 34               [12] 2748 	inc	(hl)
+    00000CD0 18 C4            [12] 2749 	jr	00146$
+                                   2750 ;SpritePlayer.c:385: }
+    00000CD2                       2751 00150$:
+                                   2752 ;SpritePlayer.c:347: for (UINT16 tile_x = PX_TO_TILE(this->x + COLLECT_OFFSET); tile_x <= tile_x_end; tile_x++) {
+    00000CD2 13               [ 8] 2753 	inc	de
+    00000CD3 C3r95r0B         [16] 2754 	jp	00149$
+    00000CD6                       2755 00153$:
+                                   2756 ;SpritePlayer.c:346: for (UINT16 tile_y = PX_TO_TILE(this->y + COLLECT_OFFSET); tile_y <= tile_y_end; tile_y++) {
+    00000CD6 F8 08            [12] 2757 	ldhl	sp,	#8
+    00000CD8 34               [12] 2758 	inc	(hl)
+    00000CD9 C2r5Br0B         [16] 2759 	jp	NZ, 00152$
+    00000CDC 23               [ 8] 2760 	inc	hl
+    00000CDD 34               [12] 2761 	inc	(hl)
+    00000CDE C3r5Br0B         [16] 2762 	jp	00152$
+    00000CE1                       2763 00154$:
+                                   2764 ;SpritePlayer.c:389: }
+    00000CE1 E8 0C            [16] 2765 	add	sp, #12
+    00000CE3 C9               [16] 2766 	ret
+                                   2767 ;SpritePlayer.c:391: void PlayerAnimate(Sprite* this) {
+                                   2768 ;	---------------------------------
+                                   2769 ; Function PlayerAnimate
+                                   2770 ; ---------------------------------
+    00000CE4                       2771 _PlayerAnimate::
+    00000CE4 E8 F8            [16] 2772 	add	sp, #-8
+    00000CE6 F8 06            [12] 2773 	ldhl	sp,	#6
+    00000CE8 7B               [ 4] 2774 	ld	a, e
+    00000CE9 22               [ 8] 2775 	ld	(hl+), a
+                                   2776 ;SpritePlayer.c:392: CUSTOM_DATA* data = (CUSTOM_DATA*)this->custom_data;
+    00000CEA 7A               [ 4] 2777 	ld	a, d
+    00000CEB 32               [ 8] 2778 	ld	(hl-), a
+    00000CEC 2A               [ 8] 2779 	ld	a, (hl+)
+    00000CED 5F               [ 4] 2780 	ld	e, a
+    00000CEE 56               [ 8] 2781 	ld	d, (hl)
+    00000CEF 21 24 00         [12] 2782 	ld	hl, #0x0024
+    00000CF2 19               [ 8] 2783 	add	hl, de
+    00000CF3 33               [ 8] 2784 	inc	sp
+    00000CF4 33               [ 8] 2785 	inc	sp
+    00000CF5 E5               [16] 2786 	push	hl
+                                   2787 ;C:/CrossZGB/ZGB/common/include/Sprite.h:106: sprite->loop_anim = (loop_anim);
+    00000CF6 F8 06            [12] 2788 	ldhl	sp,#6
+    00000CF8 2A               [ 8] 2789 	ld	a, (hl+)
+    00000CF9 5F               [ 4] 2790 	ld	e, a
+    00000CFA 56               [ 8] 2791 	ld	d, (hl)
+    00000CFB 21 21 00         [12] 2792 	ld	hl, #0x0021
+    00000CFE 19               [ 8] 2793 	add	hl, de
+    00000CFF 4D               [ 4] 2794 	ld	c, l
+    00000D00 44               [ 4] 2795 	ld	b, h
+    00000D01 0A               [ 8] 2796 	ld	a, (bc)
+    00000D02 E6 FB            [ 8] 2797 	and	a, #0xfb
+    00000D04 02               [ 8] 2798 	ld	(bc), a
+                                   2799 ;SpritePlayer.c:407: if (this->anim_frame == ANIM_STOP) {
+    00000D05 F8 06            [12] 2800 	ldhl	sp,#6
+    00000D07 2A               [ 8] 2801 	ld	a, (hl+)
+    00000D08 5F               [ 4] 2802 	ld	e, a
+    00000D09 56               [ 8] 2803 	ld	d, (hl)
+    00000D0A 21 0F 00         [12] 2804 	ld	hl, #0x000f
+    00000D0D 19               [ 8] 2805 	add	hl, de
+    00000D0E E5               [16] 2806 	push	hl
+    00000D0F 7D               [ 4] 2807 	ld	a, l
+    00000D10 F8 04            [12] 2808 	ldhl	sp,	#4
+    00000D12 77               [ 8] 2809 	ld	(hl), a
+    00000D13 E1               [12] 2810 	pop	hl
+    00000D14 7C               [ 4] 2811 	ld	a, h
+    00000D15 F8 03            [12] 2812 	ldhl	sp,	#3
+    00000D17 77               [ 8] 2813 	ld	(hl), a
+                                   2814 ;SpritePlayer.c:394: if (knockback) {
+    00000D18 FAr07r00         [16] 2815 	ld	a, (#_knockback)
+    00000D1B B7               [ 4] 2816 	or	a, a
+    00000D1C 28 11            [12] 2817 	jr	Z, 00119$
+                                   2818 ;SpritePlayer.c:395: SetSpriteAnim(this, anim_bash_knockback, 0);
+    00000D1E AF               [ 4] 2819 	xor	a, a
+    00000D1F F5               [16] 2820 	push	af
+    00000D20 33               [ 8] 2821 	inc	sp
+    00000D21 01rA3r04         [12] 2822 	ld	bc, #_anim_bash_knockback
+    00000D24 F8 07            [12] 2823 	ldhl	sp,	#7
+    00000D26 2A               [ 8] 2824 	ld	a, (hl+)
+    00000D27 5F               [ 4] 2825 	ld	e, a
+    00000D28 56               [ 8] 2826 	ld	d, (hl)
+    00000D29 CDr00r00         [24] 2827 	call	_SetSpriteAnim
+    00000D2C C3r39r0E         [16] 2828 	jp	00120$
+    00000D2F                       2829 00119$:
+                                   2830 ;SpritePlayer.c:396: } else if (shoulderbashing) {
+    00000D2F FAr09r00         [16] 2831 	ld	a, (#_shoulderbashing)
+    00000D32 B7               [ 4] 2832 	or	a, a
+    00000D33 28 16            [12] 2833 	jr	Z, 00116$
+                                   2834 ;C:/CrossZGB/ZGB/common/include/Sprite.h:106: sprite->loop_anim = (loop_anim);
+    00000D35 0A               [ 8] 2835 	ld	a, (bc)
+    00000D36 F6 04            [ 8] 2836 	or	a, #0x04
+    00000D38 02               [ 8] 2837 	ld	(bc), a
+                                   2838 ;SpritePlayer.c:398: SetSpriteAnim(this, anim_bash, 20);
+    00000D39 3E 14            [ 8] 2839 	ld	a, #0x14
+    00000D3B F5               [16] 2840 	push	af
+    00000D3C 33               [ 8] 2841 	inc	sp
+    00000D3D 01r9Er04         [12] 2842 	ld	bc, #_anim_bash
+    00000D40 F8 07            [12] 2843 	ldhl	sp,	#7
+    00000D42 2A               [ 8] 2844 	ld	a, (hl+)
+    00000D43 5F               [ 4] 2845 	ld	e, a
+    00000D44 56               [ 8] 2846 	ld	d, (hl)
+    00000D45 CDr00r00         [24] 2847 	call	_SetSpriteAnim
+    00000D48 C3r39r0E         [16] 2848 	jp	00120$
+    00000D4B                       2849 00116$:
+                                   2850 ;SpritePlayer.c:399: } else if (data->grounded) {
+    00000D4B D1               [12] 2851 	pop	de
+    00000D4C D5               [16] 2852 	push	de
+    00000D4D 21 09 00         [12] 2853 	ld	hl, #0x0009
+    00000D50 19               [ 8] 2854 	add	hl, de
+    00000D51 5D               [ 4] 2855 	ld	e, l
+    00000D52 54               [ 4] 2856 	ld	d, h
+    00000D53 1A               [ 8] 2857 	ld	a, (de)
+    00000D54 B7               [ 4] 2858 	or	a, a
+    00000D55 CAr2Br0E         [16] 2859 	jp	Z, 00113$
+                                   2860 ;SpritePlayer.c:400: if (data->vel.x) {
+    00000D58 D1               [12] 2861 	pop	de
+    00000D59 D5               [16] 2862 	push	de
+    00000D5A 21 04 00         [12] 2863 	ld	hl, #0x0004
+    00000D5D 19               [ 8] 2864 	add	hl, de
+    00000D5E E5               [16] 2865 	push	hl
+    00000D5F 7D               [ 4] 2866 	ld	a, l
+    00000D60 F8 06            [12] 2867 	ldhl	sp,	#6
+    00000D62 77               [ 8] 2868 	ld	(hl), a
+    00000D63 E1               [12] 2869 	pop	hl
+    00000D64 7C               [ 4] 2870 	ld	a, h
+    00000D65 F8 05            [12] 2871 	ldhl	sp,	#5
+    00000D67 32               [ 8] 2872 	ld	(hl-), a
+    00000D68 2A               [ 8] 2873 	ld	a, (hl+)
+    00000D69 5F               [ 4] 2874 	ld	e, a
+    00000D6A 56               [ 8] 2875 	ld	d, (hl)
+    00000D6B 1A               [ 8] 2876 	ld	a, (de)
+    00000D6C 6F               [ 4] 2877 	ld	l, a
+    00000D6D 13               [ 8] 2878 	inc	de
+    00000D6E 1A               [ 8] 2879 	ld	a, (de)
+    00000D6F B5               [ 4] 2880 	or	a, l
+    00000D70 28 16            [12] 2881 	jr	Z, 00110$
+                                   2882 ;C:/CrossZGB/ZGB/common/include/Sprite.h:106: sprite->loop_anim = (loop_anim);
+    00000D72 0A               [ 8] 2883 	ld	a, (bc)
+    00000D73 F6 04            [ 8] 2884 	or	a, #0x04
+    00000D75 02               [ 8] 2885 	ld	(bc), a
+                                   2886 ;SpritePlayer.c:402: SetSpriteAnim(this, anim_walk, 20);
+    00000D76 3E 14            [ 8] 2887 	ld	a, #0x14
+    00000D78 F5               [16] 2888 	push	af
+    00000D79 33               [ 8] 2889 	inc	sp
+    00000D7A 01r97r04         [12] 2890 	ld	bc, #_anim_walk
+    00000D7D F8 07            [12] 2891 	ldhl	sp,	#7
+    00000D7F 2A               [ 8] 2892 	ld	a, (hl+)
+    00000D80 5F               [ 4] 2893 	ld	e, a
+    00000D81 56               [ 8] 2894 	ld	d, (hl)
+    00000D82 CDr00r00         [24] 2895 	call	_SetSpriteAnim
+    00000D85 C3r39r0E         [16] 2896 	jp	00120$
+    00000D88                       2897 00110$:
+                                   2898 ;SpritePlayer.c:407: if (this->anim_frame == ANIM_STOP) {
+    00000D88 F8 06            [12] 2899 	ldhl	sp,#6
+    00000D8A 2A               [ 8] 2900 	ld	a, (hl+)
+    00000D8B 5F               [ 4] 2901 	ld	e, a
+    00000D8C 56               [ 8] 2902 	ld	d, (hl)
+    00000D8D 21 13 00         [12] 2903 	ld	hl, #0x0013
+    00000D90 19               [ 8] 2904 	add	hl, de
+    00000D91 5D               [ 4] 2905 	ld	e, l
+    00000D92 54               [ 4] 2906 	ld	d, h
+                                   2907 ;SpritePlayer.c:404: switch (idle_status) {
+    00000D93 FAr0Br00         [16] 2908 	ld	a, (#_idle_status)
+    00000D96 B7               [ 4] 2909 	or	a, a
+    00000D97 28 11            [12] 2910 	jr	Z, 00101$
+    00000D99 FAr0Br00         [16] 2911 	ld	a, (#_idle_status)
+    00000D9C 3D               [ 4] 2912 	dec	a
+    00000D9D 28 4C            [12] 2913 	jr	Z, 00104$
+    00000D9F FAr0Br00         [16] 2914 	ld	a, (#_idle_status)
+    00000DA2 D6 02            [ 8] 2915 	sub	a, #0x02
+    00000DA4 CAr25r0E         [16] 2916 	jp	Z, 00107$
+    00000DA7 C3r39r0E         [16] 2917 	jp	00120$
+                                   2918 ;SpritePlayer.c:405: case 0:
+    00000DAA                       2919 00101$:
+                                   2920 ;SpritePlayer.c:406: SetSpriteAnim(this, anim_idle, 1);
+    00000DAA D5               [16] 2921 	push	de
+    00000DAB 3E 01            [ 8] 2922 	ld	a, #0x01
+    00000DAD F5               [16] 2923 	push	af
+    00000DAE 33               [ 8] 2924 	inc	sp
+    00000DAF 01r7Dr04         [12] 2925 	ld	bc, #_anim_idle
+    00000DB2 F8 09            [12] 2926 	ldhl	sp,	#9
+    00000DB4 2A               [ 8] 2927 	ld	a, (hl+)
+    00000DB5 5F               [ 4] 2928 	ld	e, a
+    00000DB6 56               [ 8] 2929 	ld	d, (hl)
+    00000DB7 CDr00r00         [24] 2930 	call	_SetSpriteAnim
+    00000DBA D1               [12] 2931 	pop	de
+                                   2932 ;SpritePlayer.c:407: if (this->anim_frame == ANIM_STOP) {
+    00000DBB 1A               [ 8] 2933 	ld	a, (de)
+    00000DBC 4F               [ 4] 2934 	ld	c, a
+    00000DBD F8 02            [12] 2935 	ldhl	sp,#2
+    00000DBF 2A               [ 8] 2936 	ld	a, (hl+)
+    00000DC0 5F               [ 4] 2937 	ld	e, a
+    00000DC1 56               [ 8] 2938 	ld	d, (hl)
+    00000DC2 1A               [ 8] 2939 	ld	a, (de)
+    00000DC3 6F               [ 4] 2940 	ld	l, a
+    00000DC4 13               [ 8] 2941 	inc	de
+    00000DC5 1A               [ 8] 2942 	ld	a, (de)
+    00000DC6 67               [ 4] 2943 	ld	h, a
+    00000DC7 6E               [ 8] 2944 	ld	l, (hl)
+    00000DC8 AF               [ 4] 2945 	xor	a, a
+    00000DC9 67               [ 4] 2946 	ld	h, a
+    00000DCA 2B               [ 8] 2947 	dec	hl
+    00000DCB 06 00            [ 8] 2948 	ld	b, #0x00
+    00000DCD 7D               [ 4] 2949 	ld	a, l
+    00000DCE 91               [ 4] 2950 	sub	a, c
+    00000DCF 20 68            [12] 2951 	jr	NZ, 00120$
+    00000DD1 7C               [ 4] 2952 	ld	a, h
+    00000DD2 90               [ 4] 2953 	sub	a, b
+    00000DD3 20 64            [12] 2954 	jr	NZ, 00120$
+                                   2955 ;SpritePlayer.c:408: SetSpriteAnim(this, anim_doze, 2);
+    00000DD5 3E 02            [ 8] 2956 	ld	a, #0x02
+    00000DD7 F5               [16] 2957 	push	af
+    00000DD8 33               [ 8] 2958 	inc	sp
+    00000DD9 01r85r04         [12] 2959 	ld	bc, #_anim_doze
+    00000DDC F8 07            [12] 2960 	ldhl	sp,	#7
+    00000DDE 2A               [ 8] 2961 	ld	a, (hl+)
+    00000DDF 5F               [ 4] 2962 	ld	e, a
+    00000DE0 56               [ 8] 2963 	ld	d, (hl)
+    00000DE1 CDr00r00         [24] 2964 	call	_SetSpriteAnim
+                                   2965 ;SpritePlayer.c:409: idle_status = 1;
+    00000DE4 21r0Br00         [12] 2966 	ld	hl, #_idle_status
+    00000DE7 36 01            [12] 2967 	ld	(hl), #0x01
+                                   2968 ;SpritePlayer.c:411: break;
+    00000DE9 18 4E            [12] 2969 	jr	00120$
+                                   2970 ;SpritePlayer.c:412: case 1:
+    00000DEB                       2971 00104$:
+                                   2972 ;SpritePlayer.c:413: if (this->anim_frame == ANIM_STOP) {
+    00000DEB 1A               [ 8] 2973 	ld	a, (de)
+    00000DEC F8 05            [12] 2974 	ldhl	sp,	#5
+    00000DEE 32               [ 8] 2975 	ld	(hl-), a
+    00000DEF 2B               [ 8] 2976 	dec	hl
+    00000DF0 2B               [ 8] 2977 	dec	hl
+    00000DF1 2A               [ 8] 2978 	ld	a, (hl+)
+    00000DF2 5F               [ 4] 2979 	ld	e, a
+    00000DF3 56               [ 8] 2980 	ld	d, (hl)
+    00000DF4 1A               [ 8] 2981 	ld	a, (de)
+    00000DF5 6F               [ 4] 2982 	ld	l, a
+    00000DF6 13               [ 8] 2983 	inc	de
+    00000DF7 1A               [ 8] 2984 	ld	a, (de)
+    00000DF8 67               [ 4] 2985 	ld	h, a
+    00000DF9 5E               [ 8] 2986 	ld	e, (hl)
+    00000DFA AF               [ 4] 2987 	xor	a, a
+    00000DFB 57               [ 4] 2988 	ld	d, a
+    00000DFC 1B               [ 8] 2989 	dec	de
+    00000DFD F8 05            [12] 2990 	ldhl	sp,	#5
+    00000DFF 3A               [ 8] 2991 	ld	a, (hl-)
+    00000E00 22               [ 8] 2992 	ld	(hl+), a
+    00000E01 AF               [ 4] 2993 	xor	a, a
+    00000E02 32               [ 8] 2994 	ld	(hl-), a
+    00000E03 7E               [ 8] 2995 	ld	a, (hl)
+    00000E04 93               [ 4] 2996 	sub	a, e
+    00000E05 20 32            [12] 2997 	jr	NZ, 00120$
+    00000E07 AF               [ 4] 2998 	xor	a, a
+    00000E08 92               [ 4] 2999 	sub	a, d
+    00000E09 20 2E            [12] 3000 	jr	NZ, 00120$
+                                   3001 ;C:/CrossZGB/ZGB/common/include/Sprite.h:106: sprite->loop_anim = (loop_anim);
+    00000E0B 0A               [ 8] 3002 	ld	a, (bc)
+    00000E0C F6 04            [ 8] 3003 	or	a, #0x04
+    00000E0E 02               [ 8] 3004 	ld	(bc), a
+                                   3005 ;SpritePlayer.c:415: SetSpriteAnim(this, anim_sleep, 7);
+    00000E0F 3E 07            [ 8] 3006 	ld	a, #0x07
+    00000E11 F5               [16] 3007 	push	af
+    00000E12 33               [ 8] 3008 	inc	sp
+    00000E13 01r8Ar04         [12] 3009 	ld	bc, #_anim_sleep
+    00000E16 F8 07            [12] 3010 	ldhl	sp,	#7
+    00000E18 2A               [ 8] 3011 	ld	a, (hl+)
+    00000E19 5F               [ 4] 3012 	ld	e, a
+    00000E1A 56               [ 8] 3013 	ld	d, (hl)
+    00000E1B CDr00r00         [24] 3014 	call	_SetSpriteAnim
+                                   3015 ;SpritePlayer.c:416: idle_status = 2;
+    00000E1E 21r0Br00         [12] 3016 	ld	hl, #_idle_status
+    00000E21 36 02            [12] 3017 	ld	(hl), #0x02
+                                   3018 ;SpritePlayer.c:418: break;
+    00000E23 18 14            [12] 3019 	jr	00120$
+                                   3020 ;SpritePlayer.c:419: case 2:
+    00000E25                       3021 00107$:
+                                   3022 ;C:/CrossZGB/ZGB/common/include/Sprite.h:106: sprite->loop_anim = (loop_anim);
+    00000E25 0A               [ 8] 3023 	ld	a, (bc)
+    00000E26 F6 04            [ 8] 3024 	or	a, #0x04
+    00000E28 02               [ 8] 3025 	ld	(bc), a
+                                   3026 ;SpritePlayer.c:422: }
+    00000E29 18 0E            [12] 3027 	jr	00120$
+    00000E2B                       3028 00113$:
+                                   3029 ;SpritePlayer.c:425: SetSpriteAnim(this, anim_jump, 0);
+    00000E2B AF               [ 4] 3030 	xor	a, a
+    00000E2C F5               [16] 3031 	push	af
+    00000E2D 33               [ 8] 3032 	inc	sp
+    00000E2E 01r9Cr04         [12] 3033 	ld	bc, #_anim_jump
+    00000E31 F8 07            [12] 3034 	ldhl	sp,	#7
+    00000E33 2A               [ 8] 3035 	ld	a, (hl+)
+    00000E34 5F               [ 4] 3036 	ld	e, a
+    00000E35 56               [ 8] 3037 	ld	d, (hl)
+    00000E36 CDr00r00         [24] 3038 	call	_SetSpriteAnim
+    00000E39                       3039 00120$:
+                                   3040 ;SpritePlayer.c:428: if ((this->anim_data != anim_idle) && (this->anim_data != anim_doze) && (this->anim_data != anim_sleep)) idle_status = 0;
+    00000E39 F8 02            [12] 3041 	ldhl	sp,#2
+    00000E3B 2A               [ 8] 3042 	ld	a, (hl+)
+    00000E3C 5F               [ 4] 3043 	ld	e, a
+    00000E3D 56               [ 8] 3044 	ld	d, (hl)
+    00000E3E 1A               [ 8] 3045 	ld	a, (de)
+    00000E3F 4F               [ 4] 3046 	ld	c, a
+    00000E40 13               [ 8] 3047 	inc	de
+    00000E41 1A               [ 8] 3048 	ld	a, (de)
+    00000E42 47               [ 4] 3049 	ld	b, a
+    00000E43 3Er7D            [ 8] 3050 	ld	a, #<(_anim_idle)
+    00000E45 91               [ 4] 3051 	sub	a, c
+    00000E46 20 05            [12] 3052 	jr	NZ, 00233$
+    00000E48 3Es04            [ 8] 3053 	ld	a, #>(_anim_idle)
+    00000E4A 90               [ 4] 3054 	sub	a, b
+    00000E4B 28 18            [12] 3055 	jr	Z, 00122$
+    00000E4D                       3056 00233$:
+    00000E4D 3Er85            [ 8] 3057 	ld	a, #<(_anim_doze)
+    00000E4F 91               [ 4] 3058 	sub	a, c
+    00000E50 20 05            [12] 3059 	jr	NZ, 00234$
+    00000E52 3Es04            [ 8] 3060 	ld	a, #>(_anim_doze)
+    00000E54 90               [ 4] 3061 	sub	a, b
+    00000E55 28 0E            [12] 3062 	jr	Z, 00122$
+    00000E57                       3063 00234$:
+    00000E57 3Er8A            [ 8] 3064 	ld	a, #<(_anim_sleep)
+    00000E59 91               [ 4] 3065 	sub	a, c
+    00000E5A 20 05            [12] 3066 	jr	NZ, 00235$
+    00000E5C 3Es04            [ 8] 3067 	ld	a, #>(_anim_sleep)
+    00000E5E 90               [ 4] 3068 	sub	a, b
+    00000E5F 28 04            [12] 3069 	jr	Z, 00122$
+    00000E61                       3070 00235$:
+    00000E61 AF               [ 4] 3071 	xor	a, a
+    00000E62 EAr0Br00         [16] 3072 	ld	(#_idle_status),a
+    00000E65                       3073 00122$:
+                                   3074 ;SpritePlayer.c:430: DirectionMirrorR(this, data->dir);
+    00000E65 D1               [12] 3075 	pop	de
+    00000E66 D5               [16] 3076 	push	de
+    00000E67 21 08 00         [12] 3077 	ld	hl, #0x0008
+    00000E6A 19               [ 8] 3078 	add	hl, de
+    00000E6B 4D               [ 4] 3079 	ld	c, l
+    00000E6C 44               [ 4] 3080 	ld	b, h
+    00000E6D 0A               [ 8] 3081 	ld	a, (bc)
+    00000E6E F8 05            [12] 3082 	ldhl	sp,	#5
+                                   3083 ;../include/Platformer.h:77: this->mirror = (dir > 0) ? NO_MIRROR : V_MIRROR;
+    00000E70 22               [ 8] 3084 	ld	(hl+), a
+    00000E71 2A               [ 8] 3085 	ld	a, (hl+)
+    00000E72 5F               [ 4] 3086 	ld	e, a
+    00000E73 56               [ 8] 3087 	ld	d, (hl)
+    00000E74 21 16 00         [12] 3088 	ld	hl, #0x0016
+    00000E77 19               [ 8] 3089 	add	hl, de
+    00000E78 4D               [ 4] 3090 	ld	c, l
+    00000E79 44               [ 4] 3091 	ld	b, h
+    00000E7A F8 05            [12] 3092 	ldhl	sp,	#5
+    00000E7C 5E               [ 8] 3093 	ld	e, (hl)
+    00000E7D AF               [ 4] 3094 	xor	a, a
+    00000E7E 57               [ 4] 3095 	ld	d, a
+    00000E7F 96               [ 8] 3096 	sub	a, (hl)
+    00000E80 CB 7B            [ 8] 3097 	bit	7, e
+    00000E82 28 07            [12] 3098 	jr	Z, 00236$
+    00000E84 CB 7A            [ 8] 3099 	bit	7, d
+    00000E86 20 08            [12] 3100 	jr	NZ, 00237$
+    00000E88 BF               [ 4] 3101 	cp	a, a
+    00000E89 18 05            [12] 3102 	jr	00237$
+    00000E8B                       3103 00236$:
+    00000E8B CB 7A            [ 8] 3104 	bit	7, d
+    00000E8D 28 01            [12] 3105 	jr	Z, 00237$
+    00000E8F 37               [ 4] 3106 	scf
+    00000E90                       3107 00237$:
+    00000E90 30 03            [12] 3108 	jr	NC, 00133$
+    00000E92 AF               [ 4] 3109 	xor	a, a
+    00000E93 18 02            [12] 3110 	jr	00134$
+    00000E95                       3111 00133$:
+    00000E95 3E 02            [ 8] 3112 	ld	a, #0x02
+    00000E97                       3113 00134$:
+    00000E97 02               [ 8] 3114 	ld	(bc), a
+                                   3115 ;SpritePlayer.c:430: DirectionMirrorR(this, data->dir);
+                                   3116 ;SpritePlayer.c:431: }
+    00000E98 E8 08            [16] 3117 	add	sp, #8
+    00000E9A C9               [16] 3118 	ret
+                                   3119 ;SpritePlayer.c:433: void START(void) {
+                                   3120 ;	---------------------------------
+                                   3121 ; Function Start_SpritePlayer
+                                   3122 ; ---------------------------------
+    00000E9B                       3123 _Start_SpritePlayer::
+    00000E9B E8 FC            [16] 3124 	add	sp, #-4
+                                   3125 ;SpritePlayer.c:435: CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
+    00000E9D FAr00r00         [16] 3126 	ld	a, (_THIS)
+    00000EA0 21r01r00         [12] 3127 	ld	hl, #_THIS + 1
+    00000EA3 56               [ 8] 3128 	ld	d, (hl)
+    00000EA4 5F               [ 4] 3129 	ld	e, a
+    00000EA5 21 24 00         [12] 3130 	ld	hl, #0x0024
+    00000EA8 19               [ 8] 3131 	add	hl, de
+    00000EA9 33               [ 8] 3132 	inc	sp
+    00000EAA 33               [ 8] 3133 	inc	sp
+    00000EAB E5               [16] 3134 	push	hl
+                                   3135 ;SpritePlayer.c:436: data->pos.x = PX_TO_SUBPX(THIS->x);
+    00000EAC F8 00            [12] 3136 	ldhl	sp,	#0
+    00000EAE 2A               [ 8] 3137 	ld	a, (hl+)
+    00000EAF 23               [ 8] 3138 	inc	hl
+    00000EB0 32               [ 8] 3139 	ld	(hl-), a
+    00000EB1 2A               [ 8] 3140 	ld	a, (hl+)
+    00000EB2 23               [ 8] 3141 	inc	hl
+    00000EB3 77               [ 8] 3142 	ld	(hl), a
+    00000EB4 21r00r00         [12] 3143 	ld	hl, #_THIS
+    00000EB7 2A               [ 8] 3144 	ld	a,	(hl+)
+    00000EB8 66               [ 8] 3145 	ld	h, (hl)
+    00000EB9 6F               [ 4] 3146 	ld	l, a
+    00000EBA 2A               [ 8] 3147 	ld	a, (hl+)
+    00000EBB 4F               [ 4] 3148 	ld	c, a
+    00000EBC 46               [ 8] 3149 	ld	b, (hl)
+    00000EBD CB 21            [ 8] 3150 	sla	c
+    00000EBF CB 10            [ 8] 3151 	rl	b
+    00000EC1 CB 21            [ 8] 3152 	sla	c
+    00000EC3 CB 10            [ 8] 3153 	rl	b
+    00000EC5 CB 21            [ 8] 3154 	sla	c
+    00000EC7 CB 10            [ 8] 3155 	rl	b
+    00000EC9 CB 21            [ 8] 3156 	sla	c
+    00000ECB CB 10            [ 8] 3157 	rl	b
+    00000ECD F8 02            [12] 3158 	ldhl	sp,	#2
+    00000ECF 2A               [ 8] 3159 	ld	a, (hl+)
+    00000ED0 66               [ 8] 3160 	ld	h, (hl)
+    00000ED1 6F               [ 4] 3161 	ld	l, a
+    00000ED2 79               [ 4] 3162 	ld	a, c
+    00000ED3 22               [ 8] 3163 	ld	(hl+), a
+    00000ED4 70               [ 8] 3164 	ld	(hl), b
+                                   3165 ;SpritePlayer.c:437: data->pos.y = PX_TO_SUBPX(THIS->y);
+    00000ED5 C1               [12] 3166 	pop	bc
+    00000ED6 C5               [16] 3167 	push	bc
+    00000ED7 03               [ 8] 3168 	inc	bc
+    00000ED8 03               [ 8] 3169 	inc	bc
+    00000ED9 FAr00r00         [16] 3170 	ld	a, (_THIS)
+    00000EDC 21r01r00         [12] 3171 	ld	hl, #_THIS + 1
+    00000EDF 66               [ 8] 3172 	ld	h, (hl)
+    00000EE0 6F               [ 4] 3173 	ld	l, a
+    00000EE1 23               [ 8] 3174 	inc	hl
+    00000EE2 23               [ 8] 3175 	inc	hl
+    00000EE3 2A               [ 8] 3176 	ld	a,	(hl+)
+    00000EE4 66               [ 8] 3177 	ld	h, (hl)
+    00000EE5 6F               [ 4] 3178 	ld	l, a
+    00000EE6 29               [ 8] 3179 	add	hl, hl
+    00000EE7 29               [ 8] 3180 	add	hl, hl
+    00000EE8 29               [ 8] 3181 	add	hl, hl
+    00000EE9 29               [ 8] 3182 	add	hl, hl
+    00000EEA 7D               [ 4] 3183 	ld	a, l
+    00000EEB 02               [ 8] 3184 	ld	(bc), a
+    00000EEC 03               [ 8] 3185 	inc	bc
+    00000EED 7C               [ 4] 3186 	ld	a, h
+    00000EEE 02               [ 8] 3187 	ld	(bc), a
+                                   3188 ;SpritePlayer.c:439: data->dir = DIR_RIGHT;
+    00000EEF D1               [12] 3189 	pop	de
+    00000EF0 D5               [16] 3190 	push	de
+    00000EF1 21 08 00         [12] 3191 	ld	hl, #0x0008
+    00000EF4 19               [ 8] 3192 	add	hl, de
+    00000EF5 36 01            [12] 3193 	ld	(hl), #0x01
+                                   3194 ;SpritePlayer.c:441: idle_status = 0;
+    00000EF7 AF               [ 4] 3195 	xor	a, a
+    00000EF8 EAr0Br00         [16] 3196 	ld	(#_idle_status),a
+                                   3197 ;SpritePlayer.c:443: SpriteCameraUpdate(THIS);
+    00000EFB FAr00r00         [16] 3198 	ld	a, (_THIS)
+    00000EFE 5F               [ 4] 3199 	ld	e, a
+    00000EFF 21r01r00         [12] 3200 	ld	hl, #_THIS + 1
+    00000F02 56               [ 8] 3201 	ld	d, (hl)
+    00000F03 D5               [16] 3202 	push	de
+    00000F04 1Er00            [ 8] 3203 	ld	e, #b_SpriteCameraUpdate
+    00000F06 21r00r00         [12] 3204 	ld	hl, #_SpriteCameraUpdate
+    00000F09 CDr00r00         [24] 3205 	call	___sdcc_bcall_ehl
+    00000F0C E1               [12] 3206 	pop	hl
+                                   3207 ;SpritePlayer.c:444: ScrollScreenRedraw();
+    00000F0D CDr00r00         [24] 3208 	call	_ScrollScreenRedraw
+                                   3209 ;SpritePlayer.c:445: }
+    00000F10 E8 04            [16] 3210 	add	sp, #4
+    00000F12 C9               [16] 3211 	ret
+                                   3212 ;SpritePlayer.c:447: void UPDATE(void) {
+                                   3213 ;	---------------------------------
+                                   3214 ; Function Update_SpritePlayer
+                                   3215 ; ---------------------------------
+    00000F13                       3216 _Update_SpritePlayer::
+                                   3217 ;SpritePlayer.c:448: PlayerVelocity(THIS);
+    00000F13 FAr00r00         [16] 3218 	ld	a, (_THIS)
+    00000F16 5F               [ 4] 3219 	ld	e, a
+    00000F17 21r01r00         [12] 3220 	ld	hl, #_THIS + 1
+    00000F1A 56               [ 8] 3221 	ld	d, (hl)
+    00000F1B CDr00r00         [24] 3222 	call	_PlayerVelocity
+                                   3223 ;SpritePlayer.c:449: if (shoulderbashing) PlayerDynaCollide(THIS);
+    00000F1E FAr09r00         [16] 3224 	ld	a, (#_shoulderbashing)
+    00000F21 B7               [ 4] 3225 	or	a, a
+    00000F22 28 0B            [12] 3226 	jr	Z, 00102$
+    00000F24 FAr00r00         [16] 3227 	ld	a, (_THIS)
+    00000F27 5F               [ 4] 3228 	ld	e, a
+    00000F28 21r01r00         [12] 3229 	ld	hl, #_THIS + 1
+    00000F2B 56               [ 8] 3230 	ld	d, (hl)
+    00000F2C CDrA5r04         [24] 3231 	call	_PlayerDynaCollide
+    00000F2F                       3232 00102$:
+                                   3233 ;SpritePlayer.c:450: PlatformerUpdate(THIS);
+    00000F2F FAr00r00         [16] 3234 	ld	a, (_THIS)
+    00000F32 5F               [ 4] 3235 	ld	e, a
+    00000F33 21r01r00         [12] 3236 	ld	hl, #_THIS + 1
+    00000F36 56               [ 8] 3237 	ld	d, (hl)
+    00000F37 D5               [16] 3238 	push	de
+    00000F38 1Er00            [ 8] 3239 	ld	e, #b_PlatformerUpdate
+    00000F3A 21r00r00         [12] 3240 	ld	hl, #_PlatformerUpdate
+    00000F3D CDr00r00         [24] 3241 	call	___sdcc_bcall_ehl
+    00000F40 E1               [12] 3242 	pop	hl
+                                   3243 ;SpritePlayer.c:451: PlayerDynaCollect(THIS);
+    00000F41 FAr00r00         [16] 3244 	ld	a, (_THIS)
+    00000F44 5F               [ 4] 3245 	ld	e, a
+    00000F45 21r01r00         [12] 3246 	ld	hl, #_THIS + 1
+    00000F48 56               [ 8] 3247 	ld	d, (hl)
+    00000F49 CDrC5r0A         [24] 3248 	call	_PlayerDynaCollect
+                                   3249 ;SpritePlayer.c:452: PlayerAnimate(THIS);
+    00000F4C FAr00r00         [16] 3250 	ld	a, (_THIS)
+    00000F4F 5F               [ 4] 3251 	ld	e, a
+    00000F50 21r01r00         [12] 3252 	ld	hl, #_THIS + 1
+    00000F53 56               [ 8] 3253 	ld	d, (hl)
+    00000F54 CDrE4r0C         [24] 3254 	call	_PlayerAnimate
+                                   3255 ;SpritePlayer.c:453: SpriteCameraUpdate(THIS);
+    00000F57 FAr00r00         [16] 3256 	ld	a, (_THIS)
+    00000F5A 5F               [ 4] 3257 	ld	e, a
+    00000F5B 21r01r00         [12] 3258 	ld	hl, #_THIS + 1
+    00000F5E 56               [ 8] 3259 	ld	d, (hl)
+    00000F5F D5               [16] 3260 	push	de
+    00000F60 1Er00            [ 8] 3261 	ld	e, #b_SpriteCameraUpdate
+    00000F62 21r00r00         [12] 3262 	ld	hl, #_SpriteCameraUpdate
+    00000F65 CDr00r00         [24] 3263 	call	___sdcc_bcall_ehl
+    00000F68 E1               [12] 3264 	pop	hl
+                                   3265 ;SpritePlayer.c:454: }
+    00000F69 C9               [16] 3266 	ret
+                                   3267 ;SpritePlayer.c:456: void DESTROY(void) {
+                                   3268 ;	---------------------------------
+                                   3269 ; Function Destroy_SpritePlayer
+                                   3270 ; ---------------------------------
+    00000F6A                       3271 _Destroy_SpritePlayer::
+                                   3272 ;SpritePlayer.c:457: }
+    00000F6A C9               [16] 3273 	ret
+                                   3274 	.area _CODE_255
+                                   3275 	.area _INITIALIZER
+    00000000                       3276 __xinit____CRASH_HANDLER_INIT:
+    00000000r00r00                 3277 	.dw ___HandleCrash
+                                   3278 	.area _CABS (ABS)

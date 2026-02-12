@@ -1,0 +1,49 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _BCPD_REG                                                       ******** GX
+    _BCPS_REG                                                       ******** GX
+  5 _InitSpecialInterrupts                                          0000006F GR
+    _LCDC_REG                                                       ******** GX
+    _LCD_isr                                                        ******** GX
+    _LYC_REG                                                        ******** GX
+    _LY_REG                                                         ******** GX
+  5 _RestoreDefaultInterrupts                                       000000B1 GR
+    _STAT_REG                                                       ******** GX
+  3 ___CRASH_HANDLER_INIT                                           00000000 R
+    ___HandleCrash                                                  ******** GX
+    __divsint                                                       ******** GX
+    __mulint                                                        ******** GX
+  8 __xinit____CRASH_HANDLER_INIT                                   00000000 R
+  8 __xinit__lcd_step                                               00000002 R
+    _add_LCD                                                        ******** GX
+  0 _build_gradient                                                 00000000 GR
+    _display_off                                                    ******** GX
+  5 _effect_isr                                                     00000000 GR
+  2 _gradient_colors                                                00000002 GR
+  2 _isrColor                                                       00000000 GR
+  3 _lcd_step                                                       00000002 GR
+    _remove_LCD                                                     ******** GX
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      128   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size      122   flags    0
+   3 _INITIALIZED                               size        3   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size       CA   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _INITIALIZER                               size        3   flags    0
+   9 _CABS                                      size        0   flags    8
+
