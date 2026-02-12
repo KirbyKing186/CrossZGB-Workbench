@@ -18,6 +18,8 @@ Other platforms have not been tested.
 ## Credits
 Developed by [KirbyKing186](https://github.com/KirbyKing186).
 
+Platformer code adapted from GBVM commit [27339cd](https://github.com/chrismaltby/gbvm/blob/27339cdccbc823dc776dca09a160632cc8fd5b07/src/states/platform.c).
+
 Assisted by [untoxa](https://github.com/untoxa).
 
 Special thanks to [Mico27](https://github.com/Mico27).
